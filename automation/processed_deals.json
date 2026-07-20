@@ -1,0 +1,57 @@
+{
+  "last_sweep_utc": "2026-07-20T14:30:00Z",
+  "conversations": {
+    "AAQkADExOTQxZmVlLTI1YTUtNGFiZS05M2NkLWM5NmIwMzExYjM0MwAQAKGPVbnesE9GioM9CrVgKfk=": {
+      "subject": "New Enquiry (Rutland Gate / Montpelier Walk)",
+      "last_message_utc": "2026-07-15T13:57:12Z",
+      "action": "added",
+      "sheet": "Potential Deals",
+      "row_anchor": "31-32 Rutland Gate & 58-59 Montpelier Walk, SW7 1BN",
+      "note": "Early stage; awaiting info pack from Lee Neenan (Irwell); REL indicated max 75% LTV/LTPP acq bridge"
+    },
+    "AAQkADExOTQxZmVlLTI1YTUtNGFiZS05M2NkLWM5NmIwMzExYjM0MwAQADjYX2a-h3tKiCtRb5QyglA=": {
+      "subject": "ANAHI PROPERTIES (Houndswood House Care Home, Radlett)",
+      "last_message_utc": "2026-07-16T12:40:43Z",
+      "action": "added",
+      "sheet": "Potential Deals",
+      "row_anchor": "Houndswood House Care Home, Harper Lane, Radlett WD7 7HU",
+      "note": "TS issued 09/07 (£950k gross, 9.75%, 12m); chasing borrower; offer valid to 30/07"
+    },
+    "AAQkADExOTQxZmVlLTI1YTUtNGFiZS05M2NkLWM5NmIwMzExYjM0MwAQAFZzwpPWxDtHmTmBoeYRBBY=": {
+      "subject": "Bridging Loan (RAAM Healthcare podiatry clinics)",
+      "last_message_utc": "2026-07-16T08:40:44Z",
+      "action": "added",
+      "sheet": "Declined Deals",
+      "row_anchor": "Podiatry clinics, Bristol & Bath (freeholds + trading business)",
+      "note": "Declined 15/07 - trading business acquisition outside criteria"
+    },
+    "moove-gemini-thread": {
+      "subject": "Moove (= 27 Gemini Business Park, Beckton E6 — existing row)",
+      "last_message_utc": "2026-07-16T10:31:17Z",
+      "action": "updated",
+      "sheet": "Potential Deals",
+      "row_anchor": "27 Gemini Business Park, Hornet Way, Beckton, E6 7FF",
+      "note": "Revised TS 14/07: 62% LTV/LTPP, £6.82m day 1, 11.0% fixed, 18m; awaiting countersigned TS + commitment fee. Broker Jignesh Desai (IPCA) calls it 'Moove'."
+    },
+    "AAQkADExOTQxZmVlLTI1YTUtNGFiZS05M2NkLWM5NmIwMzExYjM0MwAQAPAV-KS-9chEv-IEApFAyZU=": {
+      "subject": "DA - Cresswick (Zone 2 PBSA, Dulwich)",
+      "last_message_utc": "2026-07-17T08:41:53Z",
+      "action": "added",
+      "sheet": "Potential Deals",
+      "row_anchor": "Zone 2 PBSA, Dulwich ('Cresswick')",
+      "note": "DA received via GLPG/OakNorth; £90.4m gross / GDV £148.6m; REL role TBC - user to review"
+    },
+    "uxbridge-dna-thread": {
+      "subject": "DNA Uxbridge Loan Update",
+      "last_message_utc": "2026-07-16T14:34:45Z",
+      "action": "skipped",
+      "note": "Existing completed deal (Uxbridge row, Completed Deals); maturity/servicing discussion, no sheet change"
+    },
+    "stanmore-thread": {
+      "subject": "Stanmore - Post-Meeting Note",
+      "last_message_utc": "2026-07-15T14:18:33Z",
+      "action": "skipped",
+      "note": "Existing completed deal (Stanmore row); EY refinance timetable targeting late Sep - no sheet change"
+    }
+  }
+}
