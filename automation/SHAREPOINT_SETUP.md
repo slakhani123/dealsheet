@@ -50,6 +50,30 @@ In https://github.com/slakhani123/dealsheet → **Settings → Secrets and varia
 | `SHAREPOINT_HOSTNAME` | `relfinance.sharepoint.com` | no `https://` |
 | `SHAREPOINT_SITE_PATH` | `/sites/RELFinance` | leave **empty** for the tenant root site |
 | `SHAREPOINT_FOLDER` | `Shared Documents/Deals` | library + folder; the folder must already exist |
+| `ONEDRIVE_USER` | `shyam@relfinance.co.uk` | **alternative to** `SHAREPOINT_HOSTNAME` — targets that user's OneDrive for Business instead of a site. Requires `Files.ReadWrite.All` application permission instead of `Sites.Selected`. Set one target or the other, not both. |
+
+### Finding the right values from a synced folder path
+
+The team's target is the locally synced folder
+`C:\Users\shyam\OneDrive - relfinance.co.uk\REL Finance - Master\2.0 Financial Data\2.7 Deal Sheet`.
+To translate that into the values above: in File Explorer, right-click the
+`2.7 Deal Sheet` folder → **View online** (or open it at onedrive.com and copy the
+browser URL). Then:
+
+- URL starts with `relfinance.sharepoint.com/sites/...` → it is a SharePoint
+  library (synced or shortcutted into OneDrive). Use the SharePoint variables:
+  hostname `relfinance.sharepoint.com`, site path `/sites/<name-in-url>`, and
+  folder = the library plus subfolders as shown in the URL (e.g.
+  `Master/2.0 Financial Data/2.7 Deal Sheet`). **This is the preferred target** —
+  it allows the least-privilege `Sites.Selected` permission.
+- URL starts with `relfinance-my.sharepoint.com/personal/shyam_relfinance_co_uk/...`
+  → it is a personal OneDrive folder. Set `ONEDRIVE_USER=shyam@relfinance.co.uk`
+  and `SHAREPOINT_FOLDER=REL Finance - Master/2.0 Financial Data/2.7 Deal Sheet`
+  (leave `SHAREPOINT_HOSTNAME` unset), and grant the app `Files.ReadWrite.All`
+  application permission in Part 1 step 3 instead of `Sites.Selected`.
+  Caveat: if `REL Finance - Master` shows a link/shortcut icon in OneDrive, it is
+  really a SharePoint library — use the SharePoint route above; writing through a
+  OneDrive shortcut path will fail with 404.
 
 ## Part 3 — Test
 

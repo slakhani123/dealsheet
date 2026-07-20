@@ -8,14 +8,25 @@ Required environment variables:
   AZURE_TENANT_ID       Entra tenant (directory) ID
   AZURE_CLIENT_ID       App registration (client) ID
   AZURE_CLIENT_SECRET   Client secret value
-  SHAREPOINT_HOSTNAME   e.g. relfinance.sharepoint.com
-  SHAREPOINT_FOLDER     Library and folder, e.g. "Shared Documents/Deals"
-                        ("Shared Documents" or "Documents" both address the
-                        default library; the folder must already exist)
+  SHAREPOINT_FOLDER     Target folder path (must already exist), e.g.
+                        "Shared Documents/Deals" for a site library, or
+                        "REL Finance - Master/2.0 Financial Data/2.7 Deal Sheet"
+                        for a OneDrive target. For site libraries the first
+                        segment is the library name ("Shared Documents" or
+                        "Documents" both address the default library).
   UPLOAD_FILE           Path of the file to upload
 
-Optional:
-  SHAREPOINT_SITE_PATH  e.g. "/sites/RELFinance"; leave empty for the root site
+Target — set exactly one of:
+  SHAREPOINT_HOSTNAME   e.g. relfinance.sharepoint.com (site library target;
+                        optionally with SHAREPOINT_SITE_PATH, e.g.
+                        "/sites/RELFinance"; empty site path = root site)
+  ONEDRIVE_USER         a UPN, e.g. shyam@relfinance.co.uk — uploads into that
+                        user's OneDrive for Business instead of a site. Needs
+                        the Files.ReadWrite.All application permission. NOTE:
+                        a "<Site> - <Library>" folder inside OneDrive is often
+                        a shortcut to a SharePoint library; shortcuts cannot be
+                        written through the OneDrive path — target the real
+                        site with SHAREPOINT_HOSTNAME instead.
 
 Simple (single-request) upload is used, which Graph limits to 4 MB — far above
 the deal sheet's size. If the file ever approaches that, switch to an upload
@@ -45,14 +56,19 @@ def call(url, data=None, headers=None, method=None):
 def main():
     required = [
         "AZURE_TENANT_ID", "AZURE_CLIENT_ID", "AZURE_CLIENT_SECRET",
-        "SHAREPOINT_HOSTNAME", "SHAREPOINT_FOLDER", "UPLOAD_FILE",
+        "SHAREPOINT_FOLDER", "UPLOAD_FILE",
     ]
     env = {k: os.environ.get(k, "").strip() for k in required}
-    env["SHAREPOINT_SITE_PATH"] = os.environ.get("SHAREPOINT_SITE_PATH", "").strip()
+    for k in ("SHAREPOINT_HOSTNAME", "SHAREPOINT_SITE_PATH", "ONEDRIVE_USER"):
+        env[k] = os.environ.get(k, "").strip()
     missing = [k for k in required if not env[k]]
+    if not env["SHAREPOINT_HOSTNAME"] and not env["ONEDRIVE_USER"]:
+        missing.append("SHAREPOINT_HOSTNAME (or ONEDRIVE_USER)")
     if missing:
         sys.exit("Missing required configuration: " + ", ".join(missing)
                  + " — check the repository's Actions secrets and variables.")
+    if env["SHAREPOINT_HOSTNAME"] and env["ONEDRIVE_USER"]:
+        sys.exit("Set either SHAREPOINT_HOSTNAME or ONEDRIVE_USER, not both.")
 
     token = call(
         f"https://login.microsoftonline.com/{env['AZURE_TENANT_ID']}/oauth2/v2.0/token",
@@ -66,27 +82,32 @@ def main():
     )["access_token"]
     auth = {"Authorization": f"Bearer {token}"}
 
-    site_path = env["SHAREPOINT_SITE_PATH"].strip("/")
-    site_url = (f"{GRAPH}/sites/{env['SHAREPOINT_HOSTNAME']}:/{site_path}"
-                if site_path else f"{GRAPH}/sites/{env['SHAREPOINT_HOSTNAME']}")
-    site = call(site_url, headers=auth)
-
-    # Resolve the target document library (drive). "Shared Documents" is the
-    # web name of the default library, whose drive is named "Documents".
     parts = [p for p in env["SHAREPOINT_FOLDER"].split("/") if p]
-    lib = parts[0].lower()
-    drives = call(f"{GRAPH}/sites/{site['id']}/drives", headers=auth)["value"]
-    drive = next(
-        (d for d in drives
-         if d["name"].lower() == lib
-         or (lib in ("shared documents", "documents") and d["name"].lower() == "documents")),
-        None,
-    )
-    if drive:
-        inner = parts[1:]
-    else:
-        drive = call(f"{GRAPH}/sites/{site['id']}/drive", headers=auth)
+    if env["ONEDRIVE_USER"]:
+        drive = call(f"{GRAPH}/users/{urllib.parse.quote(env['ONEDRIVE_USER'])}/drive",
+                     headers=auth)
         inner = parts
+    else:
+        site_path = env["SHAREPOINT_SITE_PATH"].strip("/")
+        site_url = (f"{GRAPH}/sites/{env['SHAREPOINT_HOSTNAME']}:/{site_path}"
+                    if site_path else f"{GRAPH}/sites/{env['SHAREPOINT_HOSTNAME']}")
+        site = call(site_url, headers=auth)
+
+        # Resolve the target document library (drive). "Shared Documents" is the
+        # web name of the default library, whose drive is named "Documents".
+        lib = parts[0].lower()
+        drives = call(f"{GRAPH}/sites/{site['id']}/drives", headers=auth)["value"]
+        drive = next(
+            (d for d in drives
+             if d["name"].lower() == lib
+             or (lib in ("shared documents", "documents") and d["name"].lower() == "documents")),
+            None,
+        )
+        if drive:
+            inner = parts[1:]
+        else:
+            drive = call(f"{GRAPH}/sites/{site['id']}/drive", headers=auth)
+            inner = parts
 
     filename = os.path.basename(env["UPLOAD_FILE"])
     item_path = "/".join(urllib.parse.quote(p) for p in inner + [filename])
