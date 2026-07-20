@@ -74,5 +74,9 @@ Destination:
 5. If anything changed: send Shyam the updated file (SendUserFile) + a short summary table
    of added/updated rows, flagging every field marked TBC. If nothing changed: one line
    saying so — no file.
+   Note: pushing the sheet also triggers `.github/workflows/upload-to-sharepoint.yml`,
+   which copies it to the team's SharePoint (see automation/SHAREPOINT_SETUP.md) — the
+   sweep itself does nothing extra for this, but if the Action fails after setup is
+   complete, mention it to Shyam.
 6. If the Microsoft 365 connector is unavailable when the sweep fires, say so and stop —
    do not guess.

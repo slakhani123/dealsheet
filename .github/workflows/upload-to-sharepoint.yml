@@ -1,0 +1,30 @@
+name: Upload deal sheet to SharePoint
+
+on:
+  push:
+    branches:
+      - claude/deal-sheet-auto-populate-svgr0b
+      - main
+    paths:
+      - Deals_Sheet_REL.xlsx
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Upload to SharePoint via Microsoft Graph
+        env:
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          SHAREPOINT_HOSTNAME: ${{ vars.SHAREPOINT_HOSTNAME }}
+          SHAREPOINT_SITE_PATH: ${{ vars.SHAREPOINT_SITE_PATH }}
+          SHAREPOINT_FOLDER: ${{ vars.SHAREPOINT_FOLDER }}
+          UPLOAD_FILE: Deals_Sheet_REL.xlsx
+        run: python3 automation/upload_to_sharepoint.py
