@@ -109,7 +109,9 @@ def main():
             drive = call(f"{GRAPH}/sites/{site['id']}/drive", headers=auth)
             inner = parts
 
-    filename = os.path.basename(env["UPLOAD_FILE"])
+    # Upload under the target name if given (so it updates the team's existing
+    # file in place, e.g. "Deals Sheet REL.xlsx"), else keep the local basename.
+    filename = os.environ.get("SHAREPOINT_TARGET_NAME", "").strip() or os.path.basename(env["UPLOAD_FILE"])
     item_path = "/".join(urllib.parse.quote(p) for p in inner + [filename])
     with open(env["UPLOAD_FILE"], "rb") as f:
         content = f.read()

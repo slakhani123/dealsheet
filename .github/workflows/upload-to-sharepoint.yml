@@ -26,6 +26,7 @@ jobs:
           SHAREPOINT_HOSTNAME: ${{ vars.SHAREPOINT_HOSTNAME }}
           SHAREPOINT_SITE_PATH: ${{ vars.SHAREPOINT_SITE_PATH }}
           SHAREPOINT_FOLDER: ${{ vars.SHAREPOINT_FOLDER }}
+          SHAREPOINT_TARGET_NAME: ${{ vars.SHAREPOINT_TARGET_NAME }}
           ONEDRIVE_USER: ${{ vars.ONEDRIVE_USER }}
           UPLOAD_FILE: Deals_Sheet_REL.xlsx
         run: python3 automation/upload_to_sharepoint.py

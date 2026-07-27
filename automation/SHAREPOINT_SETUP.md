@@ -45,12 +45,55 @@ In https://github.com/slakhani123/dealsheet → **Settings → Secrets and varia
 
 **Variables** (Variables tab → New repository variable):
 
+### RESOLVED VALUES for REL (use these exactly)
+
+The target was confirmed as a SharePoint library on the RELfinance site
+(from `https://netorg11487911.sharepoint.com/.../sites/RELfinance/...Deals Sheet REL.xlsx`).
+Set these repository **variables**:
+
+| Name | Value |
+|---|---|
+| `SHAREPOINT_HOSTNAME` | `netorg11487911.sharepoint.com` |
+| `SHAREPOINT_SITE_PATH` | `/sites/RELfinance` |
+| `SHAREPOINT_FOLDER` | `REL Finance - Master/2.0 Financial Data/2.7 Deal Sheet` |
+| `SHAREPOINT_TARGET_NAME` | `Deals Sheet REL.xlsx`  *(see the overwrite decision below)* |
+| `ONEDRIVE_USER` | *(leave unset — this is a site, not personal OneDrive)* |
+
+Verify `SHAREPOINT_FOLDER` against the actual library: the first segment
+(`REL Finance - Master`) may be either a document library or a folder inside the
+default `Documents` library. The uploader handles both automatically **as long as
+the full path is correct and the folder already exists** — open the folder in
+SharePoint and confirm the three segments match.
+
+For the app-registration permission (Part 1 step 3), grant `Sites.Selected`
+scoped to exactly this site:
+`https://netorg11487911.sharepoint.com/sites/RELfinance`.
+
+### Field reference (generic)
+
 | Name | Example | Notes |
 |---|---|---|
-| `SHAREPOINT_HOSTNAME` | `relfinance.sharepoint.com` | no `https://` |
-| `SHAREPOINT_SITE_PATH` | `/sites/RELFinance` | leave **empty** for the tenant root site |
-| `SHAREPOINT_FOLDER` | `Shared Documents/Deals` | library + folder; the folder must already exist |
-| `ONEDRIVE_USER` | `shyam@relfinance.co.uk` | **alternative to** `SHAREPOINT_HOSTNAME` — targets that user's OneDrive for Business instead of a site. Requires `Files.ReadWrite.All` application permission instead of `Sites.Selected`. Set one target or the other, not both. |
+| `SHAREPOINT_HOSTNAME` | `contoso.sharepoint.com` | no `https://` |
+| `SHAREPOINT_SITE_PATH` | `/sites/Finance` | leave **empty** for the tenant root site |
+| `SHAREPOINT_FOLDER` | `Documents/Deals` | library + folder; the folder must already exist |
+| `SHAREPOINT_TARGET_NAME` | `Deals Sheet REL.xlsx` | optional; filename to write **as** in SharePoint. Omit to keep the repo name `Deals_Sheet_REL.xlsx`. |
+| `ONEDRIVE_USER` | `user@contoso.com` | **alternative to** `SHAREPOINT_HOSTNAME` — targets that user's OneDrive instead of a site; needs `Files.ReadWrite.All`. Set one target or the other, not both. |
+
+### DECISION: overwrite the master, or write a separate file?
+
+The team's live file is **`Deals Sheet REL.xlsx`**. The automation maintains its
+own copy in git and treats **the repo as the source of truth**. Choose how the
+upload lands:
+
+- **Overwrite in place** — set `SHAREPOINT_TARGET_NAME = Deals Sheet REL.xlsx`.
+  The automation's version replaces the master every morning. ⚠️ Anyone who
+  hand-edits the SharePoint file directly will have those edits overwritten on
+  the next run — with this option, all edits must go through the automation (or
+  through Claude), never directly in SharePoint.
+- **Separate file (safer to start)** — set
+  `SHAREPOINT_TARGET_NAME = Deals Sheet REL (auto-updated).xlsx`. The
+  automation's copy sits alongside the human master; nothing is clobbered. Good
+  for a trial period; you can switch to overwrite once you trust it.
 
 ### Finding the right values from a synced folder path
 
