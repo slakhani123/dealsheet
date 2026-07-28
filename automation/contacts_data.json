@@ -106,9 +106,7 @@
    "company": "MHA",
    "job_title": "Accounts Manager",
    "phones": [
-    "+44 (0)204 546 6050",
-    "+44 (0)204 5466050",
-    "+44(0)204 5466050"
+    "+44 (0)204 546 6050"
    ],
    "note": "Prepares REL's quarterly management accounts - day-to-day MHA contact",
    "confidence": "high",
@@ -959,23 +957,6 @@
    "source": "sweep"
   },
   {
-   "email": "clemente@roscap.co.uk",
-   "name": "Clemente Apollonj",
-   "category": "Borrower / Sponsor",
-   "company": "Ros Capital",
-   "job_title": "",
-   "phones": [],
-   "note": "Sought a max-leverage Central London bridge, \u00a312m purchase against \u00a315m market value",
-   "confidence": "medium",
-   "keep": true,
-   "category_locked": false,
-   "count_from": 0,
-   "count_to": 0,
-   "first_seen": "2026-05-26",
-   "last_seen": "2026-05-26",
-   "source": "sweep"
-  },
-  {
    "email": "vijay@unohotels.com",
    "name": "Vijay Bhandari",
    "category": "Borrower / Sponsor",
@@ -1071,7 +1052,7 @@
    "company": "Arc & Co",
    "job_title": "",
    "phones": [],
-   "note": "Quoted forwarded header 'From: Samuel Beaumont <sam@arcandco.com>' in 'FW: North Lakes Opportunity' 11/02/2025",
+   "note": "Arc & Co broker who sent REL the North Lakes opportunity (Feb 2025).",
    "confidence": "medium",
    "keep": true,
    "category_locked": false,
@@ -1088,7 +1069,7 @@
    "company": "Arc & Co",
    "job_title": "",
    "phones": [],
-   "note": "Arc & Co broker on the Melton Mowbray & Lowestoft bridge loan",
+   "note": "Arc & Co broker on the Melton Mowbray & Lowestoft bridge loan. Has since moved to FRP Advisory \u2014 use the frpadvisory.com address.",
    "confidence": "high",
    "keep": true,
    "category_locked": false,
@@ -1116,6 +1097,23 @@
    "first_seen": "2025-06-03",
    "last_seen": "2026-06-23",
    "source": "sweep"
+  },
+  {
+   "email": "alexander.pasche@aviercapital.com",
+   "name": "Alexander Pasche",
+   "category": "Broker",
+   "company": "Avier Capital",
+   "job_title": "",
+   "phones": [],
+   "note": "Forwarded HREF's letter of support to brokers after the MFS and Century Capital administrations, Feb 2026.",
+   "confidence": "medium",
+   "keep": true,
+   "category_locked": false,
+   "count_from": 0,
+   "count_to": 0,
+   "first_seen": "2026-02-25",
+   "last_seen": "2026-02-25",
+   "source": "chase"
   },
   {
    "email": "amy.woodthorpe@avisonyoung.com",
@@ -1196,7 +1194,7 @@
    "company": "Beckford Advisory",
    "job_title": "",
    "phones": [],
-   "note": "Beckford colleague on the GBP 25m prime central London bridge",
+   "note": "Beckford colleague on the \u00a325m prime central London bridge",
    "confidence": "medium",
    "keep": true,
    "category_locked": false,
@@ -1215,7 +1213,7 @@
    "phones": [
     "+44 (0) 7508 225 678"
    ],
-   "note": "Brought the GBP 25m prime central London bridge loan",
+   "note": "Brought the \u00a325m prime central London bridge loan",
    "confidence": "high",
    "keep": true,
    "category_locked": false,
@@ -1235,7 +1233,7 @@
     "+44 (0)20 3750 6302",
     "+44 (0)7716 234537"
    ],
-   "note": "Debt advisor on 9 Eaton Place refinance and the Julius London GBP 25.5m acquisition facility (REL/OakNorth terms issued)",
+   "note": "Debt advisor on 9 Eaton Place refinance and the Julius London \u00a325.5m acquisition facility (REL/OakNorth terms issued)",
    "confidence": "high",
    "keep": true,
    "category_locked": false,
@@ -1355,10 +1353,10 @@
    "email": "arsh@conduitre.com",
    "name": "Arsh Basi",
    "category": "Broker",
-   "company": "Conduit Real Estate (ConduitRE)",
+   "company": "Conduit Real Estate",
    "job_title": "",
    "phones": [],
-   "note": "Quoted Cc header in 'FW: Project Bradley - Audley Cooper's Hill - Inventory Loan - REL Finance' 15/10/2025 (ConduitRE mandated by Audley Group).",
+   "note": "Conduit Real Estate team member on Project Bradley, the Audley Cooper's Hill inventory loan; ConduitRE is mandated exclusively by Audley Group, the sponsor.",
    "confidence": "medium",
    "keep": true,
    "category_locked": false,
@@ -1372,12 +1370,12 @@
    "email": "balaji@conduitre.com",
    "name": "Balaji Nagabhushan",
    "category": "Broker",
-   "company": "Conduit Real Estate (ConduitRE)",
+   "company": "Conduit Real Estate",
    "job_title": "",
    "phones": [
     "+44 7824 528631"
    ],
-   "note": "Forwarded header and signature in 'FW: Project Bradley - Audley Cooper's Hill - Inventory Loan - REL Finance' 15/10/2025. Body: 'Conduit Real Estate are working exclusively for Audley Group (the Sponsor)'. Address 13 Hanover Square, London W1S 1HN.",
+   "note": "Conduit Real Estate contact who took Project Bradley (Audley Cooper's Hill inventory loan) to REL; ConduitRE acts exclusively for Audley Group, the sponsor. Based at 13 Hanover Square, London W1S 1HN.",
    "confidence": "medium",
    "keep": true,
    "category_locked": false,
@@ -1391,10 +1389,10 @@
    "email": "jonathan@conduitre.com",
    "name": "Jonathan Jay",
    "category": "Broker",
-   "company": "Conduit Real Estate (ConduitRE)",
+   "company": "Conduit Real Estate",
    "job_title": "",
    "phones": [],
-   "note": "Quoted Cc header in 'FW: Project Bradley - Audley Cooper's Hill - Inventory Loan - REL Finance' 15/10/2025 (ConduitRE mandated by Audley Group).",
+   "note": "Conduit Real Estate team member on Project Bradley, the Audley Cooper's Hill inventory loan; ConduitRE is mandated exclusively by Audley Group, the sponsor.",
    "confidence": "medium",
    "keep": true,
    "category_locked": false,
@@ -1445,7 +1443,7 @@
    "company": "Excellion Capital",
    "job_title": "",
    "phones": [],
-   "note": "Covers two deals-sheet targets ('Robert Sandler' and 'Excellion'). Quoted forwarded header 'From: Robert Sadler <Robert.sadler@excellioncapital.com>' in 'FW: The Whiteley' 08/04/2025",
+   "note": "Excellion Capital debt advisor; brought The Whiteley to REL (Apr 2025). Appears on the deals sheet as 'Robert Sandler'.",
    "confidence": "medium",
    "keep": true,
    "category_locked": false,
@@ -1518,7 +1516,7 @@
    "company": "FRP Advisory",
    "job_title": "",
    "phones": [],
-   "note": "FRP debt advisory - introduced the Chivenor Park, Barnstaple holiday park bridge enquiry (declined, too small).",
+   "note": "FRP debt advisory; introduced the Chivenor Park, Barnstaple holiday park bridge. Previously at Arc & Co.",
    "confidence": "medium",
    "keep": true,
    "category_locked": false,
@@ -1730,7 +1728,7 @@
    "company": "Mantra Commercial",
    "job_title": "",
    "phones": [],
-   "note": "Introduced 77 and 87-89 Walton Street GBP 9m request and The Stroud Hotel",
+   "note": "Introduced 77 and 87-89 Walton Street \u00a39m request and The Stroud Hotel",
    "confidence": "high",
    "keep": true,
    "category_locked": false,
@@ -1747,7 +1745,7 @@
    "company": "Mantra Commercial",
    "job_title": "",
    "phones": [],
-   "note": "Main Mantra contact - Kamco GBP 22.5m, Walton Street GBP 9m, The Stroud Hotel",
+   "note": "Main Mantra contact - Kamco \u00a322.5m, Walton Street \u00a39m, The Stroud Hotel",
    "confidence": "high",
    "keep": true,
    "category_locked": false,
@@ -1764,7 +1762,7 @@
    "company": "Mantra Commercial",
    "job_title": "",
    "phones": [],
-   "note": "On the Elixir House GBP 5m commercial bridging facility",
+   "note": "On the Elixir House \u00a35m commercial bridging facility",
    "confidence": "medium",
    "keep": true,
    "category_locked": false,
@@ -1781,7 +1779,7 @@
    "company": "Mantra Group",
    "job_title": "",
    "phones": [],
-   "note": "Mantra debt brokerage; on the Kamco GBP 22.5m enquiry",
+   "note": "Mantra debt brokerage; on the Kamco \u00a322.5m enquiry",
    "confidence": "medium",
    "keep": true,
    "category_locked": false,
@@ -2086,13 +2084,30 @@
    "source": "sweep"
   },
   {
+   "email": "clemente@roscap.co.uk",
+   "name": "Clemente Apollonj",
+   "category": "Broker",
+   "company": "Roscap",
+   "job_title": "",
+   "phones": [],
+   "note": "Sought a max-leverage Central London bridge, \u00a312m purchase against \u00a315m market value",
+   "confidence": "medium",
+   "keep": true,
+   "category_locked": false,
+   "count_from": 0,
+   "count_to": 0,
+   "first_seen": "2026-05-26",
+   "last_seen": "2026-05-26",
+   "source": "sweep"
+  },
+  {
    "email": "suleman@roscap.co.uk",
    "name": "Suleman Rafiq",
    "category": "Broker",
-   "company": "Ros Capital (roscap.co.uk)",
+   "company": "Roscap",
    "job_title": "",
    "phones": [],
-   "note": "Quoted To header \"To: 'Suleman Rafiq' <suleman@roscap.co.uk>\" in 'FW: 188 Wilmslow Road, Fallowfield, Manchester, M14 6LJ | Commercial Asset Acquisition Bridge Required' 09/10/2025",
+   "note": "Partner & CEO of Roscap, real estate debt and equity advisory; mandated to arrange the acquisition bridge on 188 Wilmslow Road, Fallowfield, Manchester (\u00a34m net requested, Oct 2025, REL quoted \u00a33.7m).",
    "confidence": "medium",
    "keep": true,
    "category_locked": false,
@@ -2173,6 +2188,57 @@
    "first_seen": "2026-07-22",
    "last_seen": "2026-07-28",
    "source": "sweep"
+  },
+  {
+   "email": "chris.kelly@waypointam.co.uk",
+   "name": "Chris Kelly",
+   "category": "Broker",
+   "company": "Waypoint Asset Management",
+   "job_title": "",
+   "phones": [],
+   "note": "Consultant at Waypoint; introduced the Tribeca financing to OakNorth and REL via Jay Bhogal and ran the deal alongside Priya Harley at OakNorth.",
+   "confidence": "medium",
+   "keep": true,
+   "category_locked": false,
+   "count_from": 0,
+   "count_to": 0,
+   "first_seen": "2026-01-26",
+   "last_seen": "2026-01-26",
+   "source": "chase"
+  },
+  {
+   "email": "jon.leefe@waypointam.co.uk",
+   "name": "Jon Leefe",
+   "category": "Broker",
+   "company": "Waypoint Asset Management",
+   "job_title": "",
+   "phones": [],
+   "note": "Waypoint colleague of Chris Kelly; named as a cover contact on the Tribeca financing.",
+   "confidence": "medium",
+   "keep": true,
+   "category_locked": false,
+   "count_from": 0,
+   "count_to": 0,
+   "first_seen": "2026-01-26",
+   "last_seen": "2026-01-26",
+   "source": "chase"
+  },
+  {
+   "email": "kirstyn@waypointam.co.uk",
+   "name": "Kirstyn Rutter",
+   "category": "Broker",
+   "company": "Waypoint Asset Management",
+   "job_title": "",
+   "phones": [],
+   "note": "Waypoint colleague of Chris Kelly; named as a cover contact on the Tribeca financing.",
+   "confidence": "medium",
+   "keep": true,
+   "category_locked": false,
+   "count_from": 0,
+   "count_to": 0,
+   "first_seen": "2026-01-26",
+   "last_seen": "2026-01-26",
+   "source": "chase"
   },
   {
    "email": "devraj@westdownpf.com",
@@ -2288,8 +2354,7 @@
    "company": "REL Finance",
    "job_title": "Director",
    "phones": [
-    "+44 7825216771",
-    "+44 7825 216771"
+    "+44 7825216771"
    ],
    "note": "REL director; fronts origination, terms and loan management across the book",
    "confidence": "high",
@@ -2308,8 +2373,7 @@
    "company": "REL Finance",
    "job_title": "Director",
    "phones": [
-    "+44 7739555265",
-    "+44 7739 555265"
+    "+44 7739555265"
    ],
    "note": "REL director; fronts origination and deal execution across the book",
    "confidence": "high",
@@ -2640,57 +2704,6 @@
    "source": "sweep"
   },
   {
-   "email": "chris.kelly@waypointam.co.uk",
-   "name": "Chris Kelly",
-   "category": "Investor / Family Office",
-   "company": "Waypoint Asset Management",
-   "job_title": "",
-   "phones": [],
-   "note": "Quoted headers inside the forwarded 'FW: Tribeca' chain 26/01/2026 \u2014 Waypoint AM made the introduction on the Tribeca Holdings financing.",
-   "confidence": "medium",
-   "keep": true,
-   "category_locked": false,
-   "count_from": 0,
-   "count_to": 0,
-   "first_seen": "2026-01-26",
-   "last_seen": "2026-01-26",
-   "source": "chase"
-  },
-  {
-   "email": "jon.leefe@waypointam.co.uk",
-   "name": "Jon Leefe",
-   "category": "Investor / Family Office",
-   "company": "Waypoint Asset Management",
-   "job_title": "",
-   "phones": [],
-   "note": "Quoted Cc header repeatedly inside the forwarded 'FW: Tribeca' chain 26/01/2026.",
-   "confidence": "medium",
-   "keep": true,
-   "category_locked": false,
-   "count_from": 0,
-   "count_to": 0,
-   "first_seen": "2026-01-26",
-   "last_seen": "2026-01-26",
-   "source": "chase"
-  },
-  {
-   "email": "kirstyn@waypointam.co.uk",
-   "name": "Kirstyn Rutter",
-   "category": "Investor / Family Office",
-   "company": "Waypoint Asset Management",
-   "job_title": "",
-   "phones": [],
-   "note": "Quoted Cc header repeatedly inside the forwarded 'FW: Tribeca' chain 26/01/2026.",
-   "confidence": "medium",
-   "keep": true,
-   "category_locked": false,
-   "count_from": 0,
-   "count_to": 0,
-   "first_seen": "2026-01-26",
-   "last_seen": "2026-01-26",
-   "source": "chase"
-  },
-  {
    "email": "lct@thegbb.co.uk",
    "name": "GB Bank Loan Completions Team",
    "category": "Lender / Bank",
@@ -2889,12 +2902,12 @@
    "email": "ashokhin@hilcoglobal.com",
    "name": "Alexey Shokhin",
    "category": "Lender / Bank",
-   "company": "Hilco Real Estate Finance (HREF) UK",
+   "company": "Hilco Real Estate Finance",
    "job_title": "Director",
    "phones": [
     "+44 7984 748773"
    ],
-   "note": "HREF UK origination team contact block in the forwarded HREF letter of support, 24/02/2026.",
+   "note": "UK origination contact at Hilco Real Estate Finance (HREF), an institutionally backed property lender covering \u00a32m-\u00a3150m real estate loans.",
    "confidence": "medium",
    "keep": true,
    "category_locked": false,
@@ -2908,12 +2921,12 @@
    "email": "ashirwani@hilcoglobal.com",
    "name": "Asim Shirawani",
    "category": "Lender / Bank",
-   "company": "Hilco Real Estate Finance (HREF) UK",
+   "company": "Hilco Real Estate Finance",
    "job_title": "Managing Director",
    "phones": [
     "+44 7846 632245"
    ],
-   "note": "HREF UK origination team contact block in the forwarded HREF letter of support, 24/02/2026.",
+   "note": "UK origination contact at Hilco Real Estate Finance (HREF), an institutionally backed property lender covering \u00a32m-\u00a3150m real estate loans.",
    "confidence": "medium",
    "keep": true,
    "category_locked": false,
@@ -2927,12 +2940,12 @@
    "email": "info@hilcoglobal.com",
    "name": "Hilco Real Estate Finance UK (general mailbox)",
    "category": "Lender / Bank",
-   "company": "Hilco Real Estate Finance (HREF) UK",
+   "company": "Hilco Real Estate Finance",
    "job_title": "",
    "phones": [],
-   "note": "Sender of the HREF broker letter quoted in 'FW: Letter of Support from HREF Chief Investment Officer...' \u2014 'From: Hilco Real Estate Finance UK <info@hilcoglobal.com> Date: Tuesday, 24 February 2026'.",
+   "note": "Hilco Real Estate Finance UK campaign mailbox; sent the Feb 2026 circular offering to fund broker deals stranded by the MFS and Century Capital administrations. Not a person - use the named HREF originators instead.",
    "confidence": "medium",
-   "keep": true,
+   "keep": false,
    "category_locked": false,
    "count_from": 0,
    "count_to": 0,
@@ -2944,12 +2957,12 @@
    "email": "sadams@hilcoglobal.com",
    "name": "Sean Adams",
    "category": "Lender / Bank",
-   "company": "Hilco Real Estate Finance (HREF) UK",
+   "company": "Hilco Real Estate Finance",
    "job_title": "Managing Director",
    "phones": [
     "+44 7968 553341"
    ],
-   "note": "HREF UK origination team contact block inside forwarded 'Letter of Support from HREF Chief Investment Officer to Broker Clients Following MFS and Century Capital Administrations', forwarded to REL 25/02/2026 (original 24/02/2026).",
+   "note": "UK origination contact at Hilco Real Estate Finance (HREF), an institutionally backed property lender covering \u00a32m-\u00a3150m real estate loans.",
    "confidence": "medium",
    "keep": true,
    "category_locked": false,
@@ -2963,12 +2976,12 @@
    "email": "sallen@hilcoglobal.com",
    "name": "Steve Allen",
    "category": "Lender / Bank",
-   "company": "Hilco Real Estate Finance (HREF) UK",
+   "company": "Hilco Real Estate Finance",
    "job_title": "Director",
    "phones": [
     "+44 7355 035003"
    ],
-   "note": "HREF UK origination team contact block in the forwarded HREF letter of support, 24/02/2026.",
+   "note": "UK origination contact at Hilco Real Estate Finance (HREF), an institutionally backed property lender covering \u00a32m-\u00a3150m real estate loans.",
    "confidence": "medium",
    "keep": true,
    "category_locked": false,
@@ -2985,7 +2998,7 @@
    "company": "Investec Bank plc",
    "job_title": "",
    "phones": [],
-   "note": "Forwarded header in 'FW: LOAN REQUEST SECURED BY ULTRA PRIME COLLATERAL' 12/02/2026 \u2014 Investec passed the Westvile Securities / 46 Holland Park refinance to REL.",
+   "note": "Investec contact who passed the Westvile Securities / 46 Holland Park refinance request across to REL (Feb 2026).",
    "confidence": "medium",
    "keep": true,
    "category_locked": false,
@@ -3002,7 +3015,7 @@
    "company": "Investec Bank plc",
    "job_title": "",
    "phones": [],
-   "note": "Quoted 'To:' header inside the same forwarded Westvile Securities loan request chain, 11/02/2026.",
+   "note": "Investec contact on the Westvile Securities / 46 Holland Park loan request that was passed to REL (Feb 2026).",
    "confidence": "medium",
    "keep": true,
    "category_locked": false,
@@ -3011,142 +3024,6 @@
    "first_seen": "2026-02-11",
    "last_seen": "2026-02-11",
    "source": "chase"
-  },
-  {
-   "email": "deepesh.thakrar@oaknorth.co.uk",
-   "name": "Deepesh Thakrar",
-   "category": "Lender / Bank",
-   "company": "OakNorth",
-   "job_title": "Managing Director, Debt Finance",
-   "phones": [
-    "+447776154745"
-   ],
-   "note": "Senior OakNorth relationship - Elysian Stanmore and St Clements valuation",
-   "confidence": "high",
-   "keep": true,
-   "category_locked": false,
-   "count_from": 4,
-   "count_to": 1,
-   "first_seen": "2025-06-24",
-   "last_seen": "2026-07-28",
-   "source": "sweep"
-  },
-  {
-   "email": "gagandeep.singh@oaknorth.co.uk",
-   "name": "Gagandeep Singh",
-   "category": "Lender / Bank",
-   "company": "OakNorth",
-   "job_title": "Senior Director, Portfolio Monitoring",
-   "phones": [
-    "+447586031463",
-    "+44 7586 031463"
-   ],
-   "note": "Runs OakNorth monitoring and MI reporting on the ESSL facility",
-   "confidence": "high",
-   "keep": true,
-   "category_locked": false,
-   "count_from": 22,
-   "count_to": 2,
-   "first_seen": "2026-01-27",
-   "last_seen": "2026-07-28",
-   "source": "sweep"
-  },
-  {
-   "email": "hemesh.patel@oaknorth.co.uk",
-   "name": "Hemesh Patel",
-   "category": "Lender / Bank",
-   "company": "OakNorth",
-   "job_title": "Director, Property Finance",
-   "phones": [
-    "+447771375386",
-    "+44 7771 375386"
-   ],
-   "note": "GBP 32.5m Southeast industrial portfolio refinance and Plant Basingstoke",
-   "confidence": "high",
-   "keep": true,
-   "category_locked": false,
-   "count_from": 39,
-   "count_to": 0,
-   "first_seen": "2025-10-08",
-   "last_seen": "2026-07-20",
-   "source": "sweep"
-  },
-  {
-   "email": "luke.branchflower@oaknorth.co.uk",
-   "name": "Luke Branchflower",
-   "category": "Lender / Bank",
-   "company": "OakNorth",
-   "job_title": "Associate, Debt Finance",
-   "phones": [
-    "07582748413"
-   ],
-   "note": "Debt finance associate on Plant Basingstoke",
-   "confidence": "high",
-   "keep": true,
-   "category_locked": false,
-   "count_from": 6,
-   "count_to": 0,
-   "first_seen": "2026-01-15",
-   "last_seen": "2026-07-20",
-   "source": "sweep"
-  },
-  {
-   "email": "magdalena.wierzchowska@oaknorth.co.uk",
-   "name": "Magdalena Wierzchowska",
-   "category": "Lender / Bank",
-   "company": "OakNorth",
-   "job_title": "Director, Legal and Transaction Management",
-   "phones": [
-    "+44 7841 423326"
-   ],
-   "note": "Legals and funds flow on the Charte Forte (Monument) REL refinance",
-   "confidence": "high",
-   "keep": true,
-   "category_locked": false,
-   "count_from": 5,
-   "count_to": 0,
-   "first_seen": "2026-06-26",
-   "last_seen": "2026-07-15",
-   "source": "sweep"
-  },
-  {
-   "email": "shubham.kalra@oaknorth.co.uk",
-   "name": "Shubham Kalra",
-   "category": "Lender / Bank",
-   "company": "OakNorth",
-   "job_title": "Deputy Vice President",
-   "phones": [
-    "+91-7206717001"
-   ],
-   "note": "REL GMP information requests and the Oryx 2 Real Estate redemption",
-   "confidence": "high",
-   "keep": true,
-   "category_locked": false,
-   "count_from": 17,
-   "count_to": 0,
-   "first_seen": "2025-05-06",
-   "last_seen": "2026-03-26",
-   "source": "sweep"
-  },
-  {
-   "email": "vivek.jaiswal@oaknorth.co.uk",
-   "name": "Vivek Jaiswal",
-   "category": "Lender / Bank",
-   "company": "OakNorth",
-   "job_title": "Senior Associate",
-   "phones": [
-    "+91-9044471739",
-    "+91 9044471739"
-   ],
-   "note": "Portfolio monitoring on ESSL - M&S reports, reservations, bank statements",
-   "confidence": "high",
-   "keep": true,
-   "category_locked": false,
-   "count_from": 43,
-   "count_to": 2,
-   "first_seen": "2026-01-27",
-   "last_seen": "2026-07-28",
-   "source": "sweep"
   },
   {
    "email": "alisha.pandey@oaknorth.co.uk",
@@ -3202,6 +3079,25 @@
    "source": "sweep"
   },
   {
+   "email": "deepesh.thakrar@oaknorth.co.uk",
+   "name": "Deepesh Thakrar",
+   "category": "Lender / Bank",
+   "company": "OakNorth Bank",
+   "job_title": "Managing Director, Debt Finance",
+   "phones": [
+    "+447776154745"
+   ],
+   "note": "Senior OakNorth relationship - Elysian Stanmore and St Clements valuation",
+   "confidence": "high",
+   "keep": true,
+   "category_locked": false,
+   "count_from": 4,
+   "count_to": 1,
+   "first_seen": "2025-06-24",
+   "last_seen": "2026-07-28",
+   "source": "sweep"
+  },
+  {
    "email": "felix.price@oaknorth.co.uk",
    "name": "Felix Price",
    "category": "Lender / Bank",
@@ -3221,6 +3117,44 @@
    "source": "sweep"
   },
   {
+   "email": "gagandeep.singh@oaknorth.co.uk",
+   "name": "Gagandeep Singh",
+   "category": "Lender / Bank",
+   "company": "OakNorth Bank",
+   "job_title": "Senior Director, Portfolio Monitoring",
+   "phones": [
+    "+447586031463"
+   ],
+   "note": "Runs OakNorth monitoring and MI reporting on the ESSL facility",
+   "confidence": "high",
+   "keep": true,
+   "category_locked": false,
+   "count_from": 22,
+   "count_to": 2,
+   "first_seen": "2026-01-27",
+   "last_seen": "2026-07-28",
+   "source": "sweep"
+  },
+  {
+   "email": "hemesh.patel@oaknorth.co.uk",
+   "name": "Hemesh Patel",
+   "category": "Lender / Bank",
+   "company": "OakNorth Bank",
+   "job_title": "Director, Property Finance",
+   "phones": [
+    "+447771375386"
+   ],
+   "note": "\u00a332.5m Southeast industrial portfolio refinance and Plant Basingstoke",
+   "confidence": "high",
+   "keep": true,
+   "category_locked": false,
+   "count_from": 39,
+   "count_to": 0,
+   "first_seen": "2025-10-08",
+   "last_seen": "2026-07-20",
+   "source": "sweep"
+  },
+  {
    "email": "kamakshi.kumar@oaknorth.co.uk",
    "name": "Kamakshi Kumar",
    "category": "Lender / Bank",
@@ -3235,6 +3169,44 @@
    "count_to": 0,
    "first_seen": "2026-03-06",
    "last_seen": "2026-03-26",
+   "source": "sweep"
+  },
+  {
+   "email": "luke.branchflower@oaknorth.co.uk",
+   "name": "Luke Branchflower",
+   "category": "Lender / Bank",
+   "company": "OakNorth Bank",
+   "job_title": "Associate, Debt Finance",
+   "phones": [
+    "07582748413"
+   ],
+   "note": "Debt finance associate on Plant Basingstoke",
+   "confidence": "high",
+   "keep": true,
+   "category_locked": false,
+   "count_from": 6,
+   "count_to": 0,
+   "first_seen": "2026-01-15",
+   "last_seen": "2026-07-20",
+   "source": "sweep"
+  },
+  {
+   "email": "magdalena.wierzchowska@oaknorth.co.uk",
+   "name": "Magdalena Wierzchowska",
+   "category": "Lender / Bank",
+   "company": "OakNorth Bank",
+   "job_title": "Director, Legal and Transaction Management",
+   "phones": [
+    "+44 7841 423326"
+   ],
+   "note": "Legals and funds flow on the Charte Forte (Monument) REL refinance",
+   "confidence": "high",
+   "keep": true,
+   "category_locked": false,
+   "count_from": 5,
+   "count_to": 0,
+   "first_seen": "2026-06-26",
+   "last_seen": "2026-07-15",
    "source": "sweep"
   },
   {
@@ -3382,8 +3354,7 @@
    "company": "OakNorth Bank",
    "job_title": "Director, Debt Finance",
    "phones": [
-    "+447904310146",
-    "+44 7904 310146"
+    "+447904310146"
    ],
    "note": "OakNorth debt finance lead on Stanhope Gate, 57-60 Lincoln's Inn Fields and a regional office financing",
    "confidence": "high",
@@ -3447,6 +3418,25 @@
    "source": "sweep"
   },
   {
+   "email": "shubham.kalra@oaknorth.co.uk",
+   "name": "Shubham Kalra",
+   "category": "Lender / Bank",
+   "company": "OakNorth Bank",
+   "job_title": "Deputy Vice President",
+   "phones": [
+    "+91-7206717001"
+   ],
+   "note": "REL GMP information requests and the Oryx 2 Real Estate redemption",
+   "confidence": "high",
+   "keep": true,
+   "category_locked": false,
+   "count_from": 17,
+   "count_to": 0,
+   "first_seen": "2025-05-06",
+   "last_seen": "2026-03-26",
+   "source": "sweep"
+  },
+  {
    "email": "sumant.srivastava@oaknorth.co.uk",
    "name": "Sumant Srivastava",
    "category": "Lender / Bank",
@@ -3478,6 +3468,25 @@
    "count_to": 0,
    "first_seen": "2026-06-23",
    "last_seen": "2026-06-23",
+   "source": "sweep"
+  },
+  {
+   "email": "vivek.jaiswal@oaknorth.co.uk",
+   "name": "Vivek Jaiswal",
+   "category": "Lender / Bank",
+   "company": "OakNorth Bank",
+   "job_title": "Senior Associate",
+   "phones": [
+    "+91-9044471739"
+   ],
+   "note": "Portfolio monitoring on ESSL - M&S reports, reservations, bank statements",
+   "confidence": "high",
+   "keep": true,
+   "category_locked": false,
+   "count_from": 43,
+   "count_to": 2,
+   "first_seen": "2026-01-27",
+   "last_seen": "2026-07-28",
    "source": "sweep"
   },
   {
@@ -3793,8 +3802,7 @@
    "company": "Green Cardinal Design",
    "job_title": "Founder",
    "phones": [
-    "07881941338",
-    "07881 941338"
+    "07881941338"
    ],
    "note": "Builds and maintains the REL Finance website; sends monthly traffic analytics",
    "confidence": "high",
@@ -4390,7 +4398,7 @@
    "company": "Levy Real Estate LLP",
    "job_title": "",
    "phones": [],
-   "note": "Quoted From/To headers throughout the forwarded 'FW: TG Jones, Uxbridge' chain 18/02/2026 \u2014 agent acting for the DNA Uxbridge landlord opposite John Loveday.",
+   "note": "Levy Real Estate agent acting for the landlord on TG Jones, Uxbridge - the tenancy running through REL's DNA Uxbridge (Belmont Place) security.",
    "confidence": "medium",
    "keep": true,
    "category_locked": false,
@@ -4518,7 +4526,7 @@
     "+44 20 7409 2100",
     "+44 7778 158125"
    ],
-   "note": "Quoted From headers and signature block throughout the forwarded 'FW: TG Jones, Uxbridge' chain 18/02/2026 \u2014 acting for the Post Office tenant against the DNA Uxbridge landlord.",
+   "note": "Smith Price RRG surveyor acting for the Post Office tenant at TG Jones, Uxbridge, opposite the landlord on REL's DNA Uxbridge (Belmont Place) security.",
    "confidence": "medium",
    "keep": true,
    "category_locked": false,

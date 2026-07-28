@@ -148,7 +148,13 @@ Apply these when writing new records, so the two renderings stay consistent:
 - **Money in notes uses `£`**, not `GBP` — the harvest sometimes transliterates
   it.
 - **One company spelling per domain.** Everyone at `oaknorth.co.uk` is
-  "OakNorth", everyone at `arcandco.com` is "Arc & Co".
+  "OakNorth Bank", everyone at `arcandco.com` is "Arc & Co". Independent
+  categorisation passes drift on this, so re-check it after any batch run:
+  group by domain, take the spelling most records on that domain carry, and
+  apply it to the rest.
+- **One category per domain, normally.** A domain carrying two categories is
+  usually a mistake — but not always (a bank's lending desk and its treasury
+  contact genuinely differ). Flag them, don't auto-merge them.
 - **Phones**: at most two per contact, deduped on the trailing nine digits so
   `+44 7700 900000` and `07700900000` do not both appear.
 - **Notes** are one line about who the person is to REL or which deal they
