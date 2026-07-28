@@ -638,6 +638,53 @@ document.addEventListener('keydown', e => {
   else if (e.key === 'Escape' && document.activeElement === s) { s.value = ''; state.q = ''; render(); s.blur(); }
 });
 
+// Download the current selection as a spreadsheet-ready file. Only offered
+// when the viewer's runtime grants saves.
+const dl = document.getElementById('download');
+if (window.claude && window.claude.downloads) {
+  dl.hidden = false;
+  const cell = v => {
+    const s = String(v == null ? '' : v);
+    return /[",\\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+  };
+  const csv = rows => [
+    ['Name', 'Category', 'Company', 'Job title', 'Email', 'Phone',
+     'First seen', 'Last seen', 'Emails in', 'Emails out', 'How found', 'Notes'],
+    ...rows.map(c => [
+      c.n, BYCAT.get(c.k).label, c.co, c.t, c.e, (c.p || []).join(' / '),
+      c.fs, c.ls, c.i, c.o,
+      (c.i + c.o) ? 'Direct correspondence' : 'Named in a thread', c.note,
+    ]),
+  ].map(r => r.map(cell).join(',')).join('\\r\\n');
+
+  dl.addEventListener('click', async () => {
+    const rows = visible();
+    if (!rows.length) { toast('Nothing to download'); return; }
+    const body = '\\ufeff' + csv(rows);          // BOM so Excel reads UTF-8
+    const stem = 'REL-contacts-' + DATA.refreshed;
+    try {
+      await window.claude.downloads.save({ filename: stem + '.csv', data: body });
+      toast(`${rows.length} contacts downloaded`);
+    } catch (err) {
+      const code = err && err.code;
+      if (code === 'declined') return;
+      if (code === 'extension_not_enabled') {
+        try {
+          await window.claude.downloads.save({ filename: stem + '.txt', data: body });
+          toast(`${rows.length} contacts downloaded as a .txt — rename to .csv to open in Excel`);
+          return;
+        } catch (err2) {
+          if (err2 && err2.code === 'declined') return;
+        }
+      }
+      if (code === 'rate_limited') { toast('Another download is already open'); return; }
+      if (code === 'too_large') { toast('Too much to download — narrow the filter first'); return; }
+      dl.hidden = true;
+      toast('Downloads are unavailable here — use Copy shown emails instead');
+    }
+  });
+}
+
 render();
 """
 
@@ -675,6 +722,7 @@ def build(payload, out_path):
     slim.sort(key=lambda c: -(c["i"] + c["o"]))
 
     data = {
+        "refreshed": refreshed,
         "contacts": slim,
         "categories": [
             {"key": CATEGORY_KEY[c], "label": c, "blurb": CATEGORY_BLURB.get(c, "")}
@@ -743,6 +791,7 @@ def build(payload, out_path):
         <option value="name">Name A–Z</option>
       </select>
       <button id="copyall" class="btn" type="button">Copy shown emails</button>
+      <button id="download" class="btn" type="button" hidden>Download shown</button>
       <button id="clear" class="btn" type="button">Reset</button>
     </div>
     <div class="chips">{chips}</div>

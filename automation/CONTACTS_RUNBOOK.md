@@ -64,6 +64,18 @@ Two harvest routes feed the data, and the distinction matters when reading it:
    `contacts_site/index.html` with message
    `Contacts sweep <date>: +N new, M updated`. The push fires the SharePoint
    upload automatically.
+8. **Republish the web directory to its existing URL** so the shared link
+   keeps working — do not mint a new one:
+
+   ```
+   Artifact  file_path=contacts_site/index.html
+             url=https://claude.ai/code/artifact/6ce4ca22-f49d-438e-9aa5-9ad656cfc7dd
+             favicon=📇  capabilities={"downloads": true}
+   ```
+
+   Passing `url` is what targets the existing artifact from a session that did
+   not publish it. Keep the favicon and capabilities as shown; omitting
+   `capabilities` on a redeploy also carries the stored grant forward.
 8. **Report.** If contacts were added or changed, send Shyam the xlsx with a
    short list of new contacts and their categories. If nothing changed, one
    line saying so.
@@ -128,6 +140,22 @@ appear as competitors or refinance takeouts; solicitors handle legals; valuers
   "source": "sweep"                   // "sweep" = direct, "chase" = named in a thread
 }
 ```
+
+## Data conventions
+
+Apply these when writing new records, so the two renderings stay consistent:
+
+- **Money in notes uses `£`**, not `GBP` — the harvest sometimes transliterates
+  it.
+- **One company spelling per domain.** Everyone at `oaknorth.co.uk` is
+  "OakNorth", everyone at `arcandco.com` is "Arc & Co".
+- **Phones**: at most two per contact, deduped on the trailing nine digits so
+  `+44 7700 900000` and `07700900000` do not both appear.
+- **Notes** are one line about who the person is to REL or which deal they
+  relate to. Never a description of where the address was found — that is what
+  `source` is for. Empty is better than padding.
+- **Free-mail addresses** (gmail, outlook, hotmail…) get an empty `company`
+  unless a real employer is known — never the mail domain.
 
 ## Known gaps
 

@@ -28,8 +28,13 @@ renderings of the same data:
 - **`Contact_List_REL.xlsx`** — filterable workbook for SharePoint, with a
   summary tab and a README tab.
 - **`contacts_site/index.html`** — a self-contained searchable directory page.
-  Open it in a browser or publish it; there are no external dependencies, so it
-  works from a file share, an email attachment or a hosted URL.
+  Search across name, firm, email and deal note; filter by category; click any
+  address or number to copy it; export the current selection as CSV. There are
+  no external dependencies, so it works from a file share, an email attachment
+  or a hosted URL. Published copy:
+  <https://claude.ai/code/artifact/6ce4ca22-f49d-438e-9aa5-9ad656cfc7dd>
+  (private until shared from the page's share menu). Republishing to that same
+  URL is part of the weekly refresh.
 
 Procedure of record: `automation/CONTACTS_RUNBOOK.md`.
 
