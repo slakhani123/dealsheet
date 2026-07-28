@@ -59,6 +59,13 @@ Set these repository **variables**:
 | `SHAREPOINT_TARGET_NAME` | `Deals Sheet REL.xlsx` |
 | `ONEDRIVE_USER` | *(leave unset — this is a site, not personal OneDrive)* |
 
+**Contact list (optional, same credentials):** the second workflow
+`upload-contacts-to-sharepoint.yml` uploads `Contact_List_REL.xlsx` whenever it
+changes, to the same site. By default it lands in `SHAREPOINT_FOLDER` as
+`Contact List REL.xlsx`. To send it somewhere else, set the optional variables
+`SHAREPOINT_CONTACTS_FOLDER` and/or `SHAREPOINT_CONTACTS_TARGET_NAME` — no
+extra secrets needed.
+
 > **Decision made (overwrite in place):** the upload writes over the existing
 > master `Deals Sheet REL.xlsx` every run. **Operational rule:** the git repo is
 > now the source of truth — do **not** hand-edit `Deals Sheet REL.xlsx` directly

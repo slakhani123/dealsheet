@@ -1,0 +1,32 @@
+name: Upload contact list to SharePoint
+
+on:
+  push:
+    branches:
+      - claude/outlook-contact-list-ehxnfc
+      - main
+    paths:
+      - Contact_List_REL.xlsx
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Upload to SharePoint via Microsoft Graph
+        env:
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          SHAREPOINT_HOSTNAME: ${{ vars.SHAREPOINT_HOSTNAME }}
+          SHAREPOINT_SITE_PATH: ${{ vars.SHAREPOINT_SITE_PATH }}
+          SHAREPOINT_FOLDER: ${{ vars.SHAREPOINT_CONTACTS_FOLDER || vars.SHAREPOINT_FOLDER }}
+          SHAREPOINT_TARGET_NAME: ${{ vars.SHAREPOINT_CONTACTS_TARGET_NAME || 'Contact List REL.xlsx' }}
+          ONEDRIVE_USER: ${{ vars.ONEDRIVE_USER }}
+          UPLOAD_FILE: Contact_List_REL.xlsx
+        run: python3 automation/upload_to_sharepoint.py
