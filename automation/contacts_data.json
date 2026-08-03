@@ -1,7 +1,7 @@
 {
- "last_sweep_utc": "2026-07-28T09:45:00Z",
+ "last_sweep_utc": "2026-08-03T07:23:00Z",
  "sweep_window_start": "2025-01-01",
- "emails_swept": 1615,
+ "emails_swept": 1675,
  "auto_excluded": [
   "donotreply@godaddy.com",
   "donotreply@wordpress.com",
@@ -568,7 +568,7 @@
    "confidence": "high",
    "keep": true,
    "category_locked": false,
-   "count_from": 11,
+   "count_from": 12,
    "count_to": 0,
    "first_seen": "2026-05-20",
    "last_seen": "2026-07-28",
@@ -2043,10 +2043,10 @@
    "confidence": "high",
    "keep": true,
    "category_locked": false,
-   "count_from": 3,
+   "count_from": 4,
    "count_to": 0,
    "first_seen": "2025-06-03",
-   "last_seen": "2026-07-23",
+   "last_seen": "2026-07-31",
    "source": "sweep"
   },
   {
@@ -2164,10 +2164,10 @@
    "confidence": "high",
    "keep": true,
    "category_locked": false,
-   "count_from": 1,
+   "count_from": 2,
    "count_to": 0,
    "first_seen": "2026-07-22",
-   "last_seen": "2026-07-28",
+   "last_seen": "2026-08-01",
    "source": "sweep"
   },
   {
@@ -2183,10 +2183,10 @@
    "confidence": "high",
    "keep": true,
    "category_locked": false,
-   "count_from": 2,
+   "count_from": 4,
    "count_to": 0,
    "first_seen": "2026-07-22",
-   "last_seen": "2026-07-28",
+   "last_seen": "2026-07-30",
    "source": "sweep"
   },
   {
@@ -2360,10 +2360,10 @@
    "confidence": "high",
    "keep": true,
    "category_locked": false,
-   "count_from": 476,
-   "count_to": 171,
+   "count_from": 492,
+   "count_to": 182,
    "first_seen": "2025-01-21",
-   "last_seen": "2026-07-28",
+   "last_seen": "2026-08-02",
    "source": "sweep"
   },
   {
@@ -2379,10 +2379,10 @@
    "confidence": "high",
    "keep": true,
    "category_locked": false,
-   "count_from": 276,
-   "count_to": 160,
+   "count_from": 280,
+   "count_to": 170,
    "first_seen": "2025-01-21",
-   "last_seen": "2026-07-28",
+   "last_seen": "2026-07-31",
    "source": "sweep"
   },
   {
@@ -2396,10 +2396,10 @@
    "confidence": "high",
    "keep": true,
    "category_locked": false,
-   "count_from": 8,
-   "count_to": 8,
+   "count_from": 9,
+   "count_to": 10,
    "first_seen": "2026-01-29",
-   "last_seen": "2026-07-01",
+   "last_seen": "2026-07-31",
    "source": "sweep"
   },
   {
@@ -2414,9 +2414,9 @@
    "keep": true,
    "category_locked": false,
    "count_from": 0,
-   "count_to": 5,
+   "count_to": 6,
    "first_seen": "2026-02-25",
-   "last_seen": "2026-07-01",
+   "last_seen": "2026-07-31",
    "source": "sweep"
   },
   {
@@ -2431,9 +2431,9 @@
    "keep": true,
    "category_locked": false,
    "count_from": 0,
-   "count_to": 5,
+   "count_to": 6,
    "first_seen": "2026-01-29",
-   "last_seen": "2026-07-01",
+   "last_seen": "2026-07-31",
    "source": "sweep"
   },
   {
@@ -2451,9 +2451,9 @@
    "keep": true,
    "category_locked": false,
    "count_from": 5,
-   "count_to": 13,
+   "count_to": 15,
    "first_seen": "2026-01-29",
-   "last_seen": "2026-07-22",
+   "last_seen": "2026-07-31",
    "source": "sweep"
   },
   {
@@ -2497,16 +2497,17 @@
    "company": "Baccata Trustees Limited",
    "job_title": "Administrator",
    "phones": [
-    "+44 (0) 1534 870670"
+    "+44 (0) 1534 870670",
+    "+44 (0) 1534 870600"
    ],
    "note": "Administers monthly Minard Jersey coupon and 3A Palace Green loan note payments",
    "confidence": "high",
    "keep": true,
    "category_locked": false,
-   "count_from": 5,
-   "count_to": 6,
+   "count_from": 7,
+   "count_to": 10,
    "first_seen": "2026-03-31",
-   "last_seen": "2026-07-22",
+   "last_seen": "2026-07-31",
    "source": "sweep"
   },
   {
@@ -2523,9 +2524,9 @@
    "keep": true,
    "category_locked": false,
    "count_from": 12,
-   "count_to": 13,
+   "count_to": 15,
    "first_seen": "2026-01-29",
-   "last_seen": "2026-07-22",
+   "last_seen": "2026-07-31",
    "source": "sweep"
   },
   {
@@ -2562,9 +2563,9 @@
    "keep": true,
    "category_locked": false,
    "count_from": 2,
-   "count_to": 11,
+   "count_to": 13,
    "first_seen": "2026-01-29",
-   "last_seen": "2026-07-23",
+   "last_seen": "2026-07-31",
    "source": "sweep"
   },
   {
@@ -2579,9 +2580,9 @@
    "keep": true,
    "category_locked": false,
    "count_from": 0,
-   "count_to": 6,
+   "count_to": 7,
    "first_seen": "2026-01-29",
-   "last_seen": "2026-07-01",
+   "last_seen": "2026-07-31",
    "source": "sweep"
   },
   {
@@ -2595,10 +2596,10 @@
    "confidence": "high",
    "keep": true,
    "category_locked": false,
-   "count_from": 2,
-   "count_to": 11,
+   "count_from": 3,
+   "count_to": 13,
    "first_seen": "2026-01-29",
-   "last_seen": "2026-07-23",
+   "last_seen": "2026-07-31",
    "source": "sweep"
   },
   {
@@ -2613,9 +2614,9 @@
    "keep": true,
    "category_locked": false,
    "count_from": 0,
-   "count_to": 5,
+   "count_to": 6,
    "first_seen": "2026-02-25",
-   "last_seen": "2026-07-01",
+   "last_seen": "2026-07-31",
    "source": "sweep"
   },
   {
@@ -2630,9 +2631,9 @@
    "keep": true,
    "category_locked": false,
    "count_from": 1,
-   "count_to": 7,
+   "count_to": 8,
    "first_seen": "2026-01-29",
-   "last_seen": "2026-07-23",
+   "last_seen": "2026-07-31",
    "source": "sweep"
   },
   {
@@ -2807,10 +2808,10 @@
    "confidence": "high",
    "keep": true,
    "category_locked": false,
-   "count_from": 5,
+   "count_from": 7,
    "count_to": 0,
    "first_seen": "2026-04-01",
-   "last_seen": "2026-07-16",
+   "last_seen": "2026-07-31",
    "source": "sweep"
   },
   {
@@ -2861,7 +2862,7 @@
    "count_from": 0,
    "count_to": 0,
    "first_seen": "2026-07-16",
-   "last_seen": "2026-07-16",
+   "last_seen": "2026-07-31",
    "source": "sweep"
   },
   {
@@ -2895,7 +2896,7 @@
    "count_from": 1,
    "count_to": 0,
    "first_seen": "2026-03-04",
-   "last_seen": "2026-07-16",
+   "last_seen": "2026-07-31",
    "source": "sweep"
   },
   {
@@ -3654,9 +3655,9 @@
    "keep": true,
    "category_locked": false,
    "count_from": 3,
-   "count_to": 5,
+   "count_to": 6,
    "first_seen": "2026-01-21",
-   "last_seen": "2026-07-22",
+   "last_seen": "2026-08-01",
    "source": "sweep"
   },
   {
@@ -3708,6 +3709,23 @@
    "count_to": 0,
    "first_seen": "2026-05-22",
    "last_seen": "2026-05-22",
+   "source": "sweep"
+  },
+  {
+   "email": "rishi@keylifefs.com",
+   "name": "Rishi",
+   "category": "Personal / Other",
+   "company": "Keylife Financial Services",
+   "job_title": "",
+   "phones": [],
+   "note": "New contact 30/07 \u2014 Shyam sent his work email and the REL website. No deal traffic yet, so the category is a placeholder; correct it once his role is clear.",
+   "confidence": "low",
+   "keep": true,
+   "category_locked": false,
+   "count_from": 0,
+   "count_to": 2,
+   "first_seen": "2026-07-30",
+   "last_seen": "2026-07-30",
    "source": "sweep"
   },
   {
@@ -3808,10 +3826,10 @@
    "confidence": "high",
    "keep": true,
    "category_locked": false,
-   "count_from": 15,
-   "count_to": 0,
+   "count_from": 16,
+   "count_to": 1,
    "first_seen": "2026-04-01",
-   "last_seen": "2026-06-16",
+   "last_seen": "2026-07-28",
    "source": "sweep"
   },
   {
@@ -4238,10 +4256,10 @@
    "confidence": "high",
    "keep": true,
    "category_locked": false,
-   "count_from": 2,
+   "count_from": 4,
    "count_to": 0,
    "first_seen": "2026-07-20",
-   "last_seen": "2026-07-22",
+   "last_seen": "2026-08-02",
    "source": "sweep"
   },
   {
@@ -4349,10 +4367,10 @@
    "confidence": "high",
    "keep": true,
    "category_locked": false,
-   "count_from": 2,
+   "count_from": 5,
    "count_to": 0,
    "first_seen": "2026-07-27",
-   "last_seen": "2026-07-28",
+   "last_seen": "2026-07-30",
    "source": "sweep"
   },
   {
@@ -4369,7 +4387,7 @@
    "count_from": 0,
    "count_to": 0,
    "first_seen": "2026-07-27",
-   "last_seen": "2026-07-28",
+   "last_seen": "2026-07-30",
    "source": "sweep"
   },
   {
