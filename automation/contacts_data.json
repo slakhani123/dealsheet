@@ -1,11 +1,12 @@
 {
- "last_sweep_utc": "2026-08-03T07:23:00Z",
+ "last_sweep_utc": "2026-08-10T07:23:00Z",
  "sweep_window_start": "2025-01-01",
- "emails_swept": 1675,
+ "emails_swept": 1730,
  "auto_excluded": [
   "donotreply@godaddy.com",
   "donotreply@wordpress.com",
   "marketing@octopusev.com",
+  "newsletter@0x.org",
   "no-reply-awpfelktsmpvylbad7bj-g@mail.anthropic.com",
   "no-reply-fl6kap3jwyfndbwun7h66g@mail.anthropic.com",
   "no-reply-gbgtazhhasusov4bkxt_vg@mail.anthropic.com",
@@ -444,7 +445,7 @@
    "count_from": 5,
    "count_to": 0,
    "first_seen": "2026-02-06",
-   "last_seen": "2026-06-18",
+   "last_seen": "2026-08-05",
    "source": "sweep"
   },
   {
@@ -462,6 +463,25 @@
    "count_to": 0,
    "first_seen": "2026-02-17",
    "last_seen": "2026-06-08",
+   "source": "sweep"
+  },
+  {
+   "email": "m.randhawa@dna-cp.com",
+   "name": "Manjit Randhawa",
+   "category": "Borrower / Sponsor",
+   "company": "DNA Capital Partners",
+   "job_title": "",
+   "phones": [
+    "07956 444475"
+   ],
+   "note": "Director of the DNA Uxbridge development manager \u2014 the signatory Osborne Clarke needed alongside Amar Randhawa.",
+   "confidence": "high",
+   "keep": true,
+   "category_locked": false,
+   "count_from": 0,
+   "count_to": 0,
+   "first_seen": "2026-08-05",
+   "last_seen": "2026-08-05",
    "source": "sweep"
   },
   {
@@ -658,7 +678,7 @@
    "count_from": 0,
    "count_to": 0,
    "first_seen": "2026-07-06",
-   "last_seen": "2026-07-16",
+   "last_seen": "2026-08-07",
    "source": "sweep"
   },
   {
@@ -677,7 +697,7 @@
    "count_from": 7,
    "count_to": 0,
    "first_seen": "2026-07-06",
-   "last_seen": "2026-07-16",
+   "last_seen": "2026-08-07",
    "source": "sweep"
   },
   {
@@ -694,7 +714,7 @@
    "count_from": 0,
    "count_to": 0,
    "first_seen": "2026-07-06",
-   "last_seen": "2026-07-16",
+   "last_seen": "2026-08-07",
    "source": "sweep"
   },
   {
@@ -1039,10 +1059,10 @@
    "confidence": "high",
    "keep": true,
    "category_locked": false,
-   "count_from": 5,
+   "count_from": 6,
    "count_to": 0,
    "first_seen": "2026-05-27",
-   "last_seen": "2026-06-01",
+   "last_seen": "2026-08-05",
    "source": "sweep"
   },
   {
@@ -1749,10 +1769,10 @@
    "confidence": "high",
    "keep": true,
    "category_locked": false,
-   "count_from": 0,
+   "count_from": 1,
    "count_to": 0,
    "first_seen": "2025-05-13",
-   "last_seen": "2026-02-24",
+   "last_seen": "2026-08-05",
    "source": "sweep"
   },
   {
@@ -1769,7 +1789,7 @@
    "count_from": 0,
    "count_to": 0,
    "first_seen": "2026-02-04",
-   "last_seen": "2026-02-24",
+   "last_seen": "2026-08-05",
    "source": "sweep"
   },
   {
@@ -2148,7 +2168,7 @@
    "count_from": 0,
    "count_to": 0,
    "first_seen": "2026-01-29",
-   "last_seen": "2026-03-02",
+   "last_seen": "2026-08-03",
    "source": "sweep"
   },
   {
@@ -2164,7 +2184,7 @@
    "confidence": "high",
    "keep": true,
    "category_locked": false,
-   "count_from": 2,
+   "count_from": 3,
    "count_to": 0,
    "first_seen": "2026-07-22",
    "last_seen": "2026-08-01",
@@ -2360,10 +2380,10 @@
    "confidence": "high",
    "keep": true,
    "category_locked": false,
-   "count_from": 492,
+   "count_from": 506,
    "count_to": 182,
    "first_seen": "2025-01-21",
-   "last_seen": "2026-08-02",
+   "last_seen": "2026-08-07",
    "source": "sweep"
   },
   {
@@ -2379,10 +2399,10 @@
    "confidence": "high",
    "keep": true,
    "category_locked": false,
-   "count_from": 280,
+   "count_from": 289,
    "count_to": 170,
    "first_seen": "2025-01-21",
-   "last_seen": "2026-07-31",
+   "last_seen": "2026-08-07",
    "source": "sweep"
   },
   {
@@ -2754,7 +2774,7 @@
    "count_from": 4,
    "count_to": 0,
    "first_seen": "2026-06-22",
-   "last_seen": "2026-07-16",
+   "last_seen": "2026-08-06",
    "source": "sweep"
   },
   {
@@ -2808,10 +2828,10 @@
    "confidence": "high",
    "keep": true,
    "category_locked": false,
-   "count_from": 7,
+   "count_from": 12,
    "count_to": 0,
    "first_seen": "2026-04-01",
-   "last_seen": "2026-07-31",
+   "last_seen": "2026-08-06",
    "source": "sweep"
   },
   {
@@ -2862,7 +2882,7 @@
    "count_from": 0,
    "count_to": 0,
    "first_seen": "2026-07-16",
-   "last_seen": "2026-07-31",
+   "last_seen": "2026-08-06",
    "source": "sweep"
   },
   {
@@ -2879,7 +2899,7 @@
    "count_from": 0,
    "count_to": 0,
    "first_seen": "2026-06-24",
-   "last_seen": "2026-07-16",
+   "last_seen": "2026-08-06",
    "source": "sweep"
   },
   {
@@ -2893,10 +2913,10 @@
    "confidence": "high",
    "keep": true,
    "category_locked": false,
-   "count_from": 1,
+   "count_from": 2,
    "count_to": 0,
    "first_seen": "2026-03-04",
-   "last_seen": "2026-07-31",
+   "last_seen": "2026-08-06",
    "source": "sweep"
   },
   {
@@ -3655,7 +3675,7 @@
    "keep": true,
    "category_locked": false,
    "count_from": 3,
-   "count_to": 6,
+   "count_to": 7,
    "first_seen": "2026-01-21",
    "last_seen": "2026-08-01",
    "source": "sweep"
@@ -4256,10 +4276,27 @@
    "confidence": "high",
    "keep": true,
    "category_locked": false,
-   "count_from": 4,
+   "count_from": 18,
    "count_to": 0,
    "first_seen": "2026-07-20",
-   "last_seen": "2026-08-02",
+   "last_seen": "2026-08-07",
+   "source": "sweep"
+  },
+  {
+   "email": "savina.sangha@osborneclarke.com",
+   "name": "Savina Sangha",
+   "category": "Solicitor / Legal",
+   "company": "Osborne Clarke",
+   "job_title": "",
+   "phones": [],
+   "note": "Works with Andrew Parsons on the DNA Uxbridge extension; runs the DocuSign execution of the reservation of rights letter.",
+   "confidence": "high",
+   "keep": true,
+   "category_locked": false,
+   "count_from": 0,
+   "count_to": 0,
+   "first_seen": "2026-08-04",
+   "last_seen": "2026-08-07",
    "source": "sweep"
   },
   {
