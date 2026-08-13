@@ -1,7 +1,7 @@
 {
- "last_sweep_utc": "2026-08-10T07:23:00Z",
+ "last_sweep_utc": "2026-08-13T12:00:00Z",
  "sweep_window_start": "2025-01-01",
- "emails_swept": 1730,
+ "emails_swept": 1759,
  "auto_excluded": [
   "donotreply@godaddy.com",
   "donotreply@wordpress.com",
@@ -26,7 +26,8 @@
   "noreply@netlify.com",
   "noreply@planner.office365.com",
   "noreply@supabase.com",
-  "notifications@0x.org"
+  "notifications@0x.org",
+  "welcome@supabase.com"
  ],
  "contacts": [
   {
@@ -1059,10 +1060,10 @@
    "confidence": "high",
    "keep": true,
    "category_locked": false,
-   "count_from": 6,
+   "count_from": 7,
    "count_to": 0,
    "first_seen": "2026-05-27",
-   "last_seen": "2026-08-05",
+   "last_seen": "2026-08-12",
    "source": "sweep"
   },
   {
@@ -1488,6 +1489,40 @@
    "count_to": 0,
    "first_seen": "2025-10-06",
    "last_seen": "2025-10-07",
+   "source": "sweep"
+  },
+  {
+   "email": "darshan@fastforwardcapital.co.uk",
+   "name": "Darshan Daswani",
+   "category": "Broker",
+   "company": "Fast Forward Capital",
+   "job_title": "",
+   "phones": [],
+   "note": "Brought the Quadrant Shopping Centre, Dunstable bridge (\u00a36.8m at 80% LTV); his fee sits inside REL\u2019s term sheet. Named on the deals sheet since 2025 \u2014 first direct email 12/08.",
+   "confidence": "high",
+   "keep": true,
+   "category_locked": false,
+   "count_from": 1,
+   "count_to": 0,
+   "first_seen": "2026-08-12",
+   "last_seen": "2026-08-12",
+   "source": "sweep"
+  },
+  {
+   "email": "tahir@fastforwardcapital.co.uk",
+   "name": "Tahir",
+   "category": "Broker",
+   "company": "Fast Forward Capital",
+   "job_title": "",
+   "phones": [],
+   "note": "Colleague of Darshan Daswani, cc\u2019d on the Quadrant Dunstable bridge.",
+   "confidence": "medium",
+   "keep": true,
+   "category_locked": false,
+   "count_from": 0,
+   "count_to": 0,
+   "first_seen": "2026-08-12",
+   "last_seen": "2026-08-13",
    "source": "sweep"
   },
   {
@@ -2361,10 +2396,10 @@
    "confidence": "high",
    "keep": true,
    "category_locked": false,
-   "count_from": 2,
+   "count_from": 3,
    "count_to": 0,
    "first_seen": "2026-04-22",
-   "last_seen": "2026-06-08",
+   "last_seen": "2026-08-11",
    "source": "sweep"
   },
   {
@@ -2380,10 +2415,10 @@
    "confidence": "high",
    "keep": true,
    "category_locked": false,
-   "count_from": 506,
+   "count_from": 510,
    "count_to": 182,
    "first_seen": "2025-01-21",
-   "last_seen": "2026-08-07",
+   "last_seen": "2026-08-13",
    "source": "sweep"
   },
   {
@@ -2399,10 +2434,10 @@
    "confidence": "high",
    "keep": true,
    "category_locked": false,
-   "count_from": 289,
+   "count_from": 297,
    "count_to": 170,
    "first_seen": "2025-01-21",
-   "last_seen": "2026-08-07",
+   "last_seen": "2026-08-13",
    "source": "sweep"
   },
   {
@@ -2774,7 +2809,7 @@
    "count_from": 4,
    "count_to": 0,
    "first_seen": "2026-06-22",
-   "last_seen": "2026-08-06",
+   "last_seen": "2026-08-12",
    "source": "sweep"
   },
   {
@@ -2831,7 +2866,7 @@
    "count_from": 12,
    "count_to": 0,
    "first_seen": "2026-04-01",
-   "last_seen": "2026-08-06",
+   "last_seen": "2026-08-12",
    "source": "sweep"
   },
   {
@@ -2882,7 +2917,7 @@
    "count_from": 0,
    "count_to": 0,
    "first_seen": "2026-07-16",
-   "last_seen": "2026-08-06",
+   "last_seen": "2026-08-12",
    "source": "sweep"
   },
   {
@@ -2899,7 +2934,7 @@
    "count_from": 0,
    "count_to": 0,
    "first_seen": "2026-06-24",
-   "last_seen": "2026-08-06",
+   "last_seen": "2026-08-12",
    "source": "sweep"
   },
   {
@@ -2916,7 +2951,7 @@
    "count_from": 2,
    "count_to": 0,
    "first_seen": "2026-03-04",
-   "last_seen": "2026-08-06",
+   "last_seen": "2026-08-12",
    "source": "sweep"
   },
   {
@@ -3115,7 +3150,7 @@
    "count_from": 4,
    "count_to": 1,
    "first_seen": "2025-06-24",
-   "last_seen": "2026-07-28",
+   "last_seen": "2026-08-13",
    "source": "sweep"
   },
   {
@@ -3134,7 +3169,7 @@
    "count_from": 3,
    "count_to": 0,
    "first_seen": "2026-02-10",
-   "last_seen": "2026-07-21",
+   "last_seen": "2026-08-13",
    "source": "sweep"
   },
   {
@@ -3153,7 +3188,7 @@
    "count_from": 22,
    "count_to": 2,
    "first_seen": "2026-01-27",
-   "last_seen": "2026-07-28",
+   "last_seen": "2026-08-13",
    "source": "sweep"
   },
   {
@@ -3432,10 +3467,10 @@
    "confidence": "medium",
    "keep": true,
    "category_locked": false,
-   "count_from": 3,
+   "count_from": 5,
    "count_to": 0,
    "first_seen": "2026-07-21",
-   "last_seen": "2026-07-21",
+   "last_seen": "2026-08-13",
    "source": "sweep"
   },
   {
@@ -3504,10 +3539,10 @@
    "confidence": "high",
    "keep": true,
    "category_locked": false,
-   "count_from": 43,
+   "count_from": 44,
    "count_to": 2,
    "first_seen": "2026-01-27",
-   "last_seen": "2026-07-28",
+   "last_seen": "2026-08-13",
    "source": "sweep"
   },
   {
@@ -3592,7 +3627,7 @@
    "count_from": 0,
    "count_to": 0,
    "first_seen": "2026-07-21",
-   "last_seen": "2026-07-21",
+   "last_seen": "2026-08-13",
    "source": "sweep"
   },
   {
@@ -4276,10 +4311,10 @@
    "confidence": "high",
    "keep": true,
    "category_locked": false,
-   "count_from": 18,
+   "count_from": 23,
    "count_to": 0,
    "first_seen": "2026-07-20",
-   "last_seen": "2026-08-07",
+   "last_seen": "2026-08-13",
    "source": "sweep"
   },
   {
@@ -4296,7 +4331,7 @@
    "count_from": 0,
    "count_to": 0,
    "first_seen": "2026-08-04",
-   "last_seen": "2026-08-07",
+   "last_seen": "2026-08-13",
    "source": "sweep"
   },
   {

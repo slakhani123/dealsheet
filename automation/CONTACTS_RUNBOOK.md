@@ -173,6 +173,8 @@ Apply these when writing new records, so the two renderings stay consistent:
   (`Jay Bohgal` → Jay Bhogal, `Chris Whytney` → Chris Whitney, `James Grey` →
   James Gray, `Robert Sandler` → Robert Sadler). When chasing a name that
   returns nothing, try phonetic variants and the firm name before giving up.
-- **Named with no address found:** Jack Collins, Mutual Finance, Darshan
-  Daswani. Fast Forward Capital is reachable via a colleague instead. Retry
-  these on future sweeps rather than deleting them from this list.
+- **Named with no address found:** Jack Collins, Mutual Finance. Retry these on
+  future sweeps rather than deleting them from this list — the wait pays off:
+  **Darshan Daswani** sat on this list from the first build and turned up on
+  his own in the 13/08 sweep (`darshan@fastforwardcapital.co.uk`), when he
+  brought the Quadrant Dunstable bridge.
