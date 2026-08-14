@@ -1,5 +1,5 @@
 {
-  "last_sweep_utc": "2026-07-20T14:30:00Z",
+  "last_sweep_utc": "2026-08-14T10:30:00Z",
   "conversations": {
     "AAQkADExOTQxZmVlLTI1YTUtNGFiZS05M2NkLWM5NmIwMzExYjM0MwAQAKGPVbnesE9GioM9CrVgKfk=": {
       "subject": "New Enquiry (Rutland Gate / Montpelier Walk)",
@@ -15,7 +15,7 @@
       "action": "added",
       "sheet": "Potential Deals",
       "row_anchor": "Houndswood House Care Home, Harper Lane, Radlett WD7 7HU",
-      "note": "TS issued 09/07 (£950k gross, 9.75%, 12m); chasing borrower; offer valid to 30/07"
+      "note": "TS issued 09/07 (\u00a3950k gross, 9.75%, 12m); chasing borrower; offer valid to 30/07"
     },
     "AAQkADExOTQxZmVlLTI1YTUtNGFiZS05M2NkLWM5NmIwMzExYjM0MwAQAFZzwpPWxDtHmTmBoeYRBBY=": {
       "subject": "Bridging Loan (RAAM Healthcare podiatry clinics)",
@@ -26,12 +26,12 @@
       "note": "Declined 15/07 - trading business acquisition outside criteria"
     },
     "moove-gemini-thread": {
-      "subject": "Moove (= 27 Gemini Business Park, Beckton E6 — existing row)",
+      "subject": "Moove (= 27 Gemini Business Park, Beckton E6 \u2014 existing row)",
       "last_message_utc": "2026-07-16T10:31:17Z",
       "action": "updated",
       "sheet": "Potential Deals",
       "row_anchor": "27 Gemini Business Park, Hornet Way, Beckton, E6 7FF",
-      "note": "Revised TS 14/07: 62% LTV/LTPP, £6.82m day 1, 11.0% fixed, 18m; awaiting countersigned TS + commitment fee. Broker Jignesh Desai (IPCA) calls it 'Moove'."
+      "note": "Revised TS 14/07: 62% LTV/LTPP, \u00a36.82m day 1, 11.0% fixed, 18m; awaiting countersigned TS + commitment fee. Broker Jignesh Desai (IPCA) calls it 'Moove'."
     },
     "AAQkADExOTQxZmVlLTI1YTUtNGFiZS05M2NkLWM5NmIwMzExYjM0MwAQAPAV-KS-9chEv-IEApFAyZU=": {
       "subject": "DA - Cresswick (Zone 2 PBSA, Dulwich)",
@@ -39,7 +39,7 @@
       "action": "added",
       "sheet": "Potential Deals",
       "row_anchor": "Zone 2 PBSA, Dulwich ('Cresswick')",
-      "note": "DA received via GLPG/OakNorth; £90.4m gross / GDV £148.6m; REL role TBC - user to review"
+      "note": "DA received via GLPG/OakNorth; \u00a390.4m gross / GDV \u00a3148.6m; REL role TBC - user to review"
     },
     "uxbridge-dna-thread": {
       "subject": "DNA Uxbridge Loan Update",
@@ -52,6 +52,56 @@
       "last_message_utc": "2026-07-15T14:18:33Z",
       "action": "skipped",
       "note": "Existing completed deal (Stanmore row); EY refinance timetable targeting late Sep - no sheet change"
+    },
+    "quadrant-dunstable": {
+      "subject": "Bridge loan: Quadrant Shopping Centre, Dunstable",
+      "last_message_utc": "2026-08-13T18:56:32Z",
+      "action": "added",
+      "sheet": "Potential Deals",
+      "row_anchor": "Quadrant Shopping Centre, Dunstable, LU5 4RH",
+      "note": "Indicative terms 12/08 (\u00a36.816m, 80% LTV, 12%, 12mo). Fast Forward Capital / Darshan Daswani. Negotiating term/exit."
+    },
+    "lincolns-inn-fields": {
+      "subject": "Lincolns Inn Fields Termsheet / Lindsey 21 Ltd",
+      "last_message_utc": "2026-08-12T17:26:42Z",
+      "action": "added",
+      "sheet": "Potential Deals",
+      "row_anchor": "Lindsey House, 57-60 Lincoln's Inn Fields, WC2A 3LJ",
+      "note": "TS issued 12/08 (\u00a310.8m gross, 11%, 9mo). City Financial Mortgages / Manish Babla. Offer valid to 26/08."
+    },
+    "london-retail-parade-portfolio": {
+      "subject": "Acquisition - London Retail Parade Portfolio (Bridge)",
+      "last_message_utc": "2026-08-05T10:07:16Z",
+      "action": "added",
+      "sheet": "Potential Deals",
+      "row_anchor": "London Retail Parade Portfolio (5 parades, 29 units)",
+      "note": "Indicative terms 05/08 (\u00a35.6m, 70% LTV block/85.5% LTPP, 11%, 18mo). Mantra Commercial / Rickesh Patel. Prideview SPV Eastway Estates Ltd. Borrower wants 24mo."
+    },
+    "kensington-devere-gardens": {
+      "subject": "Kensington - Flat 1&2, De Vere Gardens W8",
+      "last_message_utc": "2026-08-07T16:31:36Z",
+      "action": "added",
+      "sheet": "Potential Deals",
+      "row_anchor": "Flats 1 & 2, De Vere Gardens, Kensington, W8",
+      "note": "Enquiry 07/08 via IPCA / Jignesh Desai. Acquisition from receivers \u00a34.5m. Loan amount TBC, no formal terms yet."
+    },
+    "dna-uxbridge-extension": {
+      "subject": "DNA Uxbridge Limited - Loan Extension",
+      "last_message_utc": "2026-08-13T09:29:30Z",
+      "action": "skipped",
+      "note": "Extension of existing completed Uxbridge loan (12% pa, \u00a382k ext fee, 3mo interest reserve). Existing deal, not a new potential deal."
+    },
+    "stanmore-cure-period": {
+      "subject": "Elysian Stanmore - Cure Period Extension",
+      "last_message_utc": "2026-08-13T16:46:03Z",
+      "action": "skipped",
+      "note": "Existing completed Stanmore deal; notes/covenant process. No sheet change."
+    },
+    "landlordinvest-jv": {
+      "subject": "REL and LandlordInvest JV paper",
+      "last_message_utc": "2026-08-14T09:29:43Z",
+      "action": "skipped",
+      "note": "JV/partnership strategy paper, not a lending deal."
     }
   }
 }
