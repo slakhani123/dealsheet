@@ -36,6 +36,15 @@ Two harvest routes feed the data, and the distinction matters when reading it:
    Items, Archive** for messages received after `last_sweep_utc` minus 2 days
    (overlap for safety), paging 25 at a time (`order=oldest`, follow
    `nextOffset`). No free-text query — enumerate everything in the window.
+
+   > **Discard the overlap before counting.** The 2-day cushion exists so no
+   > message is *missed*; it guarantees messages are *repeated*. Every message
+   > with `receivedDateTime` at or before the previous `last_sweep_utc` was
+   > already counted last week — drop those before incrementing `count_from` /
+   > `count_to`, or every contact active near a week boundary silently inflates.
+   > Only `last_seen` is safe to set from an overlap message, because it is a
+   > max rather than a sum. On 17/08 the window returned 38 messages of which
+   > 28 were overlap; counting all 38 would have doubled a week of activity.
 4. **Update the data.** For each message correspondent (sender of received
    mail; recipients of sent mail, lowercase the address):
    - Existing contact → increment `count_from` / `count_to`, update

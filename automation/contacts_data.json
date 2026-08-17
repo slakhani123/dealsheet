@@ -1,7 +1,7 @@
 {
- "last_sweep_utc": "2026-08-13T12:00:00Z",
+ "last_sweep_utc": "2026-08-14T18:00:00Z",
  "sweep_window_start": "2025-01-01",
- "emails_swept": 1759,
+ "emails_swept": 1769,
  "auto_excluded": [
   "donotreply@godaddy.com",
   "donotreply@wordpress.com",
@@ -498,10 +498,10 @@
    "confidence": "high",
    "keep": true,
    "category_locked": false,
-   "count_from": 16,
+   "count_from": 17,
    "count_to": 3,
    "first_seen": "2026-02-04",
-   "last_seen": "2026-07-28",
+   "last_seen": "2026-08-14",
    "source": "sweep"
   },
   {
@@ -556,7 +556,7 @@
    "count_from": 2,
    "count_to": 0,
    "first_seen": "2026-04-17",
-   "last_seen": "2026-07-28",
+   "last_seen": "2026-08-13",
    "source": "sweep"
   },
   {
@@ -573,7 +573,7 @@
    "count_from": 7,
    "count_to": 0,
    "first_seen": "2026-04-23",
-   "last_seen": "2026-07-28",
+   "last_seen": "2026-08-13",
    "source": "sweep"
   },
   {
@@ -589,10 +589,10 @@
    "confidence": "high",
    "keep": true,
    "category_locked": false,
-   "count_from": 12,
+   "count_from": 13,
    "count_to": 0,
    "first_seen": "2026-05-20",
-   "last_seen": "2026-07-28",
+   "last_seen": "2026-08-13",
    "source": "sweep"
   },
   {
@@ -1502,10 +1502,10 @@
    "confidence": "high",
    "keep": true,
    "category_locked": false,
-   "count_from": 1,
+   "count_from": 3,
    "count_to": 0,
    "first_seen": "2026-08-12",
-   "last_seen": "2026-08-12",
+   "last_seen": "2026-08-14",
    "source": "sweep"
   },
   {
@@ -1522,7 +1522,7 @@
    "count_from": 0,
    "count_to": 0,
    "first_seen": "2026-08-12",
-   "last_seen": "2026-08-13",
+   "last_seen": "2026-08-14",
    "source": "sweep"
   },
   {
@@ -2415,10 +2415,10 @@
    "confidence": "high",
    "keep": true,
    "category_locked": false,
-   "count_from": 510,
+   "count_from": 512,
    "count_to": 182,
    "first_seen": "2025-01-21",
-   "last_seen": "2026-08-13",
+   "last_seen": "2026-08-14",
    "source": "sweep"
   },
   {
@@ -2434,10 +2434,10 @@
    "confidence": "high",
    "keep": true,
    "category_locked": false,
-   "count_from": 297,
+   "count_from": 299,
    "count_to": 170,
    "first_seen": "2025-01-21",
-   "last_seen": "2026-08-13",
+   "last_seen": "2026-08-14",
    "source": "sweep"
   },
   {
@@ -2809,7 +2809,7 @@
    "count_from": 4,
    "count_to": 0,
    "first_seen": "2026-06-22",
-   "last_seen": "2026-08-12",
+   "last_seen": "2026-08-14",
    "source": "sweep"
   },
   {
@@ -2866,7 +2866,7 @@
    "count_from": 12,
    "count_to": 0,
    "first_seen": "2026-04-01",
-   "last_seen": "2026-08-12",
+   "last_seen": "2026-08-14",
    "source": "sweep"
   },
   {
@@ -2917,7 +2917,7 @@
    "count_from": 0,
    "count_to": 0,
    "first_seen": "2026-07-16",
-   "last_seen": "2026-08-12",
+   "last_seen": "2026-08-14",
    "source": "sweep"
   },
   {
@@ -2934,7 +2934,7 @@
    "count_from": 0,
    "count_to": 0,
    "first_seen": "2026-06-24",
-   "last_seen": "2026-08-12",
+   "last_seen": "2026-08-14",
    "source": "sweep"
   },
   {
@@ -2951,7 +2951,7 @@
    "count_from": 2,
    "count_to": 0,
    "first_seen": "2026-03-04",
-   "last_seen": "2026-08-12",
+   "last_seen": "2026-08-14",
    "source": "sweep"
   },
   {
@@ -3383,7 +3383,7 @@
    "count_from": 0,
    "count_to": 0,
    "first_seen": "2025-05-06",
-   "last_seen": "2026-07-13",
+   "last_seen": "2026-08-14",
    "source": "sweep"
   },
   {
@@ -3696,6 +3696,23 @@
    "count_to": 1,
    "first_seen": "2026-07-24",
    "last_seen": "2026-07-24",
+   "source": "sweep"
+  },
+  {
+   "email": "rianakaria@icloud.com",
+   "name": "Riana Karia",
+   "category": "Personal / Other",
+   "company": "",
+   "job_title": "",
+   "phones": [],
+   "note": "Authored the REL / LandlordInvest JV proposal paper sent to the directors 13/08. Personal address, no firm given \u2014 category is a placeholder until her role is clear.",
+   "confidence": "low",
+   "keep": true,
+   "category_locked": false,
+   "count_from": 1,
+   "count_to": 0,
+   "first_seen": "2026-08-13",
+   "last_seen": "2026-08-14",
    "source": "sweep"
   },
   {
@@ -4314,7 +4331,7 @@
    "count_from": 23,
    "count_to": 0,
    "first_seen": "2026-07-20",
-   "last_seen": "2026-08-13",
+   "last_seen": "2026-08-14",
    "source": "sweep"
   },
   {
@@ -4322,16 +4339,16 @@
    "name": "Savina Sangha",
    "category": "Solicitor / Legal",
    "company": "Osborne Clarke",
-   "job_title": "",
+   "job_title": "Associate",
    "phones": [],
    "note": "Works with Andrew Parsons on the DNA Uxbridge extension; runs the DocuSign execution of the reservation of rights letter.",
    "confidence": "high",
    "keep": true,
    "category_locked": false,
-   "count_from": 0,
+   "count_from": 1,
    "count_to": 0,
    "first_seen": "2026-08-04",
-   "last_seen": "2026-08-13",
+   "last_seen": "2026-08-14",
    "source": "sweep"
   },
   {
