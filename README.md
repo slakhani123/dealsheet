@@ -36,7 +36,14 @@ renderings of the same data:
   (private until shared from the page's share menu). Republishing to that same
   URL is part of the weekly refresh.
 
+The web directory also has an **Email shown…** composer: filter to a segment,
+write the mail with `{{first}}` / `{{company}}` merge fields, preview it as a
+named recipient will receive it, then take it to Outlook as a Bcc list, a
+copied subject and body, or a personalised mail-merge CSV. It never sends —
+see the runbook's "Emailing a segment" for why, and for the safeguards.
+
 Procedure of record: `automation/CONTACTS_RUNBOOK.md`.
+Setting one up for a colleague: `automation/SETUP_FOR_COLLEAGUES.md`.
 
 ## Ground rules
 

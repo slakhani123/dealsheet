@@ -142,6 +142,7 @@ appear as competitors or refinance takeouts; solicitors handle legals; valuers
   "confidence": "high",
   "keep": true,                       // false = excluded from the xlsx
   "category_locked": false,           // true = manual correction, never auto-change
+  "do_not_email": false,              // true = excluded from every blast
   "count_from": 12,                   // emails received from them
   "count_to": 8,                      // emails sent to them
   "first_seen": "2025-03-04",
@@ -149,6 +150,65 @@ appear as competitors or refinance takeouts; solicitors handle legals; valuers
   "source": "sweep"                   // "sweep" = direct, "chase" = named in a thread
 }
 ```
+
+The file also carries a `config` block at the top, which is what lets the same
+code serve any mailbox:
+
+```json
+{
+  "owner_name": "Shyam Lakhani",
+  "owner_first_name": "Shyam",
+  "owner_email": "shyam@relfinance.co.uk",
+  "org_name": "REL Finance",
+  "org_locale": "27 Hill Street, Mayfair",
+  "org_blurb": "…the standfirst under the page title…",
+  "output_basename": "Contact_List_REL.xlsx"
+}
+```
+
+The `Internal` category is stored under that bare name and displayed as
+`Internal (<org_name>)`, so the data does not hard-code one firm.
+
+## Emailing a segment
+
+The web directory has an **Email shown…** button that opens a composer over
+whatever the current filter shows. It writes the mail; it does not send it.
+
+**Nothing sends from the page, by design.** The Microsoft 365 connector is
+read-only — there is no send or draft tool — so Claude cannot put mail in the
+outbox on anyone's behalf. Even if it could, a one-click blast to 70+ brokers
+with no human between the button and the send is not a thing worth building.
+The composer takes it to the point of sending and stops.
+
+Three ways out of the composer:
+
+| Button | Use it when |
+|---|---|
+| **Copy Bcc list** | Any size. Paste into Outlook's Bcc field and write the mail there. |
+| **Copy subject & body** | Pairs with the above. Merge fields resolve to neutral wording. |
+| **Download mail-merge CSV** | You want each mail personalised — one row per recipient with `{{first}}`, `{{name}}` and `{{company}}` already substituted. Feed it to Outlook mail merge or any sending tool. |
+| **Open in Outlook** | Small segments only. Builds a `mailto:` with everyone in Bcc; above ~1,800 characters of addresses it copies the Bcc list instead rather than opening a truncated draft. |
+
+Safeguards built in, because a contact list makes a bad mistake easy:
+
+- **Recipients always go in Bcc**, never To. Nobody sees who else got it.
+- **Internal colleagues are excluded** by default — you rarely mean to include
+  your own team in a broker mailshot.
+- **`do_not_email` is honoured.** Set `"do_not_email": true` on any record and
+  the composer skips them everywhere. Set it the moment someone asks to be
+  taken off; the weekly refresh preserves it.
+- **An opt-out line is appended** by default. Under PECR, unsolicited marketing
+  to *corporate* subscribers is generally permitted but must always offer a way
+  to stop; to sole traders and partnerships it needs consent or a prior
+  relationship. Most of this list is corporate, but not all of it — the
+  gmail/hotmail addresses in particular are worth a second look before a cold
+  send. Deal-progress mail to a live counterparty is normal business
+  correspondence and none of this applies.
+- **A live preview** renders the mail as one named recipient will actually
+  receive it, so a broken merge field is visible before anything leaves.
+
+If your admin ever enables the connector's write scope, Claude can create the
+drafts directly instead — ask it to, and it will use the same segment.
 
 ## Data conventions
 

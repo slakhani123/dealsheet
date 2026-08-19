@@ -22,7 +22,7 @@ from openpyxl.utils import get_column_letter
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, "automation", "contacts_data.json")
-OUT = os.path.join(ROOT, "Contact_List_REL.xlsx")
+DEFAULT_OUT = os.path.join(ROOT, "Contact_List_REL.xlsx")
 
 CATEGORY_ORDER = [
     "Broker",
@@ -33,7 +33,7 @@ CATEGORY_ORDER = [
     "Valuer / Property Professional",
     "Accountant / Tax",
     "Service Provider",
-    "Internal (REL Finance)",
+    "Internal",
     "Personal / Other",
 ]
 
@@ -50,7 +50,7 @@ CAT_FILL = {
     "Valuer / Property Professional": "D9E1F2",
     "Accountant / Tax": "FBE5EB",
     "Service Provider": "F2F2F2",
-    "Internal (REL Finance)": "C6E0B4",
+    "Internal": "C6E0B4",
     "Personal / Other": "FFFFFF",
 }
 
@@ -58,6 +58,15 @@ CAT_FILL = {
 def main():
     with open(DATA) as f:
         payload = json.load(f)
+    cfg = payload.get("config") or {}
+    org = cfg.get("org_name") or ""
+    owner = cfg.get("owner_name") or ""
+    owner_first = cfg.get("owner_first_name") or owner.split(" ")[0] or "the list owner"
+    owner_email = cfg.get("owner_email") or ""
+    title_txt = f"{org} — Contact List" if org else "Contact List"
+    # Filename is configurable so several mailboxes can live side by side.
+    out_path = os.path.join(ROOT, cfg.get("output_basename") or
+                            os.path.basename(DEFAULT_OUT))
     contacts = [c for c in payload["contacts"] if c.get("keep", True)]
     refreshed = payload.get("last_sweep_utc", "")[:10] or date.today().isoformat()
 
@@ -83,13 +92,14 @@ def main():
 
     ws.merge_cells("A1:L1")
     t = ws["A1"]
-    t.value = "REL Finance — Contact List"
+    t.value = title_txt
     t.font = Font(name=FONT, size=16, bold=True, color=NAVY)
     ws.merge_cells("A2:L2")
     s = ws["A2"]
-    s.value = (f"Built automatically from Outlook (shyam@relfinance.co.uk) — "
-               f"last refreshed {refreshed}. Refreshed weekly; do not hand-edit "
-               f"(see README tab).")
+    s.value = (f"Built automatically from Outlook"
+               + (f" ({owner_email})" if owner_email else "")
+               + f" — last refreshed {refreshed}. Refreshed weekly; "
+               f"do not hand-edit (see README tab).")
     s.font = Font(name=FONT, size=9, italic=True, color="666666")
 
     hrow = 4
@@ -176,10 +186,10 @@ def main():
     rd = wb.create_sheet("README")
     rd.column_dimensions["A"].width = 110
     lines = [
-        ("REL Finance — Contact List", 14, True),
+        (title_txt, 14, True),
         ("", 10, False),
         ("What this is", 11, True),
-        ("Every external (and internal) contact from Shyam Lakhani's Outlook mailbox, "
+        (f"Every external (and internal) contact from {owner or 'the'} Outlook mailbox, "
          "categorised as Broker, Lender / Bank, Borrower / Sponsor, Solicitor / Legal, "
          "Valuer, Investor, Accountant, Service Provider, Internal or Other.", 10, False),
         ("", 10, False),
@@ -192,12 +202,12 @@ def main():
         ("", 10, False),
         ("Rules of use", 11, True),
         ("1. Do NOT hand-edit this file in SharePoint — the weekly refresh overwrites it. "
-         "Corrections (wrong category, name, company etc.) should go to Shyam, who will "
+         f"Corrections (wrong category, name, company etc.) should go to {owner_first}, who will "
          "apply them to the master data so they stick.", 10, False),
         ("2. 'Emails In / Out' are total messages received from / sent to that contact "
          "since Jan 2025 — a rough measure of relationship activity.", 10, False),
         ("3. 'How Found' says where the address came from. 'Direct correspondence' means "
-         "the contact has emailed Shyam or been emailed by him. 'Named in a thread' means "
+         f"the contact has emailed {owner_first} or been emailed by them. 'Named in a thread' means "
          "the address was recovered from a forwarded message header or a quoted signature "
          "— the contact is real, but nobody at REL has emailed them from this mailbox.", 10, False),
         ("4. Automated senders (newsletters, notifications, no-reply addresses) are "
@@ -210,8 +220,8 @@ def main():
         c.font = Font(name=FONT, size=size, bold=bold, color=NAVY if bold else "000000")
         c.alignment = Alignment(wrap_text=True, vertical="top")
 
-    wb.save(OUT)
-    print(f"Wrote {OUT}: {len(contacts)} contacts")
+    wb.save(out_path)
+    print(f"Wrote {out_path}: {len(contacts)} contacts")
 
 
 if __name__ == "__main__":

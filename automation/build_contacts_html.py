@@ -18,6 +18,20 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, "automation", "contacts_data.json")
 DEFAULT_OUT = os.path.join(ROOT, "contacts_site", "index.html")
 
+# Everything firm-specific lives in contacts_data.json's "config" block, so the
+# same code renders any mailbox owner's directory.
+DEFAULT_CONFIG = {
+    "owner_name": "",
+    "owner_first_name": "",
+    "owner_email": "",
+    "org_name": "",
+    "org_locale": "",
+    "org_blurb": ("Every counterparty this firm has corresponded with, drawn "
+                  "automatically from the mailbox and sorted by the role they "
+                  "play in a deal — who brings it, who funds it, who borrows, "
+                  "who signs it off."),
+}
+
 CATEGORY_ORDER = [
     "Broker",
     "Lender / Bank",
@@ -27,7 +41,7 @@ CATEGORY_ORDER = [
     "Valuer / Property Professional",
     "Accountant / Tax",
     "Service Provider",
-    "Internal (REL Finance)",
+    "Internal",
     "Personal / Other",
 ]
 
@@ -42,7 +56,7 @@ CATEGORY_BLURB = {
     "Valuer / Property Professional": "Valuation, agency and building surveying.",
     "Accountant / Tax": "Audit, accounts and tax advisory.",
     "Service Provider": "Software, data, insurance and other suppliers.",
-    "Internal (REL Finance)": "The REL team.",
+    "Internal": "The team here.",
     "Personal / Other": "Everything not yet placed.",
 }
 
@@ -58,7 +72,7 @@ CATEGORY_HUE = {
     "Valuer / Property Professional": ("#2D7D74", "#6BB8AE"),
     "Accountant / Tax": ("#A44B62", "#D3899E"),
     "Service Provider": ("#7C848C", "#A2ACB6"),
-    "Internal (REL Finance)": ("#9A6B22", "#D9AB58"),
+    "Internal": ("#9A6B22", "#D9AB58"),
     "Personal / Other": ("#6E7680", "#98A1AB"),
 }
 
@@ -420,6 +434,138 @@ footer {
 footer .wrap { display: flex; flex-direction: column; gap: 7px; }
 footer strong { color: var(--ink); font-weight: 600; }
 
+/* ---------- composer ---------- */
+
+.btn-accent { border-color: var(--accent); color: var(--accent); font-weight: 600; }
+.btn-accent:hover { background: var(--accent-soft); }
+.btn-sm { font-size: 12px; padding: 5px 10px; }
+
+.sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgba(10, 14, 18, 0.5);
+  padding: 0;
+}
+.sheet[hidden] { display: none; }
+
+.sheet-panel {
+  display: flex;
+  flex-direction: column;
+  width: min(760px, 100%);
+  max-height: 92vh;
+  background: var(--surface);
+  border: 1px solid var(--hairline-strong);
+  border-bottom: 0;
+  border-radius: 4px 4px 0 0;
+  box-shadow: var(--shadow);
+}
+@media (min-width: 700px) {
+  .sheet { align-items: center; padding: 24px; }
+  .sheet-panel { border-bottom: 1px solid var(--hairline-strong); border-radius: 4px; }
+}
+
+.sheet-head, .sheet-foot {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 20px;
+  flex: none;
+}
+.sheet-head { border-bottom: 1px solid var(--hairline); }
+.sheet-foot { border-top: 1px solid var(--hairline); flex-wrap: wrap; }
+.sheet-head h2 {
+  margin: 0;
+  margin-right: auto;
+  font-family: 'Iowan Old Style', 'Palatino Linotype', Palatino,
+               'Book Antiqua', Georgia, serif;
+  font-size: 20px;
+  font-weight: 600;
+}
+.sheet-foot .btn-accent { margin-left: auto; }
+
+.sheet-body {
+  overflow-y: auto;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.sheet-note { margin: 0; font-size: 13px; color: var(--muted); }
+.sheet-note strong { color: var(--ink); }
+
+.fld { display: flex; flex-direction: column; gap: 5px; }
+.fld > span {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+.fld > span em { font-weight: 400; letter-spacing: 0; text-transform: none; }
+.fld > span code {
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 11px;
+  color: var(--accent);
+}
+.fld input, .fld textarea {
+  font: inherit;
+  font-size: 14px;
+  padding: 9px 11px;
+  color: var(--ink);
+  background: var(--ground);
+  border: 1px solid var(--hairline-strong);
+  border-radius: 3px;
+  resize: vertical;
+}
+.fld input:focus-visible, .fld textarea:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.cmp-optrow { display: flex; flex-wrap: wrap; gap: 14px; }
+.chk { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--muted); }
+.chk input { accent-color: var(--accent); }
+
+.cmp-preview { border: 1px solid var(--hairline); border-radius: 3px; }
+.cmp-preview-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: var(--muted);
+  background: var(--ground);
+  border-bottom: 1px solid var(--hairline);
+}
+.cmp-preview-head strong { color: var(--ink); }
+.cmp-preview-head .btn { margin-left: auto; }
+.cmp-preview-body { padding: 12px 14px; max-height: 240px; overflow-y: auto; }
+#cmp-render {
+  font-size: 13.5px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+#cmp-render .subj {
+  font-weight: 600;
+  padding-bottom: 7px;
+  margin-bottom: 9px;
+  border-bottom: 1px solid var(--hairline);
+  white-space: normal;
+}
+#cmp-render .optout {
+  margin-top: 12px;
+  padding-top: 8px;
+  border-top: 1px solid var(--hairline);
+  font-size: 12px;
+  color: var(--muted);
+}
+.cmp-excluded { margin: 0; font-size: 12.5px; color: var(--muted); }
+
 #toast {
   position: fixed;
   left: 50%;
@@ -685,11 +831,184 @@ if (window.claude && window.claude.downloads) {
   });
 }
 
+// ---------- composer ----------
+// This page never sends. It assembles the mail and hands it to Outlook, so a
+// human always presses the button — and recipients always go in Bcc.
+
+const cmp = {
+  el: document.getElementById('composer'),
+  subject: document.getElementById('cmp-subject'),
+  body: document.getElementById('cmp-body'),
+  skipDne: document.getElementById('cmp-skipdne'),
+  skipInternal: document.getElementById('cmp-skipinternal'),
+  sig: document.getElementById('cmp-sig'),
+  idx: 0,
+};
+
+const INTERNAL_KEY = (DATA.categories.find(c => /^Internal/.test(c.label)) || {}).key;
+const OPT_OUT = 'Reply with "unsubscribe" and I will take you off this list.';
+
+function audience() {
+  return visible().filter(c => {
+    if (cmp.skipDne.checked && c.dne) return false;
+    if (cmp.skipInternal.checked && c.k === INTERNAL_KEY) return false;
+    return true;
+  });
+}
+
+function firstNameOf(c) {
+  const n = (c.n || '').trim();
+  if (!n || n.includes('@')) return 'there';
+  return n.split(/\\s+/)[0];
+}
+
+function merge(text, c) {
+  return String(text || '')
+    .replace(/\\{\\{\\s*first\\s*\\}\\}/gi, firstNameOf(c))
+    .replace(/\\{\\{\\s*name\\s*\\}\\}/gi, c.n || '')
+    .replace(/\\{\\{\\s*company\\s*\\}\\}/gi, c.co || 'your firm');
+}
+
+function cmpRender() {
+  const list = audience();
+  document.getElementById('cmp-count').textContent = String(list.length);
+  const excluded = visible().length - list.length;
+  document.getElementById('cmp-excluded').textContent = excluded
+    ? `${excluded} of the ${visible().length} shown contacts excluded by the filters above.`
+    : '';
+
+  if (!list.length) {
+    document.getElementById('cmp-who').textContent = '—';
+    document.getElementById('cmp-render').textContent = 'No recipients.';
+    return;
+  }
+  if (cmp.idx >= list.length) cmp.idx = 0;
+  const c = list[cmp.idx];
+  document.getElementById('cmp-who').textContent =
+    `${c.n}${c.co ? ' · ' + c.co : ''} · ${c.e}`;
+  const out = document.getElementById('cmp-render');
+  out.textContent = '';
+  const s = document.createElement('div');
+  s.className = 'subj';
+  s.textContent = merge(cmp.subject.value, c) || '(no subject)';
+  const b = document.createElement('div');
+  b.textContent = merge(cmp.body.value, c) || '(no message yet)';
+  out.append(s, b);
+  if (cmp.sig.checked) {
+    const o = document.createElement('div');
+    o.className = 'optout';
+    o.textContent = OPT_OUT;
+    out.append(o);
+  }
+}
+
+function bodyFor(c) {
+  let t = merge(cmp.body.value, c);
+  if (cmp.sig.checked) t += '\\n\\n' + OPT_OUT;
+  return t;
+}
+
+function openComposer() {
+  cmp.idx = 0;
+  cmp.el.hidden = false;
+  cmpRender();
+  cmp.subject.focus();
+}
+function closeComposer() { cmp.el.hidden = true; }
+
+document.getElementById('compose').addEventListener('click', openComposer);
+document.getElementById('cmp-close').addEventListener('click', closeComposer);
+cmp.el.addEventListener('click', e => { if (e.target === cmp.el) closeComposer(); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && !cmp.el.hidden) closeComposer();
+});
+for (const id of ['cmp-subject', 'cmp-body', 'cmp-skipdne', 'cmp-skipinternal', 'cmp-sig']) {
+  document.getElementById(id).addEventListener('input', cmpRender);
+  document.getElementById(id).addEventListener('change', cmpRender);
+}
+document.getElementById('cmp-cycle').addEventListener('click', () => {
+  cmp.idx += 1;
+  cmpRender();
+});
+
+document.getElementById('cmp-bcc').addEventListener('click', () => {
+  const list = audience();
+  if (!list.length) { toast('No recipients'); return; }
+  copy(list.map(c => c.e).join('; '), `${list.length} addresses copied — paste into Bcc`);
+});
+
+document.getElementById('cmp-text').addEventListener('click', () => {
+  const list = audience();
+  if (!list.length) { toast('No recipients'); return; }
+  // One generic copy: merge fields resolve per-recipient only in the CSV, so a
+  // single pasted body uses neutral wording rather than one person's name.
+  const generic = { n: '', co: '', e: '' };
+  const subj = merge(cmp.subject.value, generic);
+  copy(subj + '\\n\\n' + bodyFor(generic),
+       'Subject and body copied — merge fields left generic');
+});
+
+document.getElementById('cmp-mailto').addEventListener('click', () => {
+  const list = audience();
+  if (!list.length) { toast('No recipients'); return; }
+  const generic = { n: '', co: '', e: '' };
+  const url = 'mailto:?bcc=' + encodeURIComponent(list.map(c => c.e).join(';'))
+    + '&subject=' + encodeURIComponent(merge(cmp.subject.value, generic))
+    + '&body=' + encodeURIComponent(bodyFor(generic));
+  // Long recipient lists blow past what a mailto: URL can carry; fall back to
+  // the clipboard rather than silently opening a truncated draft.
+  if (url.length > 1800) {
+    copy(list.map(c => c.e).join('; '),
+         `${list.length} addresses is too many for a mailto link — Bcc list copied instead`);
+    return;
+  }
+  window.location.href = url;
+});
+
+const cmpMerge = document.getElementById('cmp-merge');
+if (window.claude && window.claude.downloads) {
+  cmpMerge.hidden = false;
+  cmpMerge.addEventListener('click', async () => {
+    const list = audience();
+    if (!list.length) { toast('No recipients'); return; }
+    const cell = v => {
+      const s = String(v == null ? '' : v);
+      return /[",\\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+    };
+    const rows = [['Name', 'First name', 'Company', 'Email', 'Subject', 'Body'],
+      ...list.map(c => [c.n, firstNameOf(c), c.co, c.e,
+                        merge(cmp.subject.value, c), bodyFor(c)])];
+    const body = '\\ufeff' + rows.map(r => r.map(cell).join(',')).join('\\r\\n');
+    const stem = 'REL-campaign-' + DATA.refreshed;
+    try {
+      await window.claude.downloads.save({ filename: stem + '.csv', data: body });
+      toast(`${list.length} personalised rows downloaded`);
+    } catch (err) {
+      const code = err && err.code;
+      if (code === 'declined') return;
+      if (code === 'extension_not_enabled') {
+        try {
+          await window.claude.downloads.save({ filename: stem + '.txt', data: body });
+          toast('Downloaded as .txt — rename to .csv for Outlook mail merge');
+          return;
+        } catch (e2) { if (e2 && e2.code === 'declined') return; }
+      }
+      cmpMerge.hidden = true;
+      toast('Downloads unavailable here — use Copy Bcc list instead');
+    }
+  });
+}
+
 render();
 """
 
 
 def build(payload, out_path):
+    cfg = {**DEFAULT_CONFIG, **(payload.get("config") or {})}
+    org = cfg["org_name"] or "Contact"
+    internal_label = f"Internal ({org})" if cfg["org_name"] else "Internal"
+    label_of = {c: (internal_label if c == "Internal" else c) for c in CATEGORY_ORDER}
+
     contacts = [c for c in payload["contacts"] if c.get("keep", True)]
     refreshed = (payload.get("last_sweep_utc") or "")[:10] or date.today().isoformat()
 
@@ -717,15 +1036,21 @@ def build(payload, out_path):
             "o": int(c.get("count_to", 0) or 0),
             "fs": c.get("first_seen", ""),
             "ls": c.get("last_seen", ""),
+            "dne": bool(c.get("do_not_email")),
             "hay": hay,
         })
     slim.sort(key=lambda c: -(c["i"] + c["o"]))
 
     data = {
         "refreshed": refreshed,
+        "owner": cfg["owner_name"],
+        "ownerFirst": cfg["owner_first_name"] or cfg["owner_name"].split(" ")[0],
+        "ownerEmail": cfg["owner_email"],
+        "org": cfg["org_name"],
         "contacts": slim,
         "categories": [
-            {"key": CATEGORY_KEY[c], "label": c, "blurb": CATEGORY_BLURB.get(c, "")}
+            {"key": CATEGORY_KEY[c], "label": label_of[c],
+             "blurb": CATEGORY_BLURB.get(c, "")}
             for c in present
         ],
     }
@@ -753,19 +1078,24 @@ def build(payload, out_path):
     chips = "\n".join(
         '<button class="chip" type="button" data-cat="{k}" aria-pressed="false" '
         'style="--chip-hue:var(--hue-{k})">{label} <b>{n}</b></button>'.format(
-            k=CATEGORY_KEY[c], label=html.escape(c), n=counts[c])
+            k=CATEGORY_KEY[c], label=html.escape(label_of[c]), n=counts[c])
         for c in present)
 
-    page = f"""<title>REL Finance — Contact Directory</title>
+    title = f"{org} — Contact Directory" if cfg["org_name"] else "Contact Directory"
+    eyebrow = " &middot; ".join(
+        html.escape(x) for x in (cfg["org_name"], cfg["org_locale"]) if x)
+    corrections_to = html.escape(cfg["owner_first_name"] or cfg["owner_name"] or "the list owner")
+    built_from = (f"Built from the {html.escape(org)} mailbox"
+                  if cfg["org_name"] else "Built from the mailbox")
+
+    page = f"""<title>{html.escape(title)}</title>
 <style>{css}</style>
 
 <header class="masthead">
   <div class="wrap">
-    <p class="eyebrow">REL Finance &middot; 27 Hill Street, Mayfair</p>
+    <p class="eyebrow">{eyebrow}</p>
     <h1>Contact Directory</h1>
-    <p class="standfirst">Every counterparty REL has corresponded with, drawn
-      automatically from the firm's mailbox and sorted by the role they play in
-      a deal — who brings it, who funds it, who borrows, who signs it off.</p>
+    <p class="standfirst">{html.escape(cfg["org_blurb"])}</p>
     <dl class="tally">
       <div><dt>Contacts</dt><dd>{total}</dd></div>
       <div><dt>Brokers</dt><dd>{n_broker}</dd></div>
@@ -792,6 +1122,7 @@ def build(payload, out_path):
       </select>
       <button id="copyall" class="btn" type="button">Copy shown emails</button>
       <button id="download" class="btn" type="button" hidden>Download shown</button>
+      <button id="compose" class="btn btn-accent" type="button">Email shown…</button>
       <button id="clear" class="btn" type="button">Reset</button>
     </div>
     <div class="chips">{chips}</div>
@@ -800,17 +1131,67 @@ def build(payload, out_path):
 
 <main id="directory"></main>
 
+<div id="composer" class="sheet" hidden>
+  <div class="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="composer-title">
+    <div class="sheet-head">
+      <h2 id="composer-title">Email <span id="cmp-count">0</span> contacts</h2>
+      <button id="cmp-close" class="btn" type="button">Close</button>
+    </div>
+    <div class="sheet-body">
+      <p class="sheet-note">Nothing is sent from this page. Write the mail here,
+        then take it to Outlook one of three ways — the recipients always land in
+        <strong>Bcc</strong> so nobody sees anyone else's address.</p>
+
+      <label class="fld">
+        <span>Subject</span>
+        <input id="cmp-subject" type="text" placeholder="REL Finance — current bridging terms">
+      </label>
+
+      <label class="fld">
+        <span>Message <em>— <code>{{{{first}}}}</code>, <code>{{{{name}}}}</code>,
+          <code>{{{{company}}}}</code> are filled in per recipient</em></span>
+        <textarea id="cmp-body" rows="9" placeholder="Hi {{{{first}}}},&#10;&#10;..."></textarea>
+      </label>
+
+      <div class="cmp-optrow">
+        <label class="chk"><input id="cmp-skipdne" type="checkbox" checked>
+          Skip anyone marked do-not-email</label>
+        <label class="chk"><input id="cmp-skipinternal" type="checkbox" checked>
+          Skip internal colleagues</label>
+        <label class="chk"><input id="cmp-sig" type="checkbox" checked>
+          Append opt-out line</label>
+      </div>
+
+      <div class="cmp-preview">
+        <div class="cmp-preview-head">
+          Preview for <strong id="cmp-who">—</strong>
+          <button id="cmp-cycle" class="btn btn-sm" type="button">Next recipient</button>
+        </div>
+        <div class="cmp-preview-body"><div id="cmp-render"></div></div>
+      </div>
+
+      <p id="cmp-excluded" class="cmp-excluded"></p>
+    </div>
+    <div class="sheet-foot">
+      <button id="cmp-bcc" class="btn" type="button">Copy Bcc list</button>
+      <button id="cmp-text" class="btn" type="button">Copy subject &amp; body</button>
+      <button id="cmp-merge" class="btn" type="button" hidden>Download mail-merge CSV</button>
+      <button id="cmp-mailto" class="btn btn-accent" type="button">Open in Outlook</button>
+    </div>
+  </div>
+</div>
+
 <footer>
   <div class="wrap">
     <p><strong><span id="shown">{total}</span> of {total} contacts shown.</strong>
        Click any address or number to copy it. Press <kbd>/</kbd> to search.</p>
-    <p>Built from the REL Finance mailbox (Inbox, Sent Items and Archive) and
+    <p>{built_from} (Inbox, Sent Items and Archive) and
        refreshed automatically every Monday. Job titles, firms and phone numbers
        are read from email signatures, so a blank field means no signature was
        found — not that the detail doesn't exist. <em>In</em> and <em>out</em>
        count messages received from and sent to that contact.</p>
-    <p>Corrections go to Shyam so they survive the next refresh — edits made to
-       a downloaded copy will not.</p>
+    <p>Corrections go to {corrections_to} so they survive the next refresh — edits
+       made to a downloaded copy will not.</p>
   </div>
 </footer>
 
