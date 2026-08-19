@@ -44,6 +44,20 @@ actually fires.
    type `Add the repo slakhani123/dealsheet to this session.` and Claude will
    attach it or say exactly what is missing.
 
+> ### Then switch branch — the code is not on the default one
+>
+> The repository's default branch is `claude/deal-sheet-auto-populate-svgr0b`,
+> which holds only the deal-sheet automation. Everything in this guide — the
+> build scripts, the runbook, `contacts_data.json` — lives on
+> **`claude/outlook-contact-list-ehxnfc`**. A fresh clone lands on the default
+> branch, so the bootstrap prompt below will fail on its first step unless you
+> switch first. The prompt does this for you, but if you are browsing the repo
+> by hand, use the branch dropdown on GitHub or run:
+>
+> ```bash
+> git fetch origin && git checkout claude/outlook-contact-list-ehxnfc
+> ```
+
 **If the repo still will not attach**, in this order:
 
 - The owner (`slakhani123`) checks `github.com/settings/installations` → Claude
@@ -59,8 +73,15 @@ Open Claude Code on the web (claude.ai → Code), point it at
 lines in the `MY DETAILS` block:
 
 > Build me a contact directory from my Outlook mailbox, using the existing
-> pipeline in this repo. Follow `automation/CONTACTS_RUNBOOK.md` for the data
-> conventions and categories — it is the procedure of record.
+> pipeline in this repo.
+>
+> **First, get on the right branch.** This repo's default branch holds only the
+> deal-sheet automation. Run `git fetch origin` and check out
+> `claude/outlook-contact-list-ehxnfc` — the contact-list code and docs live
+> there. Then read `automation/CONTACTS_RUNBOOK.md` and follow it for the data
+> conventions and categories; it is the procedure of record. If
+> `automation/build_contacts_html.py` is not present after checking out, stop
+> and tell me rather than writing the pipeline from scratch.
 >
 > **MY DETAILS**
 > - My name: `Tashin Morjaria`
