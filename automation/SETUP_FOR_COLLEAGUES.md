@@ -20,6 +20,38 @@ admin involvement to get the workbook and web page. Those are only for the
 automatic SharePoint upload, which is optional and already configured at the
 repo level.
 
+## Step 0 — connect Claude to GitHub
+
+**Use the browser, not the desktop app.** This is where everyone gets stuck.
+The Claude desktop app runs against a **local folder** on your machine, so it
+asks you to pick a directory and never offers a GitHub repository — there is
+nothing to find, and no amount of connecting will make one appear there. The
+weekly refresh also has to run unattended in a cloud environment, which the
+desktop app cannot do: it would need your laptop awake with the app open. Web
+sessions plus a Routine is the only combination where the Monday refresh
+actually fires.
+
+1. In a browser, go to claude.ai → **Settings → Connectors**.
+2. Connect **GitHub**. Sign in as yourself and authorise the Claude GitHub App.
+   > The authorisation screen asks which repositories to grant, and lists only
+   > the repos **you own**. `slakhani123/dealsheet` will not be there. That is
+   > expected — it is not a failure. Access to a repo someone else owns comes
+   > from *their* app installation plus your collaborator permission.
+3. Connect **Microsoft 365** while you are on the same screen — the build needs
+   it and it saves a second trip.
+4. Go to **claude.ai/code**, start a new session, and pick
+   `slakhani123/dealsheet` from the repository selector. If it is not listed,
+   type `Add the repo slakhani123/dealsheet to this session.` and Claude will
+   attach it or say exactly what is missing.
+
+**If the repo still will not attach**, in this order:
+
+- The owner (`slakhani123`) checks `github.com/settings/installations` → Claude
+  → Repository access, and confirms `dealsheet` is granted.
+- Confirm you are actually a collaborator: repo → Settings → Collaborators. A
+  pending invite has to be accepted from the email before anything works.
+- Confirm your Claude plan includes Claude Code.
+
 ## Step 1 — the bootstrap prompt
 
 Open Claude Code on the web (claude.ai → Code), point it at
