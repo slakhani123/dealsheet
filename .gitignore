@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+
+# Raw per-month sweep aggregates — working data, never committed.
+.sweep/
