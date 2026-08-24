@@ -2,15 +2,18 @@
 """Download REL brand assets and the loan-note statement workbook from
 SharePoint via Microsoft Graph, for embedding into the financial model.
 
-Runs in GitHub Actions (stdlib only). Auth is the same OAuth2
-client-credentials flow as upload_to_sharepoint.py.
+Runs in GitHub Actions (stdlib only). Auth and site resolution mirror
+upload_to_sharepoint.py (OAuth2 client-credentials flow).
 
 Required environment variables:
   AZURE_TENANT_ID       Entra tenant (directory) ID
   AZURE_CLIENT_ID       App registration (client) ID
   AZURE_CLIENT_SECRET   Client secret value
+  SHAREPOINT_HOSTNAME   e.g. netorg11487911.sharepoint.com
+  SHAREPOINT_SITE_PATH  e.g. /sites/RELfinance (optional; empty = root site)
 """
 
+import base64
 import json
 import os
 import sys
@@ -20,33 +23,56 @@ import urllib.request
 
 GRAPH = "https://graph.microsoft.com/v1.0"
 
-# Default document library of the RELfinance SharePoint site.
-DRIVE = "b!CuJhFtmdykeTy8o_bruvfvEc5gYQFvRNje5Xzg2KdGyGuV_djirWR6Xxexjtay2B"
-
-# Item IDs resolved from the site's "11. 2026 Rebrand" website theme and the
-# 3A Palace Green loan-note statement workbook.
-ITEMS = {
-    "brand-assets/rel-finance-logo.png": "013Q3WC5FF5OLKEQ743FFZHWIFQP7BQCDX",
-    "brand-assets/rel-finance-logo-square.png": "013Q3WC5HUWEVPKH76INF2YUGEJKE6N4H4",
-    "brand-assets/favicon-512.png": "013Q3WC5E6KBVMCBB4DVFYROOOHZIHDT5E",
-    "brand-assets/Loan_Note_Schedules_New.xlsx": "013Q3WC5AQV3NBW6H6WFEJC2FUQ6FBP4OU",
+THEME = "11. 2026 Rebrand/New Website 2026/rel-preview/rel-finance-theme/assets"
+FILES = {
+    "brand-assets/rel-finance-logo.png": f"{THEME}/images/rel-finance-logo.png",
+    "brand-assets/rel-finance-logo-square.png": f"{THEME}/images/rel-finance-logo-square.png",
+    "brand-assets/favicon-512.png": f"{THEME}/images/favicon-512.png",
+    "brand-assets/Loan_Note_Schedules_New.xlsx":
+        "4.0 Investors/4.2 Loan Note Investors/3A Palace Green Loan Notes/"
+        "Loan_Note_Schedules_New.xlsx",
 }
-
-# Website theme css folder — downloaded whole for the brand colour palette.
-CSS_FOLDER = "013Q3WC5FNTRKB5ORHDFF2TGKQVSDXCBVW"
+CSS_FOLDER = f"{THEME}/css"
 
 
 def call(url, data=None, headers=None, method=None, raw=False):
     request = urllib.request.Request(url, data=data, headers=headers or {}, method=method)
-    with urllib.request.urlopen(request, timeout=120) as resp:
-        body = resp.read()
+    try:
+        with urllib.request.urlopen(request, timeout=120) as resp:
+            body = resp.read()
+    except urllib.error.HTTPError as e:
+        detail = e.read().decode(errors="replace")[:500]
+        raise RuntimeError(f"HTTP {e.code} calling {url.split('?')[0]}\n{detail}") from None
     return body if raw else json.loads(body.decode())
 
 
+def item_path_url(drive_id, path):
+    quoted = "/".join(urllib.parse.quote(p) for p in path.split("/"))
+    return f"{GRAPH}/drives/{drive_id}/root:/{quoted}"
+
+
+def download(drive_id, path, dest, auth):
+    meta = call(item_path_url(drive_id, path) + "?select=id,name,size", headers=auth)
+    # Fetch content via the item id; the pre-signed redirect must be followed
+    # WITHOUT the Graph bearer token, so resolve downloadUrl explicitly.
+    info = call(f"{GRAPH}/drives/{drive_id}/items/{meta['id']}"
+                "?select=id,name,@microsoft.graph.downloadUrl", headers=auth)
+    url = info.get("@microsoft.graph.downloadUrl")
+    if not url:
+        raise RuntimeError(f"no downloadUrl for {path}")
+    content = call(url, raw=True)  # pre-signed: no auth header
+    os.makedirs(os.path.dirname(dest), exist_ok=True)
+    with open(dest, "wb") as f:
+        f.write(content)
+    print(f"Downloaded {dest} ({len(content):,} bytes)")
+
+
 def main():
+    required = ["AZURE_TENANT_ID", "AZURE_CLIENT_ID", "AZURE_CLIENT_SECRET",
+                "SHAREPOINT_HOSTNAME"]
     env = {k: os.environ.get(k, "").strip()
-           for k in ("AZURE_TENANT_ID", "AZURE_CLIENT_ID", "AZURE_CLIENT_SECRET")}
-    missing = [k for k, v in env.items() if not v]
+           for k in required + ["SHAREPOINT_SITE_PATH"]}
+    missing = [k for k in required if not env[k]]
     if missing:
         sys.exit("Missing required configuration: " + ", ".join(missing))
 
@@ -62,27 +88,37 @@ def main():
     )["access_token"]
     auth = {"Authorization": f"Bearer {token}"}
 
-    targets = dict(ITEMS)
+    # Diagnostics: application permissions carried by the token (names only).
+    payload = token.split(".")[1]
+    claims = json.loads(base64.urlsafe_b64decode(payload + "=" * (-len(payload) % 4)))
+    print("Token roles:", claims.get("roles", "(none)"))
+
+    site_path = env["SHAREPOINT_SITE_PATH"].strip("/")
+    site_url = (f"{GRAPH}/sites/{env['SHAREPOINT_HOSTNAME']}:/{site_path}"
+                if site_path else f"{GRAPH}/sites/{env['SHAREPOINT_HOSTNAME']}")
+    site = call(site_url, headers=auth)
+    drives = call(f"{GRAPH}/sites/{site['id']}/drives", headers=auth)["value"]
+    drive = next((d for d in drives if d["name"].lower() == "documents"), None)
+    if not drive:
+        drive = call(f"{GRAPH}/sites/{site['id']}/drive", headers=auth)
+    drive_id = drive["id"]
+    print(f"Resolved drive: {drive.get('name')} ({drive_id})")
+
+    targets = dict(FILES)
     try:
-        children = call(f"{GRAPH}/drives/{DRIVE}/items/{CSS_FOLDER}/children", headers=auth)
+        children = call(item_path_url(drive_id, CSS_FOLDER) + ":/children", headers=auth)
         for child in children.get("value", []):
             if "file" in child:
-                targets[f"brand-assets/css/{child['name']}"] = child["id"]
-    except urllib.error.HTTPError as e:
-        print(f"WARN: could not list css folder: HTTP {e.code}")
+                targets[f"brand-assets/css/{child['name']}"] = f"{CSS_FOLDER}/{child['name']}"
+    except RuntimeError as e:
+        print(f"WARN: could not list css folder: {e}")
 
     failures = []
-    for path, item_id in targets.items():
+    for dest, path in targets.items():
         try:
-            content = call(f"{GRAPH}/drives/{DRIVE}/items/{item_id}/content",
-                           headers=auth, raw=True)
-        except urllib.error.HTTPError as e:
-            failures.append(f"{path}: HTTP {e.code}")
-            continue
-        os.makedirs(os.path.dirname(path), exist_ok=True)
-        with open(path, "wb") as f:
-            f.write(content)
-        print(f"Downloaded {path} ({len(content):,} bytes)")
+            download(drive_id, path, dest, auth)
+        except RuntimeError as e:
+            failures.append(f"{dest}: {e}")
 
     if failures:
         print("Failed downloads:\n  " + "\n  ".join(failures))

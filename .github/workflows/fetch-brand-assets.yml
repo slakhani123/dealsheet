@@ -23,6 +23,8 @@ jobs:
           AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
           AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          SHAREPOINT_HOSTNAME: ${{ vars.SHAREPOINT_HOSTNAME }}
+          SHAREPOINT_SITE_PATH: ${{ vars.SHAREPOINT_SITE_PATH }}
         run: python3 automation/fetch_brand_assets.py
 
       - name: Commit assets to the branch
