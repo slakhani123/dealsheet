@@ -1,13 +1,13 @@
 name: Fetch brand assets from SharePoint
 
+# NOTE: currently blocked — the Azure app registration behind the repo's
+# AZURE_* secrets has no Microsoft Graph application permissions granted
+# (token carries no roles; this is also why every "Upload deal sheet to
+# SharePoint" run has failed). Grant the app Sites.Read.All (or
+# Sites.Selected on the RELfinance site) in Entra ID, then dispatch this
+# workflow to pull the real logo PNG, theme CSS and statement workbook.
 on:
   workflow_dispatch: {}
-  push:
-    branches:
-      - claude/bridge-loan-fee-breakdown-19jmaa
-    paths:
-      - .github/workflows/fetch-brand-assets.yml
-      - automation/fetch_brand_assets.py
 
 permissions:
   contents: write
