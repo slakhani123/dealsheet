@@ -2,6 +2,12 @@ name: Fetch brand assets from SharePoint
 
 on:
   workflow_dispatch: {}
+  push:
+    branches:
+      - claude/bridge-loan-fee-breakdown-19jmaa
+    paths:
+      - .github/workflows/fetch-brand-assets.yml
+      - automation/fetch_brand_assets.py
 
 permissions:
   contents: write
