@@ -1,5 +1,5 @@
 {
-  "last_sweep_utc": "2026-08-14T10:30:00Z",
+  "last_sweep_utc": "2026-09-08T11:30:00Z",
   "conversations": {
     "AAQkADExOTQxZmVlLTI1YTUtNGFiZS05M2NkLWM5NmIwMzExYjM0MwAQAKGPVbnesE9GioM9CrVgKfk=": {
       "subject": "New Enquiry (Rutland Gate / Montpelier Walk)",
@@ -102,6 +102,132 @@
       "last_message_utc": "2026-08-14T09:29:43Z",
       "action": "skipped",
       "note": "JV/partnership strategy paper, not a lending deal."
+    },
+    "sal-hotels": {
+      "subject": "SAL Hotels Limited",
+      "last_message_utc": "2026-09-03T16:00:32Z",
+      "action": "added",
+      "sheet": "Potential Deals",
+      "row_anchor": "SAL Hotels Limited (operating hotel)",
+      "note": "Active neg. \u00a313.5m 60% LTV/79% 180-day VPV, 10.5%, 1.25%+1.5% fees, 18m. Mantra. Refi/exit Hilco. Competing bid \u00a314m."
+    },
+    "aquilae-resi-bridge": {
+      "subject": "New Enquiry - Resi Bridge (Aquilae)",
+      "last_message_utc": "2026-09-04T13:54:33Z",
+      "action": "added",
+      "sheet": "Potential Deals",
+      "row_anchor": "Resi Bridge - Aquilae",
+      "note": "Terms 04/09: \u00a37.4m 65% LTV (MV \u00a311.5m), 10.75%, 1% arr, \u00a3795k IR, 12m. Aquilae/Matthew Yassin."
+    },
+    "centre-heights": {
+      "subject": "New Opportunity - Centre Heights, Swiss Cottage",
+      "last_message_utc": "2026-09-04T08:49:09Z",
+      "action": "added",
+      "sheet": "Potential Deals",
+      "row_anchor": "Centre Heights, Swiss Cottage, NW3",
+      "note": "Terms 26/08: \u00a310.88m 68% LTV, \u00a3272k IR, 24m @10.35%. RIB/Adam Jaffe. Full TS to follow."
+    },
+    "thorpe-end": {
+      "subject": "Thorpe End - Planning Position",
+      "last_message_utc": "2026-09-04T11:54:56Z",
+      "action": "added",
+      "sheet": "Potential Deals",
+      "row_anchor": "Thorpe End (land / planning play)",
+      "note": "Terms 28/08: \u00a31.75m 50% LTV (MV land \u00a33.5m), \u00a3210k IR 12m (~12%). LS Capital/Jason Green. Negotiating pricing."
+    },
+    "hfg-serco": {
+      "subject": "REL | Housing First Group | GLPG",
+      "last_message_utc": "2026-09-08T10:50:14Z",
+      "action": "added",
+      "sheet": "Potential Deals",
+      "row_anchor": "Housing First Group / Serco portfolio",
+      "note": "TS in progress. 45 units/190 beds, MV \u00a311.34m / VPV \u00a311.5m, 6+6 leases. GBB funding. GLPG/Nick Swerner. Loan/terms TBC."
+    },
+    "st-giles-hotel": {
+      "subject": "Funding Opportunity - St Giles Hotel, London",
+      "last_message_utc": "2026-08-17T12:13:55Z",
+      "action": "added",
+      "sheet": "Potential Deals",
+      "row_anchor": "St Giles Hotel, London",
+      "note": "Enquiry 17/08: \u00a331.5m acq, IV ~\u00a355m. Size on lower PP/MV. Bridgemore/Joe Eden. Terms TBC."
+    },
+    "project-hannah-blck": {
+      "subject": "BLCK - Project Hannah: ~\u00a333m Land Bridge",
+      "last_message_utc": "2026-09-08T11:18:25Z",
+      "action": "added",
+      "sheet": "Potential Deals",
+      "row_anchor": "Project Hannah - land bridge, London",
+      "note": "~\u00a333m resi land bridge. NDA exec 07/09, info pack recd. REL to partner w/ senior. BLCK/Delvin Kennedy. REL portion TBC."
+    },
+    "brighton-pier": {
+      "subject": "Brighton Pier - \u00a37m Purchase",
+      "last_message_utc": "2026-09-07T16:37:54Z",
+      "action": "added",
+      "sheet": "Potential Deals",
+      "row_anchor": "Brighton Pier",
+      "note": "Enquiry 07/09: \u00a37m purchase. Yellowstone/Dave Dixon. Awaiting details."
+    },
+    "26-catherine-place": {
+      "subject": "New Bridging Enquiry: \u00a36.5m Refinance | 26 Catherine Place SW1E",
+      "last_message_utc": "2026-08-20T17:30:13Z",
+      "action": "added",
+      "sheet": "Potential Deals",
+      "row_anchor": "26 Catherine Place, SW1E",
+      "note": "Enquiry 20/08: \u00a36.5m refinance. Opes/Masood Rashid. Value/LTV TBC."
+    },
+    "cranley-hotel": {
+      "subject": "Cranley Hotel - Refurb to term",
+      "last_message_utc": "2026-08-27T16:39:31Z",
+      "action": "added",
+      "sheet": "Potential Deals",
+      "row_anchor": "Cranley Hotel",
+      "note": "Refurb-to-term. Bespoke terms proposed 27/08. BIZL/Pratik Shah. Figures TBC."
+    },
+    "gemdar-2nd-charge": {
+      "subject": "Second charge \u00a35m (DSH Southampton & Whitsand Bay)",
+      "last_message_utc": "2026-09-03T14:53:46Z",
+      "action": "added",
+      "sheet": "Potential Deals",
+      "row_anchor": "DSH Southampton & Whitsand Bay Fort Holiday Village",
+      "note": "Client wants \u00a35m 2nd charge; REL prefers wholeloan mezz. Structure mismatch. Gemdar/Ramiah."
+    },
+    "land-loan-york": {
+      "subject": "Confidential: Land loan - York [REL]",
+      "last_message_utc": "2026-08-18T09:04:49Z",
+      "action": "added",
+      "sheet": "Potential Deals",
+      "row_anchor": "Land loan - York (confidential)",
+      "note": "Confidential land loan enquiry 17/08. GLPG/Nick Swerner. Details TBC."
+    },
+    "cardiff-east-bay": {
+      "subject": "Bridge 12 months \u00a39M Cardiff East Bay CNM and OUTPOST",
+      "last_message_utc": "2026-09-01T08:29:12Z",
+      "action": "declined",
+      "sheet": "Declined Deals",
+      "row_anchor": "Cardiff East Bay (CNM & OUTPOST)",
+      "note": "Declined 28/08. Quanta/Dan Tisdall. Residual-appraisal reliance, weak EUV."
+    },
+    "mantra-2x-bridging": {
+      "subject": "2 x Bridging Requests - \u00a33.6m net",
+      "last_message_utc": "2026-09-04T10:36:12Z",
+      "action": "declined",
+      "sheet": "Declined Deals",
+      "row_anchor": "2 x Bridging portfolio (regional)",
+      "note": "Declined 04/09. Mantra/Zahra. Regional assets + re-bridge with equity release."
+    },
+    "lincolns-inn-fields-update": {
+      "subject": "Lindsey 21 / Lincolns Inn Fields - TS signed",
+      "last_message_utc": "2026-09-03T08:35:59Z",
+      "action": "updated",
+      "sheet": "Potential Deals",
+      "row_anchor": "Lindsey House, 57-60 Lincoln's Inn Fields, WC2A 3LJ",
+      "note": "TS signed + \u00a315k commitment fee paid; net revised \u00a310.017m; MV cited \u00a317m; target completion early Sept, progressing to legals."
+    },
+    "askew-road": {
+      "subject": "Askew Road - Valuation",
+      "last_message_utc": "2026-08-17T16:48:18Z",
+      "action": "skipped",
+      "note": "Hotel deal ON PAUSE (Sumeer 17/08). Parked - no terms. Revisit if reactivated."
     }
   }
 }
