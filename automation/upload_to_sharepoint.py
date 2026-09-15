@@ -43,12 +43,14 @@ import urllib.request
 GRAPH = "https://graph.microsoft.com/v1.0"
 
 
-def call(url, data=None, headers=None, method=None):
+def call(url, data=None, headers=None, method=None, allow_404=False):
     request = urllib.request.Request(url, data=data, headers=headers or {}, method=method)
     try:
         with urllib.request.urlopen(request, timeout=120) as resp:
             return json.loads(resp.read().decode())
     except urllib.error.HTTPError as e:
+        if allow_404 and e.code == 404:
+            return None
         body = e.read().decode(errors="replace")
         sys.exit(f"HTTP {e.code} calling {url.split('?')[0]}\n{body[:800]}")
 
@@ -115,6 +117,21 @@ def main():
     item_path = "/".join(urllib.parse.quote(p) for p in inner + [filename])
     with open(env["UPLOAD_FILE"], "rb") as f:
         content = f.read()
+
+    # This upload overwrites the file in place, by design (the repo is the
+    # source of truth). Say out loud what is being replaced, so a run that
+    # clobbers someone's direct edit leaves a record of whose it was — the
+    # previous content stays recoverable from the library's version history.
+    existing = call(
+        f"{GRAPH}/drives/{drive['id']}/root:/{item_path}"
+        "?$select=lastModifiedDateTime,lastModifiedBy,size",
+        headers=auth, allow_404=True,
+    )
+    if existing:
+        by = (existing.get("lastModifiedBy") or {}).get("user", {}).get("displayName", "unknown")
+        print(f"Replacing existing {filename} ({existing.get('size', 0):,} bytes), "
+              f"last modified {existing.get('lastModifiedDateTime', '?')} by {by}. "
+              "The version being replaced remains in SharePoint version history.")
 
     item = call(
         f"{GRAPH}/drives/{drive['id']}/root:/{item_path}:/content",
