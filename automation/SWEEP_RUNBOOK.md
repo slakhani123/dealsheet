@@ -58,8 +58,9 @@ Destination:
   number formats).
 - Inserting in EARLY STAGE: `insert_rows` before the blank row above the Total row, then
   REWRITE the Total row formulas (`=SUM(H20:H{last})`, `=AVERAGE(L20:L{last})`) — openpyxl
-  does not expand ranges. Known quirk (do not "fix" without being asked): Declined Deals
-  total row sums H5:H19 only.
+  does not expand ranges. The same applies to the other two sheets' Total rows
+  (`Completed Deals` H10:K10 over rows 5–8, `Declined Deals` H96:K96 over rows 5–94):
+  extend the range whenever you append a row, or the headline understates the book.
 
 ## 4. Verify, commit, report
 
@@ -80,3 +81,36 @@ Destination:
    complete, mention it to Shyam.
 6. If the Microsoft 365 connector is unavailable when the sweep fires, say so and stop —
    do not guess.
+
+## 5. Push the changes into the dashboard
+
+The team's live board is the Artifact **REL Pipeline Desk**
+(`https://claude.ai/artifact/QakzsFdHVhWZmRGwuPd98P`). It reads its deal facts from an
+artifact `db`, so a sweep that only touches the spreadsheet leaves the board stale.
+
+**Requires `ArtifactData` in the routine's allowed tools.** As of 15/09/2026 the daily
+routine's allowlist is `Bash, Read, Write, Edit, Glob, Grep, WebFetch, WebSearch` — no
+`ArtifactData` — so this step cannot run unattended yet. Until it is added, say in the
+reply that the dashboard was not updated, and name the deals the board is missing.
+
+Once available, for every row added or changed this sweep:
+
+- `ArtifactData` `action: "set"` on `deals/<id>` for a NEW deal, where `<id>` is the
+  property name lowercased with non-alphanumerics collapsed to `-`.
+- `ArtifactData` `action: "update"` for an EXISTING deal — and **only ever touch the
+  machine-owned fields**: `stage` is written only via `derivedStage`; `dateReceived`,
+  `property`, `assetClass`, `borrower`, `tranche`, `dealType`, `acqRefi`, `netLoan`,
+  `relReturn`, `grossLoan`, `collateral`, `ltv`, `ltvBasis`, `months`, `irr`, `tsIssued`,
+  `commitFee`, `source`, `sheetComments`, `sheetSection`, `flags`.
+  Never write `owner`, `rag`, `nextAction`, `nextActionDue`, `teamNote`, `reviewedWeek`,
+  `stage`, `updatedBy` or `updatedAt` — those belong to the team and overwriting them
+  silently discards someone's Monday review. One field, one writer.
+- Writes to an existing doc must carry `if_version` — read it back with `action: "list"`
+  on the `deals` collection first and pin the version you saw.
+- Finally `update` `meta/state` with `lastSweep` set to the new `last_sweep_utc`, so the
+  board's freshness indicator moves.
+
+Deals carrying `origin: "manual"` were typed straight into the board (phone enquiries the
+mailbox never sees). They are NOT in the spreadsheet. When one turns up in the mailbox
+later, add it to `Potential Deals` as normal and drop the `origin` field on the db doc so
+it stops showing the "added here" badge — do not create a second row for it.
