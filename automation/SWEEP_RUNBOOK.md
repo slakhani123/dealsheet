@@ -97,11 +97,16 @@ repositories you select, the environment's network access and variables, and the
 connectors you include." So **do not attempt the dashboard from the daily sweep**, and do
 not report the board as updated.
 
-Instead a second routine — *Friday dashboard sync (REL pipeline)*,
-`trig_017Fe5pm522n1jUBmgnAR2Yb`, Fridays 15:00 UTC — wakes an existing interactive session
-rather than spawning a fresh one, and a woken session keeps its own tools. It runs
-`automation/sync_dashboard.py`, which needs no mailbox access: everything it syncs is
-already in the spreadsheet by then.
+Instead a second routine — *Daily dashboard sync (REL pipeline)*,
+`trig_017Fe5pm522n1jUBmgnAR2Yb`, daily at 09:00 UTC — wakes an existing interactive
+session rather than spawning a fresh one, and a woken session keeps its own tools. It
+runs `automation/sync_dashboard.py`, which needs no mailbox access: everything it syncs
+is already in the spreadsheet by the time it fires.
+
+The hour's gap after the 08:00 sweep is deliberate — the sweep has taken ~25 minutes on
+its longest run, so the sync reads a branch the sweep has already pushed to. If the sweep
+ever grows past that, move the sync later rather than letting the two overlap; a sync that
+runs mid-sweep just reports no changes and the board sits a day behind.
 
 > **If the board stops updating, look here first.** That routine is bound to
 > `session_01QbSriq6UGNWFocVGvEFtNh`. Archiving or deleting that session leaves the
