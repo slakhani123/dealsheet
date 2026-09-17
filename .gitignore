@@ -1,0 +1,6 @@
+# Python bytecode, written whenever automation/*.py runs
+__pycache__/
+*.py[cod]
+
+# Excel lock files, left behind when someone has the sheet open locally
+~$*.xlsx
