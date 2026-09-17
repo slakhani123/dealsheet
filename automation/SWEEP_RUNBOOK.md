@@ -93,7 +93,29 @@ Destination:
 6. If the Microsoft 365 connector is unavailable when the sweep fires, say so and stop —
    do not guess.
 
-## 5. The dashboard is synced separately — the sweep does not touch it
+## 4a. The sweep MUST run from a persistent session
+
+**A routine that spawns a fresh session cannot read the mailbox.** Confirmed 17/09/2026:
+the old sweep routine (`trig_01GbjCLH7se26NeUcusmKVxi`, fresh session, Microsoft-365 listed
+in its `mcp_connections`) fired daily and reported SUCCEEDED, but its sessions received only
+`Bash, Write, Edit, Read, Glob, Grep, Agent` — no `mcp__Microsoft_365__*` tools at all. It
+last produced a commit on 08/09 and then burned ~20 minutes and several pounds of compute
+every morning doing nothing. The freshness badge on the board was telling the truth the
+whole time.
+
+The control that proves it is the contacts routine (`trig_0175MEpBodZSz5vZM47ky5jg`), which
+sweeps the SAME mailbox through the SAME connector and has succeeded every week — 13/08,
+17/08, 24/08, 31/08, 07/09, 14/09. Its only material difference is that it wakes an
+existing interactive session instead of spawning one.
+
+So the sweep now runs from *Daily REL sweep + dashboard sync*
+(`trig_017Fe5pm522n1jUBmgnAR2Yb`, 08:00 UTC daily), bound to
+`session_01QbSriq6UGNWFocVGvEFtNh`, and does both the mailbox sweep and the board sync in
+one turn. If that session is ever archived, BOTH halves stop silently — re-point the
+routine with `update_trigger` rather than recreating it as a fresh-session routine, which
+would reintroduce exactly this bug.
+
+## 5. The dashboard is synced separately from the sweep's own commit
 
 The team's live board is the Artifact **REL Pipeline Desk**
 (`https://claude.ai/artifact/QakzsFdHVhWZmRGwuPd98P`). It keeps deal facts in an artifact
