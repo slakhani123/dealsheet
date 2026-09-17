@@ -66,10 +66,26 @@ FACT_FIELDS = [
 ]
 
 # Fields the team owns. Never written by a sync, at any version, for any reason.
+#
+# "corrections" is the one that needs explaining. The board shows the sheet's
+# figures, but a person who spots a wrong one can amend it there — otherwise
+# the only options are to act on a number they know is wrong or to stop using
+# the board. An amendment is stored as {field: value} under "corrections" and
+# the board displays it in place of the sheet's own, saying so. It is a claim
+# about the sheet, not a replacement for it: check_corrections() below reports
+# every one still outstanding so the sweep can fix the spreadsheet, and clears
+# it once the sheet agrees. A correction is therefore temporary by design.
 TEAM_FIELDS = [
     "stage", "owner", "rag", "nextAction", "nextActionDue", "teamNote",
     "reviewedWeek", "updatedBy", "updatedAt", "createdBy", "origin",
+    "corrections",
 ]
+
+# The figures a person may amend on the board. Text fields are deliberately
+# absent: a wrong property name or borrower is a different kind of problem and
+# belongs in the sheet, where renaming it also re-keys the board document.
+AMENDABLE = ["netLoan", "grossLoan", "collateral", "relShare", "relReturn",
+             "ltv", "irr", "months"]
 
 # Stage order, funnel order. "Completed" was replaced by the pair Drawn /
 # Redeemed once it became clear the sheet was calling drawn loans completed.
@@ -77,6 +93,13 @@ STAGES = ["Enquiry", "Terms Issued", "Commitment Fee", "In Legals", "Drawn", "Re
 
 # Row blocks. The In Legals block sits under its header at row 7; EARLY STAGE
 # under row 19. Both end before their Total row.
+# Declined rows carry the same column layout as Potential Deals and, unlike
+# the board's old summary of them, real funnel evidence: when the enquiry came
+# in, whether terms were ever issued, whether a commitment fee was paid. That
+# is what makes a conversion rate possible at all, so the sync now rebuilds the
+# whole reference document rather than leaving it as a one-off hand-loaded blob.
+DECLINED_BLOCK = ("Declined Deals", 5, 94)
+
 BLOCKS = [
     ("Potential Deals", 8, 10, "live", "In Legals"),
     ("Potential Deals", 20, 53, "live", None),
@@ -180,6 +203,100 @@ def read_sheet(path):
     return rows
 
 
+def read_declined(path):
+    """The declined book, as the board's reference document.
+
+    Kept deliberately small — property, asset class, size, why we passed — plus
+    the four fields a conversion rate needs: when it arrived, whether terms went
+    out, whether a fee was paid, and where it came from. 90 rows of full deal
+    records would be a second copy of the spreadsheet; this is a summary that
+    can answer "what do we see, and what do we write?".
+    """
+    wb = openpyxl.load_workbook(path, data_only=True)
+    ws = wb[DECLINED_BLOCK[0]]
+    cols = dict(COLS["Potential Deals"], relShare=None)
+    items = []
+    for r in range(DECLINED_BLOCK[1], min(DECLINED_BLOCK[2], ws.max_row) + 1):
+        def cell(field):
+            c = cols.get(field)
+            return ws.cell(r, c).value if c else None
+
+        prop = text(cell("property"))
+        if not prop or prop.lower() == "total":
+            continue
+        # "Broker (Arc & Co)" names the broker in the source column. Split it,
+        # so the source stays one of two values and the name is still kept.
+        src, introducer = text(cell("source")), None
+        if src:
+            m = re.match(r"^\s*(Broker|Direct)\s*\((.+)\)\s*$", src, re.I)
+            if m:
+                src, introducer = m.group(1).title(), m.group(2).strip()
+            else:
+                src = src.strip()
+        items.append({
+            "property": prop,
+            "assetClass": text(cell("assetClass")),
+            "dateReceived": iso(cell("dateReceived")),
+            "grossLoan": num(cell("grossLoan")),
+            "ltv": num(cell("ltv")),
+            "months": num(cell("months")),
+            "tsIssued": truthy(cell("tsIssued")),
+            "commitFee": truthy(cell("commitFee")),
+            "source": src,
+            "introducer": introducer,
+            "reason": text(cell("sheetComments")),
+        })
+    return items
+
+
+def check_corrections(db, sheet_rows):
+    """Figures a person amended on the board, against what the sheet now says.
+
+    Returns (writes, outstanding). An amendment the sheet has caught up with is
+    cleared — leaving it would keep showing an "amended" badge over a figure
+    that no longer differs from anything. One the sheet still contradicts is
+    reported, because fixing the spreadsheet is a human step this script must
+    never take for itself.
+    """
+    by_prop = {r["property"]: r for r in sheet_rows}
+    writes, outstanding = [], []
+    for doc_id, d in sorted(db.items()):
+        corr = d.get("corrections")
+        if not isinstance(corr, list) or not corr:
+            continue
+        row = by_prop.get(d.get("property"))
+        keep = []
+        for c in corr:
+            if not isinstance(c, dict) or c.get("field") not in AMENDABLE:
+                continue
+            field, value = c["field"], c.get("value")
+            sheet_value = row.get(field) if row else None
+            if same_number(sheet_value, value):
+                continue                      # the sheet caught up; drop it
+            keep.append(c)
+            outstanding.append((d.get("property"), field, sheet_value, value,
+                                c.get("by") or d.get("updatedBy")))
+        if len(keep) != len(corr):
+            # The whole list is rewritten, never patched key by key: it is an
+            # array precisely so that withdrawing one amendment cannot half-apply.
+            entry = {"op": "update", "collection": "deals", "doc_id": doc_id,
+                     "data": {"corrections": keep}}
+            if "version" in d:
+                entry["if_version"] = d["version"]
+            writes.append(entry)
+    return writes, outstanding
+
+
+def same_number(a, b):
+    """Equal as figures, not as objects. Floats out of Excel are never exact."""
+    if a is None or b is None:
+        return a is None and b is None
+    try:
+        return abs(float(a) - float(b)) <= 1e-9 + 1e-9 * abs(float(b))
+    except (TypeError, ValueError):
+        return a == b
+
+
 def read_db(db_dir):
     docs = {}
     if not os.path.isdir(db_dir):
@@ -201,6 +318,7 @@ def main():
     args = ap.parse_args()
 
     sheet_rows = read_sheet(args.sheet)
+    declined = read_declined(args.sheet)
     db = read_db(args.db)
     versions = json.load(open(args.versions)) if args.versions else {}
 
@@ -247,6 +365,15 @@ def main():
             continue
         (manual if d.get("origin") == "manual" else unmatched).append((doc_id, d.get("property")))
 
+    # The declined book is one document, rewritten whole: it is a summary of a
+    # sheet nobody edits from the board, so there is nothing of the team's in
+    # it to preserve.
+    writes.append({"op": "set", "collection": "reference", "doc_id": "declined",
+                   "data": {"count": len(declined), "items": declined}})
+
+    corr_writes, outstanding = check_corrections(db, sheet_rows)
+    writes.extend(corr_writes)
+
     with open(args.out, "w") as f:
         json.dump(writes, f, indent=2)
 
@@ -267,6 +394,18 @@ def main():
               "check before doing anything; nothing is deleted automatically:")
         for doc_id, prop in unmatched:
             print(f"  ? {prop}  [{doc_id}]")
+    print(f"\n{len(declined)} declined deals in the reference document "
+          f"({sum(1 for d in declined if d['tsIssued'])} reached terms, "
+          f"{sum(1 for d in declined if d['dateReceived'])} dated)")
+    if outstanding:
+        print(f"\n{len(outstanding)} figure(s) amended on the board that the sheet "
+              "still contradicts — FIX THE SHEET, then the amendment clears itself:")
+        for prop, field, sheet_value, board_value, by in outstanding:
+            print(f"  ! {prop}  {field}: sheet says {sheet_value}, "
+                  f"{by or 'someone'} says {board_value}")
+    if corr_writes:
+        print(f"\n{len(corr_writes)} amendment(s) the sheet has caught up with, "
+              "being cleared")
     print(f"\n{len(writes)} writes -> {args.out}"
           + ("  (apply in chunks of 50)" if len(writes) > 50 else ""))
 

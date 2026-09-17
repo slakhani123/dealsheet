@@ -16,6 +16,15 @@
   --legals:#2F5FBF;
   --shadow:0 1px 2px rgba(25,18,23,.05), 0 10px 28px -14px rgba(25,18,23,.20);
   --r:10px; --r-lg:14px;
+  /* Chart marks. Two hues carry every comparison on the Numbers tab — what we
+     wrote against what we only looked at — so the set is small on purpose.
+     Validated for colour-blind separation against this surface; every mark is
+     also directly labelled, so colour is never the only thing saying which. */
+  --ch-1:#B3123A; --ch-2:#2F5FBF; --ch-3:#0E7A4F;
+  /* --ch-mute is a MARK, --ch-track is the empty remainder behind it. They
+     have to differ: when they matched, a bar that was entirely "passed or
+     lost" — 27 declined deals with no reason — rendered as nothing at all. */
+  --ch-mute:#B4A8AE; --ch-track:#EDE7EA; --ch-grid:#E7E1E4; --ch-ink:#FFFFFF;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
@@ -28,6 +37,8 @@
     --stall:#FF5C74; --stall-soft:#3B1019;
     --legals:#7B9BE8;
     --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.6);
+    --ch-1:#E8536F; --ch-2:#5F86D8; --ch-3:#2FA877;
+    --ch-mute:#6B5F6B; --ch-track:#2A2430; --ch-grid:#2E272F; --ch-ink:#17121A;
   }
 }
 :root[data-theme="dark"]{
@@ -40,6 +51,8 @@
   --stall:#FF5C74; --stall-soft:#3B1019;
   --legals:#7B9BE8;
   --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.6);
+  --ch-1:#E8536F; --ch-2:#5F86D8; --ch-3:#2FA877;
+  --ch-mute:#6B5F6B; --ch-track:#2A2430; --ch-grid:#2E272F; --ch-ink:#17121A;
 }
 *{box-sizing:border-box}
 body{
@@ -454,6 +467,143 @@ details.more summary:hover{color:var(--ink)}
   .deal-row .d-name b{white-space:normal}
   .list-head{display:none}
 }
+
+/* ---------- tabs ---------- */
+.tabs{
+  display:flex; gap:2px; padding:3px; margin:0 0 18px;
+  background:var(--sunk); border:1px solid var(--line); border-radius:12px;
+  width:fit-content; max-width:100%;
+}
+.tabs button{
+  appearance:none; border:0; background:transparent; cursor:pointer;
+  font:600 13.5px/1 "IBM Plex Sans",sans-serif; color:var(--muted);
+  padding:9px 18px; border-radius:9px; display:flex; align-items:center; gap:7px;
+  transition:background .15s ease, color .15s ease;
+}
+.tabs button:hover{color:var(--ink)}
+.tabs button[aria-selected="true"]{background:var(--surface); color:var(--ink); box-shadow:var(--shadow)}
+.tabs button .tct{
+  font-family:"IBM Plex Mono",monospace; font-size:11px; font-weight:600;
+  background:var(--accent); color:var(--accent-ink); border-radius:20px; padding:1px 6px;
+}
+.tabs button[aria-selected="true"] .tct{background:var(--accent)}
+
+/* ---------- the numbers tab ---------- */
+.nums{display:flex; flex-direction:column; gap:18px}
+.npanel{
+  background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg);
+  padding:20px; box-shadow:var(--shadow);
+}
+.npanel > h3{
+  font:600 16px/1.3 "Newsreader",Georgia,serif; letter-spacing:.1px; margin-bottom:2px;
+}
+.npanel > .nsub{color:var(--muted); font-size:12.5px; margin:0 0 16px; max-width:64ch}
+.npanel > .nsub:last-child{margin-bottom:0}
+.nfoot{
+  margin-top:14px; padding-top:12px; border-top:1px solid var(--line);
+  color:var(--faint); font-size:11.5px; line-height:1.55; max-width:72ch;
+}
+.n2{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px}
+
+/* headline figures */
+.bignums{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:2px 0; margin-bottom:4px}
+.bignum{padding:2px 18px 2px 0}
+.bignum b{
+  display:block; font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums;
+  font-size:27px; font-weight:600; letter-spacing:-.6px; line-height:1.15; color:var(--ink);
+}
+.bignum span{display:block; font-size:12px; color:var(--muted); margin-top:3px}
+.bignum em{display:block; font-style:normal; font-size:11.5px; color:var(--faint); margin-top:2px}
+
+/* horizontal bars: label · track · value */
+.hbars{display:flex; flex-direction:column; gap:9px}
+.hbar{display:grid; grid-template-columns:minmax(88px,26%) 1fr auto; gap:12px; align-items:center}
+.hbar .hl{font-size:12.5px; color:var(--ink-2); overflow-wrap:anywhere}
+.hbar .hl small{display:block; color:var(--faint); font-size:11px}
+.hbar .ht{background:var(--ch-track); border-radius:4px; height:16px; display:flex; gap:2px; overflow:hidden}
+.hbar .ht i{display:block; height:100%; border-radius:0 4px 4px 0; min-width:2px}
+.hbar .ht i:only-child{border-radius:4px}
+.hbar .hv{
+  font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums;
+  font-size:12.5px; font-weight:600; color:var(--ink); white-space:nowrap;
+}
+.hbar .hv s{text-decoration:none; color:var(--faint); font-weight:400}
+
+/* monthly columns */
+.cols{display:flex; align-items:flex-end; gap:5px; height:132px; margin:4px 0 0; border-bottom:1px solid var(--ch-grid)}
+.cols .cw{flex:1 1 0; display:flex; flex-direction:column; justify-content:flex-end; height:100%; gap:2px; min-width:0}
+.cols .cw .stack{display:flex; flex-direction:column-reverse; gap:2px; justify-content:flex-start}
+.cols .cw i{display:block; border-radius:3px; min-height:2px}
+.cols .cw i:first-child{border-radius:0 0 3px 3px}
+.cols .cw i:last-child{border-radius:3px 3px 0 0}
+.colx{display:flex; gap:5px; margin-top:7px}
+.colx span{
+  flex:1 1 0; min-width:0; text-align:center; font-size:10px; color:var(--faint);
+  font-family:"IBM Plex Mono",monospace; white-space:nowrap; overflow:hidden;
+}
+.colv{
+  display:flex; gap:5px; margin-bottom:5px;
+}
+.colv span{
+  flex:1 1 0; min-width:0; text-align:center; font-size:10.5px; color:var(--muted);
+  font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums;
+}
+
+/* the conversion funnel */
+.fun{display:flex; flex-direction:column; gap:0}
+.fun .fr{display:grid; grid-template-columns:minmax(96px,22%) 1fr; gap:12px; align-items:center}
+.fun .fk{font-size:12.5px; color:var(--ink-2)}
+.fun .fb{
+  height:30px; border-radius:5px; display:flex; align-items:center; padding:0 10px;
+  font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums;
+  font-size:12.5px; font-weight:600; min-width:72px; white-space:nowrap;
+}
+.fun .drop{
+  grid-column:2; display:flex; align-items:center; gap:8px;
+  font-size:11.5px; color:var(--muted); padding:5px 0 5px 10px; margin:1px 0;
+  border-left:2px solid var(--line-2);
+}
+.fun .drop b{color:var(--ink-2); font-family:"IBM Plex Mono",monospace; font-weight:600}
+
+/* legend */
+.legend{display:flex; flex-wrap:wrap; gap:6px 18px; margin:0 0 14px; font-size:12px; color:var(--muted)}
+.legend span{display:inline-flex; align-items:center; gap:7px}
+.legend i{width:11px; height:11px; border-radius:3px; display:block; flex:none}
+
+/* amending a figure */
+.facts .amend{
+  appearance:none; border:1px solid var(--line-2); background:var(--surface);
+  color:var(--muted); cursor:pointer; border-radius:7px;
+  font:500 11.5px/1 "IBM Plex Sans",sans-serif; padding:6px 10px; margin-top:12px;
+}
+.facts .amend:hover{border-color:var(--accent); color:var(--accent)}
+.facts dd .fix{
+  display:inline-block; margin-left:5px; font-size:10px; font-weight:600;
+  color:var(--watch); text-transform:uppercase; letter-spacing:.04em;
+}
+.facts dd s{color:var(--faint); text-decoration:line-through; font-weight:400; margin-right:5px}
+.amendgrid{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px 10px; margin-top:12px}
+.amendgrid .af{display:flex; flex-direction:column; gap:3px; min-width:0}
+.amendgrid label{font-size:11px; color:var(--muted)}
+.amendgrid input{
+  width:100%; padding:6px 8px; border:1px solid var(--line-2); border-radius:7px;
+  background:var(--surface); color:var(--ink); font:500 12.5px/1.3 "IBM Plex Mono",monospace;
+}
+.amendgrid input:focus{outline:2px solid var(--accent); outline-offset:1px; border-color:transparent}
+.amendgrid input.changed{border-color:var(--watch); background:var(--watch-soft)}
+.amendnote{
+  grid-column:1/-1; font-size:11.5px; color:var(--muted); line-height:1.5; margin-top:2px;
+}
+.amendact{grid-column:1/-1; display:flex; gap:8px; align-items:center; margin-top:4px}
+
+@media (max-width:760px){
+  .n2{grid-template-columns:1fr}
+  .hbar{grid-template-columns:minmax(76px,34%) 1fr auto; gap:8px}
+  .amendgrid{grid-template-columns:1fr}
+  .bignum b{font-size:23px}
+  .colx span,.colv span{font-size:9px}
+}
+
 @media (prefers-reduced-motion: reduce){
   *{animation-duration:.001ms !important; transition-duration:.001ms !important}
 }
@@ -478,6 +628,13 @@ details.more summary:hover{color:var(--ink)}
 
   <div id="dbNotice" hidden></div>
 
+  <nav class="tabs" role="tablist" aria-label="Sections">
+    <button type="button" role="tab" id="tab-desk" data-tab="desk" aria-selected="true" aria-controls="deskTab">The desk<span class="tct" id="tabCt" hidden></span></button>
+    <button type="button" role="tab" id="tab-numbers" data-tab="numbers" aria-selected="false" aria-controls="numbersTab">Numbers</button>
+  </nav>
+
+  <div id="deskTab" role="tabpanel" aria-labelledby="tab-desk">
+
   <!-- How the team uses this -->
   <section class="guide" id="guide" aria-labelledby="guideH">
     <div class="guide-h">
@@ -496,8 +653,8 @@ details.more summary:hover{color:var(--ink)}
       <div class="step">
         <span class="i">2</span>
         <div>
-          <h3>Work the four piles</h3>
-          <p>The tiles below filter the book: gone quiet, no figure yet, action due, not yet reviewed. Click one to see only those.</p>
+          <h3>Start at “Needs you”</h3>
+          <p>One list, most pressing first, each row saying why it is there — in default, past its date, offer lapsed, gone quiet. If it is empty, there is genuinely nothing outstanding.</p>
         </div>
       </div>
       <div class="step">
@@ -511,12 +668,12 @@ details.more summary:hover{color:var(--ink)}
         <span class="i">4</span>
         <div>
           <h3>Mark it reviewed</h3>
-          <p>Hit <b>Mark reviewed</b> and the bar at the top fills. <b>Nothing to do is a real answer</b> — mark it reviewed and move on.</p>
+          <p>Hit <b>Mark reviewed</b> and the deal drops out of “Needs you” into <b>Done this week</b> underneath, so the list empties as you work it. Everything comes back on Monday. <b>Nothing to do is a real answer</b>.</p>
         </div>
       </div>
     </div>
     <div class="guide-foot">
-      <b>The figures are read-only.</b> Loan amounts, LTVs and dates come from the deal sheet and refresh from Shyam's inbox — if one is wrong, fix the deal sheet, and leave a note here so nobody acts on it meanwhile.
+      <b>The figures come from the deal sheet</b>, which the inbox sweep keeps up to date. If one is wrong you can amend it here — open the deal and press <b>Amend a figure</b>. Your figure shows on the board straight away, marked as amended, and the sweep fixes the spreadsheet next time it runs.
       <b>Everything else is yours:</b> owner, stage, status, next action and notes are only ever changed by the three of you.
       Took an enquiry on the phone? It will not be in the sheet — put it straight on the board with <b>+ Add deal</b>.
     </div>
@@ -602,8 +759,14 @@ details.more summary:hover{color:var(--ink)}
     </details>
   </section>
 
+  </div><!-- /deskTab -->
+
+  <div id="numbersTab" role="tabpanel" aria-labelledby="tab-numbers" hidden>
+    <div class="nums" id="nums"><div class="skel"></div><div class="skel"></div></div>
+  </div>
+
   <div class="foot">
-    <span>Deal terms flow in from the Outlook sweep → Excel → this board.</span>
+    <span>Deal terms flow in from the inbox sweep → Excel → this board.</span>
     <span>Owner, stage, RAG, next action and notes are yours — the sweep never overwrites them.</span>
   </div>
 </div>
@@ -621,6 +784,31 @@ details.more summary:hover{color:var(--ink)}
 
   var db=null, deals=[], completed=[], declined=[], meta={}, integrity=null;
   var who=null, filter=null, open=null, openScope=null, q="", sortBy="stage", doneOpen=false;
+  var tab="desk", amendOpen=null;
+
+  /* The board shows the deal sheet's figures, and for a long time that was the
+     end of it: a wrong number left you choosing between acting on something you
+     knew was wrong and not using the board. So a figure can be amended here.
+     An amendment is stored under `corrections` — a team field the sweep never
+     overwrites — and shown in place of the sheet's own, saying so, with the
+     original still visible. It is a claim about the sheet rather than a
+     replacement for it: sync_dashboard.py reports every amendment the sheet
+     still contradicts so the spreadsheet gets fixed, and clears it once the
+     sheet agrees. An amendment is therefore temporary by design.
+
+     It is an array, not an object keyed by field, because an array is replaced
+     wholesale by every update semantic there is — withdrawing an amendment
+     cannot half-apply. */
+  var AMENDABLE=[
+    {f:"grossLoan",  t:"Gross loan",  k:"m"},
+    {f:"netLoan",    t:"Net loan",    k:"m"},
+    {f:"collateral", t:"Collateral",  k:"m"},
+    {f:"relShare",   t:"REL share",   k:"m"},
+    {f:"ltv",        t:"LTV",         k:"%"},
+    {f:"months",     t:"Term",        k:"mo"},
+    {f:"irr",        t:"IRR",         k:"%"},
+    {f:"relReturn",  t:"Loan return", k:"m"}
+  ];
 
   /* ---------- helpers ---------- */
   function $(id){return document.getElementById(id)}
@@ -648,6 +836,66 @@ details.more summary:hover{color:var(--ink)}
   }
   function lsGet(k){try{return localStorage.getItem(k)}catch(e){return null}}
   function lsSet(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+
+  /* ---------- amended figures ---------- */
+  function corrMap(d){
+    var m={};
+    (Array.isArray(d.corrections)? d.corrections : []).forEach(function(c){
+      if(c && c.field!=null && c.value!=null) m[c.field]=c;
+    });
+    return m;
+  }
+  /* Swap amended figures in and the sheet's own into `sheetFigs`, so the rest
+     of the page — every total, every chart, every row — reads d.grossLoan and
+     gets the figure the team believes, while the original stays recoverable.
+     Idempotent: sheetFigs only ever holds what the SHEET said, so amending
+     twice does not make the first amendment look like the sheet's own value. */
+  function applyCorrections(d){
+    var m=corrMap(d);
+    if(!d.sheetFigs) d.sheetFigs={};
+    AMENDABLE.forEach(function(a){
+      var f=a.f;
+      if(m[f]){
+        if(!(f in d.sheetFigs)) d.sheetFigs[f] = (d[f]===undefined? null : d[f]);
+        d[f]=m[f].value;
+      } else if(f in d.sheetFigs){
+        d[f]=d.sheetFigs[f]; delete d.sheetFigs[f];
+      }
+    });
+    return d;
+  }
+  function amended(d,f){
+    return !!(d.sheetFigs && Object.prototype.hasOwnProperty.call(d.sheetFigs,f));
+  }
+  function anyAmended(d){ return !!(d.sheetFigs && Object.keys(d.sheetFigs).length) }
+  function sheetVal(d,f){ return amended(d,f)? d.sheetFigs[f] : (d[f]===undefined? null : d[f]) }
+  /* £m to one decimal, % to a whole point, months whole — the precision the
+     sheet itself uses. Anything finer invents accuracy nobody entered. */
+  function figStr(v,a){
+    if(v==null || isNaN(v)) return "";
+    if(a.k==="%") return String(Math.round(v*1000)/10);
+    if(a.k==="mo") return String(Math.round(v));
+    return String(Math.round(v*1000)/1000);
+  }
+  function figIn(d,a){ return figStr(d[a.f], a) }
+  function figOut(raw,a){
+    var t=String(raw==null?"":raw).replace(/[£%,\s]/g,"");
+    if(t==="") return null;
+    var n=parseFloat(t);
+    if(isNaN(n)) return undefined;              // undefined = could not read it
+    if(a.k==="%") return Math.round((n>1.5? n/100 : n)*100000)/100000;
+    if(a.k==="mo") return Math.round(n);
+    return Math.round(n*1000)/1000;
+  }
+  function sameFig(a,b){
+    if(a==null||b==null) return a==null && b==null;
+    return Math.abs(a-b) <= 1e-9 + 1e-9*Math.abs(b);
+  }
+  function figText(d,a){
+    var v=d[a.f];
+    if(v==null) return "—";
+    return a.k==="%" ? (pct(v)||"—") : a.k==="mo" ? (v+" mo") : (money(v)||"—");
+  }
 
   /* ---------- derived state ---------- */
   function ageDays(d){
@@ -737,6 +985,16 @@ details.more summary:hover{color:var(--ink)}
     var u=untouchedDays(d);
     if(u!=null && u>=30) return {p:5, why:u+" days quiet", hot:u>=60};
     if(d.tsIssued && d.grossLoan==null) return {p:6, why:"Terms out, no figure", hot:false};
+    /* Anything you touched this week and did not tick off stays on the list.
+       Two reasons. It is true — a half-done deal is exactly what a review list
+       is for. And without it a deal you edit disappears from under you mid-
+       edit: saving stamps updatedAt, which stops the deal being "45 days
+       quiet", which was the only thing listing it. */
+    if(d.updatedAt && !reviewedThisWeek(d)){
+      var t=new Date(d.updatedAt);
+      if(!isNaN(t) && weekKey(t)===weekKey(today()))
+        return {p:7, why:"Updated, not ticked off", hot:false};
+    }
     return null;
   }
   function needsList(){
@@ -753,8 +1011,20 @@ details.more summary:hover{color:var(--ink)}
      was flagged has not gone away, it has just been dealt with this week.
      The week key rolls over on Monday and everything returns. */
   function needsSplit(){
-    var all=needsList(), out=[], done=[];
-    all.forEach(function(it){ (reviewedThisWeek(it.d)? done : out).push(it) });
+    var all=needsList(), out=[], keep={};
+    all.forEach(function(it){
+      if(reviewedThisWeek(it.d)) keep[it.d.id]=it; else out.push(it);
+    });
+    /* Done is everything reviewed this week, not just the reviewed rows that
+       still have a reason to be listed. Reviewing a deal stamps updatedAt,
+       which stops it being "45 days quiet" — so a deal listed for quietness
+       left the outstanding list AND never arrived in Done. It vanished, and
+       the counter said 4 reviewed above a block showing 3. */
+    var done=deals.concat(completed).filter(reviewedThisWeek).map(function(d){
+      return keep[d.id] || {d:d, a:{p:9, why:"Reviewed", hot:false}};
+    }).sort(function(x,y){
+      return x.a.p-y.a.p || (y.d.relShare||y.d.grossLoan||0)-(x.d.relShare||x.d.grossLoan||0);
+    });
     return {out:out, done:done};
   }
 
@@ -766,13 +1036,15 @@ details.more summary:hover{color:var(--ink)}
 
     var f=$("freshness"); var swept=meta.lastSweep;
     var el, txt;
-    if(!swept){ el="pulse bad"; txt="Terms never swept"; }
+    if(!swept){ el="pulse bad"; txt="Inbox never swept"; }
     else{
       var t=new Date(swept); var age=isNaN(t)?999:daysBetween(t,today());
-      txt = "Terms as of "+(isNaN(t)?String(swept):t.toLocaleDateString("en-GB",{day:"numeric",month:"short"}));
+      txt = "Inbox swept "+(isNaN(t)?String(swept):t.toLocaleDateString("en-GB",{day:"numeric",month:"short"}));
       el = age<=7 ? "pulse" : (age<=14 ? "pulse old" : "pulse bad");
-      if(age>7) txt += " · "+age+"d old";
+      if(age>7) txt += " · "+age+"d ago";
     }
+    f.title = "When the deal sheet was last brought up to date from the inbox. "+
+              "Anything that landed since then is not on this board yet.";
     f.innerHTML='<span class="'+el+'"></span><span>'+esc(txt)+'</span>';
   }
 
@@ -810,6 +1082,7 @@ details.more summary:hover{color:var(--ink)}
     $("stateHead").textContent = n===0
       ? "Nothing needs you"
       : n+(n===1? " deal needs you" : " deals need you");
+    var tc=$("tabCt"); tc.hidden = !n; tc.textContent = n;
     var bits=[];
     var od=drawn.filter(function(d){return inDefault(d)||pastMaturity(d)}).length;
     if(od) bits.push(od+" drawn "+(od===1?"loan is past its date":"loans are past their date"));
@@ -919,17 +1192,11 @@ details.more summary:hover{color:var(--ink)}
 
   function declineRollup(){
     if(!declined.length) return "";
+    // Same grouping the Numbers tab uses, so the two never disagree.
     var c={};
     declined.forEach(function(d){
-      var r=(d.reason||"").trim(); if(!r) return;
-      var k=r.toLowerCase();
-      var bucket = k.indexOf("pricing")>-1||k.indexOf("cheaper")>-1 ? "Lost on price"
-        : k.indexOf("went with")>-1||k.indexOf("did not win")>-1 ? "Lost to another lender"
-        : k.indexOf("review")>-1||k.indexOf("awaiting")>-1 ? "Still open (mis-filed)"
-        : k.indexOf("leverage")>-1||k.indexOf("ltv")>-1 ? "Leverage too high"
-        : k.indexOf("valuation")>-1||k.indexOf("valaution")>-1 ? "Valuation short"
-        : k.indexOf("declined by rel")>-1 ? "We declined"
-        : "Other / not progressed";
+      if(!(d.reason||"").trim()) return;
+      var bucket=declineGroup(d.reason);
       c[bucket]=(c[bucket]||0)+1;
     });
     var arr=Object.keys(c).map(function(k){return [k,c[k]]}).sort(function(a,b){return b[1]-a[1]});
@@ -1054,17 +1321,35 @@ details.more summary:hover{color:var(--ink)}
   function editor(d){
     var opts=function(list,sel){return list.map(function(v){
       return '<option value="'+esc(v)+'"'+(sel===v?' selected':'')+'>'+esc(v)+'</option>'}).join("")};
+    var m=corrMap(d);
+    /* An amended figure shows the team's number, the sheet's struck through
+       beside it, and who changed it — so nobody has to wonder which they are
+       looking at, and a wrong amendment is as visible as the wrong figure it
+       replaced. */
+    var F=function(key){
+      var a=null; AMENDABLE.forEach(function(x){ if(x.f===key) a=x });
+      var v=figText(d,a);
+      if(!amended(d,key)) return v;
+      var was=d.sheetFigs[key];
+      var wasTxt = was==null? "blank"
+        : a.k==="%" ? pct(was) : a.k==="mo" ? was+" mo" : money(was);
+      return '<s title="what the deal sheet says">'+esc(wasTxt)+'</s>'+esc(v)+
+             '<span class="fix" title="Amended by '+esc((m[key]&&m[key].by)||"someone")+
+             (m[key]&&m[key].at? " on "+esc(fmtDate(m[key].at)) : "")+
+             '. The sheet is fixed on the next sweep.">amended</span>';
+    };
     var facts=[
-      ["Received", d.dateReceived?fmtDate(d.dateReceived):"—"],
-      ["Net loan", money(d.netLoan)||"—"],
-      ["Gross loan", money(d.grossLoan)||"—"],
-      ["Collateral", money(d.collateral)||"—"],
-      ["LTV", (pct(d.ltv)||"—")+(d.ltvBasis==="net"?" · net basis":"")],
-      ["REL return", money(d.relReturn)||"—"],
-      ["Term", d.months!=null? d.months+" mo":"—"],
-      ["IRR", pct(d.irr)||"—"],
-      ["Type", [d.tranche,d.dealType,d.acqRefi==="A"?"Acquisition":d.acqRefi==="R"?"Refinance":null].filter(Boolean).join(" · ")||"—"],
-      ["Source", d.source||"—"]
+      ["Received", esc(d.dateReceived?fmtDate(d.dateReceived):"—")],
+      ["Net loan", F("netLoan")],
+      ["Gross loan", F("grossLoan")],
+      ["Collateral", F("collateral")],
+      ["LTV", F("ltv")+(d.ltvBasis==="net"?" · net basis":"")],
+      ["REL share", F("relShare")],
+      ["Loan return", F("relReturn")],
+      ["Term", F("months")],
+      ["IRR", F("irr")],
+      ["Type", esc([d.tranche,d.dealType,d.acqRefi==="A"?"Acquisition":d.acqRefi==="R"?"Refinance":null].filter(Boolean).join(" · ")||"—")],
+      ["Source", esc(d.source||"—")]
     ];
     return '<div class="editor">'+
       '<div>'+
@@ -1097,8 +1382,8 @@ details.more summary:hover{color:var(--ink)}
         '<div class="stamp">'+(d.updatedBy? "Last updated by "+esc(d.updatedBy)+(d.updatedAt?" · "+esc(fmtDate(d.updatedAt)):"") : "No team updates yet")+'</div>'+
       '</div>'+
       '<div class="facts"><h4>'+(d.origin==="manual"?"Entered by hand":"From the deal sheet")+'</h4><dl>'+
-        facts.map(function(f){return '<dt>'+esc(f[0])+'</dt><dd>'+esc(f[1])+'</dd>'}).join("")+
-      '</dl>'+(d.sheetComments? '<div class="note">'+esc(d.sheetComments)+'</div>':'')+
+        facts.map(function(f){return '<dt>'+esc(f[0])+'</dt><dd>'+f[1]+'</dd>'}).join("")+
+      '</dl>'+amendBlock(d)+(d.sheetComments? '<div class="note">'+esc(d.sheetComments)+'</div>':'')+
       (function(){var ev=lastNoteEvent(d); return ev
         ? '<div class="from">Last dated note <b>'+esc(fmtDate(ev.date.toISOString()))+'</b> — “'+esc(ev.text)+'”</div>'
         : (d.origin==="manual" ? '' : '<div class="from dimmed">No dated note in the sheet yet, so this deal has no quiet-time. The next sweep that writes one will fill it in.</div>')})()+
@@ -1107,12 +1392,60 @@ details.more summary:hover{color:var(--ink)}
           ? 'Added here by '+esc(d.createdBy||"someone on the team")+
             (d.dateReceived? ' on '+esc(fmtDate(d.dateReceived)):'')+
             '. It is not in the deal sheet yet — put it in so the sweep starts tracking it.'
-          : 'Read-only — these come from the Outlook sweep'+
-            (meta.lastSweep? ', last run '+esc(fmtDate(meta.lastSweep)):'')+
-            '. To change a number, fix it in the deal sheet; a wrong figure here is worth a note above.')+
+          : 'These come from the deal sheet, which the inbox sweep keeps up to date'+
+            (meta.lastSweep? ' — last run '+esc(fmtDate(meta.lastSweep)):'')+
+            '. If one is wrong, amend it above: the board uses your figure straight away and the '+
+            'sweep corrects the spreadsheet next time it runs.')+
       '</div></div>'+
     '</div>';
   }
+  /* Amending is deliberately behind one press. Most people opening a deal are
+     setting a next action, not disputing a valuation, and putting eight number
+     boxes in front of them every time would bury the thing they came for. */
+  function amendBlock(d){
+    if(amendOpen!==d.id){
+      return '<button type="button" class="amend" data-act="amendopen">'+
+        (anyAmended(d)? "Change an amended figure" : "Amend a figure")+'</button>';
+    }
+    return '<div class="amendgrid">'+
+      AMENDABLE.map(function(a){
+        var id="am-"+a.f+"-"+d.id;
+        return '<div class="af"><label for="'+esc(id)+'">'+esc(a.t)+
+          ' <span style="color:var(--faint)">'+(a.k==="m"?"£m":a.k==="%"?"%":"months")+'</span></label>'+
+          '<input type="text" inputmode="decimal" id="'+esc(id)+'" data-am="'+esc(a.f)+'" '+
+          'value="'+esc(figIn(d,a))+'"'+(amended(d,a.f)?' class="changed"':'')+'></div>';
+      }).join("")+
+      '<div class="amendnote">Put in what you know to be right. Your figure shows on the board '+
+      'straight away and the sheet gets fixed on the next sweep — until then the deal sheet\'s own '+
+      'number stays visible beside it. Clearing a box puts the sheet\'s figure back.</div>'+
+      '<div class="amendact">'+
+        '<button class="btn btn-p" data-act="amendsave">Save figures</button>'+
+        '<button class="btn btn-s" data-act="amendcancel">Cancel</button>'+
+      '</div></div>';
+  }
+  /* Compare against the SHEET, not against what is on screen: typing a figure
+     back to what the spreadsheet says is how an amendment is withdrawn, and it
+     has to leave no trace behind. */
+  function collectAmend(d, card){
+    var list=[], bad=[];
+    AMENDABLE.forEach(function(a){
+      var box=card.querySelector('[data-am="'+a.f+'"]'); if(!box) return;
+      var v=figOut(box.value, a);
+      if(v===undefined){ bad.push(a.t); return }
+      if(v===null) return;                 // cleared: back to whatever the sheet says
+      // Compare what is in the box against what the box WOULD show for the
+      // sheet's own figure, not against the figure itself. A box rounds — IRR
+      // 0.1469 shows as 14.7 — so comparing the numbers marked every untouched
+      // IRR as amended the moment anyone opened the form.
+      if(String(box.value).trim() === figStr(sheetVal(d,a.f), a)) return;
+      // …and typing the sheet's figure back in some other spelling is also not
+      // an amendment. This is how one is withdrawn.
+      if(sameFig(v, sheetVal(d,a.f))) return;
+      list.push({field:a.f, value:v, by: who||"unattributed", at:new Date().toISOString()});
+    });
+    return {list:list, bad:bad};
+  }
+
   function renderList(){
     var el=$("list"); var v=sortDeals(visible());
     $("clearF").hidden = !filter;
@@ -1164,7 +1497,328 @@ details.more summary:hover{color:var(--ink)}
         '<td class="n">'+(money(d.grossLoan)||"—")+'</td><td style="white-space:normal">'+esc(d.reason||"—")+'</td></tr>';
     }).join("");
   }
-  function renderAll(){ renderHeader(); renderState(); renderNeeds(); renderLoanBook(); renderIntegrity(); renderList(); renderTables(); }
+  /* ---------- the numbers ---------- */
+  /* Twenty spellings of a dozen asset classes ("Resi", "Resi (Super Prime)",
+     "Residential / Country estate") make every count wrong until they are
+     folded together. Order matters: Industrial before Leisure so "Industrial /
+     Leisure" lands as industrial, Residential before Land so "Residential /
+     Development" is not read as a land deal. */
+  var ASSETS=[[/pbsa|student/,"Student"],[/care|supported|retirement/,"Care & supported"],
+    [/hotel/,"Hotel"],[/resi/,"Residential"],[/mixed/,"Mixed-use"],
+    [/industrial|logistic|warehouse/,"Industrial"],[/retail|shopping/,"Retail"],
+    [/office/,"Office"],[/leisure|entertain/,"Leisure"],[/land|development/,"Land & development"]];
+  function normAsset(a){
+    var t=String(a||"").toLowerCase().trim();
+    if(!t || t==="tbc") return "Not stated";
+    for(var i=0;i<ASSETS.length;i++) if(ASSETS[i][0].test(t)) return ASSETS[i][1];
+    return "Other";
+  }
+  /* Why a deal died, in the words whoever typed the comment happened to use.
+     "Still open on the sheet" is not a decline reason — it is a deal filed in
+     the declined tab that nobody ever closed out, and it is worth seeing.
+     Checked before "We said no" so "Obtaining Credit Approval" is not read as
+     a credit decline. */
+  function declineGroup(r){
+    var t=String(r||"").toLowerCase().trim();
+    if(!t) return "No reason recorded";
+    if(/went with|go with|went elsewhere|stayed with|closed with|lost to|lost too|other lender|comparing/.test(t)) return "Lost to another lender";
+    if(/reviewing|awaiting|indicative terms|terms sent|credit approval|feedback|on hold|considering|final stages/.test(t)) return "Still open on the sheet";
+    if(/declined|leverage|valuation|valaution|poor borrower|\bpep\b|covenant|not set up|comfortable|too regional/.test(t)) return "We said no";
+    if(/pricing|cheaper|too expensive|too high|out ?proced|out ?priced/.test(t)) return "Priced out";
+    if(/did not progress|did not win|did not a[cq]quire|did not require|went dead|\bdead\b|no longer/.test(t)) return "Faded away";
+    return "Other";
+  }
+
+  function bn(v){
+    if(v==null||isNaN(v)) return "—";
+    return v>=1000 ? "£"+(Math.round(v/10)/100).toFixed(2)+"bn" : money(v);
+  }
+  function wAvg(rows, field){
+    var num=0, den=0;
+    rows.forEach(function(d){
+      if(d[field]==null||d.grossLoan==null) return;
+      num += d[field]*d.grossLoan; den += d.grossLoan;
+    });
+    return den? num/den : null;
+  }
+  function panel(title, sub, body, foot){
+    return '<section class="npanel"><h3>'+esc(title)+'</h3>'+
+      (sub? '<p class="nsub">'+sub+'</p>' : '')+ body +
+      (foot? '<div class="nfoot">'+foot+'</div>' : '')+'</section>';
+  }
+  function bigs(items){
+    return '<div class="bignums">'+items.map(function(it){
+      return '<div class="bignum"><b>'+esc(it[0])+'</b><span>'+esc(it[1])+'</span>'+
+        (it[2]? '<em>'+esc(it[2])+'</em>' : '')+'</div>';
+    }).join("")+'</div>';
+  }
+  function legend(items){
+    return '<div class="legend">'+items.map(function(it){
+      return '<span><i style="background:'+it[1]+'"></i>'+esc(it[0])+'</span>';
+    }).join("")+'</div>';
+  }
+  /* rows: {label, sub, segs:[{v,c,title}], value, was, title}. Every bar is
+     labelled with its own figure, so the colours are a second encoding rather
+     than the only one. */
+  function hbars(rows, max){
+    var m=max||Math.max.apply(null, rows.map(function(r){
+      return r.segs.reduce(function(a,s){return a+s.v},0)}).concat([1]));
+    return '<div class="hbars">'+rows.map(function(r){
+      return '<div class="hbar"><div class="hl">'+esc(r.label)+
+        (r.sub? '<small>'+esc(r.sub)+'</small>':'')+'</div>'+
+        '<div class="ht">'+r.segs.filter(function(s){return s.v>0}).map(function(s){
+          return '<i style="width:'+(100*s.v/m).toFixed(2)+'%;background:'+s.c+'"'+
+                 (s.title? ' title="'+esc(s.title)+'"':'')+'></i>';
+        }).join("")+'</div>'+
+        '<div class="hv">'+esc(r.value)+(r.was? ' <s>'+esc(r.was)+'</s>':'')+'</div></div>';
+    }).join("")+'</div>';
+  }
+
+  function renderNumbers(){
+    var box=$("nums");
+    var drawn=completed.filter(function(d){return d.stage==="Drawn"});
+    var red=completed.filter(function(d){return d.stage==="Redeemed"});
+    var live=deals.filter(function(d){return !TERMINAL[d.stage]});
+    var tracked=deals.concat(completed);
+    if(!tracked.length){ box.innerHTML='<div class="empty">Nothing loaded yet.</div>'; return }
+    var out="";
+
+    /* ---- 1. money out ---- */
+    var relOut=drawn.reduce(function(a,d){return a+(d.relShare||0)},0);
+    var whole=drawn.reduce(function(a,d){return a+(d.grossLoan||0)},0);
+    var noShare=drawn.filter(function(d){return d.relShare==null});
+    var byShare=drawn.slice().sort(function(a,b){return (b.relShare||0)-(a.relShare||0)});
+    var top=byShare[0];
+    var wl=wAvg(drawn,"ltv"), wt=wAvg(drawn,"months");
+    out += panel("REL's money, right now",
+      "REL's own share of the loans that are funded and not yet repaid — not the whole loan, which is mostly syndicated.",
+      bigs([
+        [bn(relOut), "REL capital out", drawn.length+(drawn.length===1?" loan":" loans")],
+        [bn(whole), "in whole loans", relOut&&whole? Math.round(100*relOut/whole)+"% of it ours":""],
+        [wl!=null? Math.round(wl*100)+"%" : "—", "weighted LTV", "on the whole loan"],
+        [wt!=null? Math.round(wt)+" mo" : "—", "weighted term", "as written"]
+      ])+
+      (byShare.length? hbars(byShare.map(function(d){
+        var share=relOut? (d.relShare||0)/relOut : 0;
+        return {label:d.property, sub:(d.assetClass||"")+(d.ltv!=null? " · "+pct(d.ltv)+" LTV":""),
+          segs:[{v:d.relShare||0, c:(inDefault(d)||pastMaturity(d))? "var(--stall)":"var(--ch-1)",
+                 title:d.property+" — REL "+(money(d.relShare)||"not recorded")+" of a "+(money(d.grossLoan)||"?")+" loan"}],
+          value:(money(d.relShare)||"—"), was:relOut? Math.round(share*100)+"%":""};
+      })) : ""),
+      (top&&relOut? "<b>"+esc(top.property)+"</b> is "+Math.round(100*(top.relShare||0)/relOut)+
+        "% of everything REL has out. " : "")+
+      (drawn.filter(function(d){return inDefault(d)||pastMaturity(d)}).length?
+        "Bars in red are past their date or in default. " : "")+
+      (noShare.length? "REL's share is not recorded for "+noShare.map(function(d){return esc(d.property)}).join(", ")+
+        ", so this total is understated." :
+        "Every running loan has REL's share recorded, so this is the real exposure rather than the whole-loan figure."));
+
+    /* ---- 2. track record ---- */
+    var relBack=red.reduce(function(a,d){return a+(d.relShare||0)},0);
+    var redWhole=red.reduce(function(a,d){return a+(d.grossLoan||0)},0);
+    var terms=red.filter(function(d){return d.months!=null});
+    var avgT=terms.length? terms.reduce(function(a,d){return a+d.months},0)/terms.length : null;
+    out += panel("What has come back",
+      "Loans repaid in full. This is the track record the next borrower is buying.",
+      bigs([
+        [String(red.length), "loans redeemed", "repaid in full"],
+        [bn(relBack), "REL capital returned", ""],
+        [bn(redWhole), "in whole loans", ""],
+        [avgT!=null? Math.round(avgT)+" mo" : "—", "average term", "as written"]
+      ])+
+      (red.length? hbars(red.slice().sort(function(a,b){return (b.relShare||0)-(a.relShare||0)})
+        .map(function(d){
+          return {label:d.property, sub:(d.assetClass||"")+(d.months!=null? " · "+d.months+" mo":""),
+            segs:[{v:d.relShare||0, c:"var(--ch-3)",
+                   title:d.property+" — REL "+(money(d.relShare)||"?")+" returned"}],
+            value:(money(d.relShare)||"—"), was:""};
+        })) : ""),
+      "Average term is the term <b>written</b>: the sheet records when a loan started and how long it "+
+      "was for, but not the date the money actually came back, so how long each was really held cannot "+
+      "be worked out here. "+
+      "The deal sheet's <b>REL Return</b> column is the interest and fees on the <b>whole</b> loan, "+
+      "not REL's share of them — Uxbridge shows £1.69m against a £2.05m REL participation — so it is "+
+      "shown per-deal and never totalled here. Worth splitting into a REL-share column in the sheet.");
+
+    /* ---- 3. the funnel ---- */
+    var seen=tracked.length+declined.length;
+    var tsAll=tracked.filter(function(d){return d.tsIssued}).length+
+              declined.filter(function(d){return d.tsIssued}).length;
+    var cfAll=tracked.filter(function(d){return d.commitFee}).length+
+              declined.filter(function(d){return d.commitFee}).length;
+    var written=completed.length;
+    /* Each gap gets its own words. A generated "X% of the previous step got
+       this far" reads as a failure at every gap, and the last one is not a
+       failure at all — a loan that has not been repaid yet is running, not
+       lost. */
+    var steps=[
+      ["Enquiries seen", seen, null, null],
+      ["Terms issued", tsAll, "got as far as terms", "never did"],
+      ["Commitment fee paid", cfAll, "went on to pay a fee", "did not"],
+      ["Drawn down", written, "of those drew down", "did not"],
+      ["Repaid in full", red.length, "have been repaid", "still running"]
+    ];
+    var priced=tracked.filter(function(d){return d.grossLoan!=null})
+      .concat(declined.filter(function(d){return d.grossLoan!=null}));
+    var valSeen=priced.reduce(function(a,d){return a+d.grossLoan},0);
+    var valWritten=completed.reduce(function(a,d){return a+(d.grossLoan||0)},0);
+    var mid=function(arr){
+      var v=arr.slice().sort(function(a,b){return a-b}); if(!v.length) return null;
+      return v.length%2? v[(v.length-1)/2] : (v[v.length/2-1]+v[v.length/2])/2;
+    };
+    var fun='<div class="fun">';
+    steps.forEach(function(st,i){
+      var w=Math.max(12, 100*st[1]/steps[0][1]);
+      var c=i===0? "var(--ch-2)" : i>=3? "var(--ch-1)" : "var(--ch-2)";
+      if(i) {
+        var prev=steps[i-1][1];
+        var rate=prev? Math.round(100*st[1]/prev) : 0;
+        fun+='<div class="fr"><div class="drop"><b>'+rate+'%</b> '+esc(st[2])+
+             (prev-st[1]>0? ' · '+(prev-st[1])+' '+esc(st[3]) : '')+'</div></div>';
+      }
+      fun+='<div class="fr"><div class="fk">'+esc(st[0])+'</div>'+
+           '<div class="fb" style="width:'+w.toFixed(1)+'%;background:'+c+';color:var(--ch-ink)" '+
+           'title="'+esc(st[0])+': '+st[1]+' of '+steps[0][1]+'">'+st[1]+'</div></div>';
+    });
+    fun+='</div>';
+    out += panel("What we see, and what we write",
+      "Every deal the sheet has ever carried — live, declined, drawn and redeemed — followed through to what happened to it.",
+      bigs([
+        [String(seen), "deals seen", "since the sheet began"],
+        [(Math.round(1000*written/seen)/10)+"%", "reach drawdown", written+" of "+seen],
+        [bn(valSeen), "of loans looked at", priced.length+" priced"],
+        [bn(valWritten), "actually written", "REL's own share "+bn(relOut+relBack)]
+      ])+fun,
+      "Median enquiry <b>"+esc(bn(mid(priced.map(function(d){return d.grossLoan})))+"")+
+      "</b>, median loan written <b>"+esc(bn(mid(completed.filter(function(d){return d.grossLoan!=null})
+        .map(function(d){return d.grossLoan}))))+"</b> — REL writes the size of deal it sees. "+
+      "The funnel counts only what the sheet records: a declined deal whose term-sheet box was never "+
+      "ticked counts as never reaching terms, so the true terms-issued figure is a floor, not a ceiling.");
+
+    /* ---- 4. deal flow ---- */
+    var byMonth={}, undated=0;
+    tracked.concat(declined).forEach(function(d){
+      var dr=d.dateReceived;
+      if(!dr){ undated++; return }
+      var k=String(dr).slice(0,7);
+      if(!/^\d{4}-\d{2}$/.test(k)){ undated++; return }
+      byMonth[k]=(byMonth[k]||0)+1;
+    });
+    var keys=Object.keys(byMonth).sort();
+    if(keys.length){
+      // Fill the gaps: a month nobody sent anything in is information, and
+      // leaving it out quietly closes the gap and flatters the flow.
+      var first=keys[0], last=keys[keys.length-1], span=[];
+      var y=+first.slice(0,4), mo=+first.slice(5,7);
+      while(y*12+mo <= (+last.slice(0,4))*12 + (+last.slice(5,7))){
+        span.push(y+"-"+String(mo).padStart(2,"0"));
+        mo++; if(mo>12){ mo=1; y++ }
+      }
+      if(span.length>18) span=span.slice(span.length-18);
+      var peak=Math.max.apply(null, span.map(function(k){return byMonth[k]||0}));
+      var cols='<div class="colv">'+span.map(function(k){
+          return '<span>'+(byMonth[k]||"")+'</span>' }).join("")+'</div>'+
+        '<div class="cols">'+span.map(function(k){
+          var n=byMonth[k]||0;
+          var label=new Date(k+"-01").toLocaleDateString("en-GB",{month:"short",year:"2-digit"});
+          return '<div class="cw" title="'+esc(label)+': '+n+(n===1?" enquiry":" enquiries")+'">'+
+            '<div class="stack" style="height:'+(peak? 100*n/peak : 0).toFixed(1)+'%">'+
+            (n? '<i style="height:100%;background:var(--ch-2)"></i>' : '')+'</div></div>';
+        }).join("")+'</div>'+
+        // Label the quarters only. Eighteen three-letter months do not fit on a
+        // phone, and eighteen single letters are ambiguous — M is March and May,
+        // J is January, June and July. Each column still names its own month on
+        // hover, and the count sits above it.
+        '<div class="colx">'+span.map(function(k){
+          var d2=new Date(k+"-01"), mo=d2.getMonth();
+          return '<span>'+(mo%3? "" : esc(mo===0
+            ? d2.toLocaleDateString("en-GB",{month:"short",year:"2-digit"})
+            : d2.toLocaleDateString("en-GB",{month:"short"})))+'</span>';
+        }).join("")+'</div>';
+      var recent=span.slice(-3).reduce(function(a,k){return a+(byMonth[k]||0)},0);
+      var prior=span.slice(-6,-3).reduce(function(a,k){return a+(byMonth[k]||0)},0);
+      out += panel("What is coming in",
+        "Enquiries by the month they arrived, across the whole sheet.",
+        cols,
+        "Last three months <b>"+recent+"</b> enquiries, the three before <b>"+prior+"</b>. "+
+        (undated? undated+" of the "+seen+" deals carry no date received, so they are not in this chart — "+
+          "almost all of them are older declined rows and rows on the completed sheet, which has no date column." : ""));
+    }
+
+    /* ---- 5. asset classes ---- */
+    var A={};
+    var bump=function(d, key){
+      var a=normAsset(d.assetClass);
+      if(!A[a]) A[a]={seen:0, written:0, live:0, passed:0};
+      A[a].seen++; A[a][key]++;
+    };
+    completed.forEach(function(d){ bump(d,"written") });
+    live.forEach(function(d){ bump(d,"live") });
+    declined.forEach(function(d){ bump(d,"passed") });
+    var arr=Object.keys(A).map(function(k){return [k,A[k]]})
+      .sort(function(a,b){return b[1].seen-a[1].seen});
+    var mostWritten=arr.slice().sort(function(a,b){return b[1].written-a[1].written})[0];
+    out += panel("What we look at, and what we lend on",
+      "Every deal on the sheet by asset class — the whole funnel, not just the book.",
+      legend([["Written","var(--ch-1)"],["Still live","var(--ch-2)"],["Passed or lost","var(--ch-mute)"]])+
+      hbars(arr.map(function(x){
+        var k=x[0], v=x[1];
+        return {label:k, sub:v.written? v.written+" written":"none written",
+          segs:[{v:v.written,c:"var(--ch-1)",title:k+": "+v.written+" written"},
+                {v:v.live,c:"var(--ch-2)",title:k+": "+v.live+" still live"},
+                {v:v.passed,c:"var(--ch-mute)",title:k+": "+v.passed+" passed or lost"}],
+          value:String(v.seen)};
+      })),
+      (arr.length? "Most looked at: <b>"+esc(arr[0][0])+"</b> — "+arr[0][1].seen+" seen, "+
+        arr[0][1].written+" written. " : "")+
+      (mostWritten&&mostWritten[1].written? "Most written: <b>"+esc(mostWritten[0])+"</b> — "+
+        mostWritten[1].written+" of "+mostWritten[1].seen+" seen. " : "")+
+      "Asset class is free text in the sheet and has been spelled twenty different ways, so these "+
+      "are grouped — “Resi (Super Prime)” and “Residential / Country estate” both count as residential.");
+
+    /* ---- 6. why deals die ---- */
+    var G={};
+    declined.forEach(function(d){
+      var g=declineGroup(d.reason); G[g]=(G[g]||0)+1;
+    });
+    var gs=Object.keys(G).map(function(k){return [k,G[k]]}).sort(function(a,b){return b[1]-a[1]});
+    var stillOpen=G["Still open on the sheet"]||0, noReason=G["No reason recorded"]||0;
+    out += panel("Why deals do not happen",
+      "The "+declined.length+" deals on the declined sheet, grouped by the reason somebody typed.",
+      hbars(gs.map(function(x){
+        return {label:x[0], sub:"",
+          segs:[{v:x[1], c: x[0]==="No reason recorded"? "var(--ch-mute)"
+                          : x[0]==="Still open on the sheet"? "var(--watch)" : "var(--ch-2)",
+                 title:x[0]+": "+x[1]+" deals"}],
+          value:String(x[1]), was:Math.round(100*x[1]/declined.length)+"%"};
+      })),
+      (stillOpen? "<b>"+stillOpen+"</b> of them read as still live — “Reviewing”, “Awaiting feedback”, "+
+        "“Obtaining credit approval” — rather than declined. Those are either deals to chase or rows to "+
+        "close out properly. " : "")+
+      (noReason? "<b>"+noReason+"</b> carry no reason at all, which is the single easiest thing to "+
+        "improve about the sheet: a two-word comment when a deal dies is what makes this chart worth "+
+        "reading." : ""));
+
+    box.innerHTML=out;
+  }
+
+  function renderAll(){
+    renderHeader(); renderState(); renderNeeds(); renderLoanBook();
+    renderIntegrity(); renderList(); renderTables();
+    if(tab==="numbers") renderNumbers();
+  }
+
+  function setTab(t){
+    tab=t;
+    $("deskTab").hidden = t!=="desk";
+    $("numbersTab").hidden = t!=="numbers";
+    document.querySelectorAll(".tabs button").forEach(function(b){
+      b.setAttribute("aria-selected", b.getAttribute("data-tab")===t ? "true" : "false");
+    });
+    if(t==="numbers") renderNumbers();
+    lsSet("rel.tab", t);
+    window.scrollTo({top:0, behavior:"smooth"});
+  }
 
   function setFilter(f){
     filter=f;
@@ -1188,6 +1842,7 @@ details.more summary:hover{color:var(--ink)}
   async function save(id, patch, card){
     var d=findDeal(id); if(!d) return;
     Object.assign(d, patch);
+    if("corrections" in patch) applyCorrections(d);
     d.updatedBy = who || "unattributed";
     d.updatedAt = new Date().toISOString();
     patch.updatedBy=d.updatedBy; patch.updatedAt=d.updatedAt;
@@ -1220,7 +1875,7 @@ details.more summary:hover{color:var(--ink)}
     var opt=function(list){return list.map(function(v){return '<option>'+esc(v)+'</option>'}).join("")};
     return '<div class="addcard">'+
       '<h3>Add a deal</h3>'+
-      '<div class="lede">For deals that arrive by phone or in person — anything the Outlook sweep will never see. Only the property is required; fill in the rest as you learn it.</div>'+
+      '<div class="lede">For deals that arrive by phone or in person — anything the inbox sweep will never see. Only the property is required; fill in the rest as you learn it.</div>'+
       '<div class="grid3">'+
         '<div class="f wide"><label for="a-prop">Property *</label><input type="text" id="a-prop" placeholder="e.g. 12 Cadogan Square, SW1"></div>'+
         '<div class="f"><label for="a-asset">Asset class</label><input type="text" id="a-asset" placeholder="Hotel, Resi, Office…"></div>'+
@@ -1327,6 +1982,8 @@ details.more summary:hover{color:var(--ink)}
 
   /* ---------- events ---------- */
   document.addEventListener("click", function(e){
+    var tb=e.target.closest(".tabs button");
+    if(tb){ setTab(tb.getAttribute("data-tab")); return }
     if(e.target.closest("#guideHide")){ setGuide(true); return }
     if(e.target.closest("#helpBtn")){ var g=$("guide"); setGuide(!g.hidden ? true : false);
       if(!g.hidden) g.scrollIntoView({block:"nearest", behavior:"smooth"}); return }
@@ -1342,6 +1999,19 @@ details.more summary:hover{color:var(--ink)}
       var card=act.closest(".deal"); var id=card.getAttribute("data-id");
       var a=act.getAttribute("data-act");
       if(a==="save"){ save(id, collect(card), card); }
+      else if(a==="amendopen"){ amendOpen=id; renderNeeds(); renderList(); }
+      else if(a==="amendcancel"){ amendOpen=null; renderNeeds(); renderList(); }
+      else if(a==="amendsave"){
+        var dd=findDeal(id); if(!dd) return;
+        var got=collectAmend(dd, card);
+        if(got.bad.length){
+          flashNotice("Could not read "+got.bad.join(" or ")+" as a number, so nothing was saved. "+
+                      "Use plain figures — 8.2 for £8.2m, 58 for 58%.");
+          return;
+        }
+        amendOpen=null;
+        save(id, {corrections: got.list}, card);
+      }
       else if(a==="usesugg"){
         var d=findDeal(id);
         var box=card.querySelector('[data-f="nextAction"]');
@@ -1401,6 +2071,7 @@ details.more summary:hover{color:var(--ink)}
   /* ---------- boot ---------- */
   who = lsGet("rel.who");
   $("guide").hidden = guideHidden();
+  setTab(lsGet("rel.tab")==="numbers" ? "numbers" : "desk");
   renderHeader();
 
   (async function(){
@@ -1427,7 +2098,9 @@ details.more summary:hover{color:var(--ink)}
 
     db.collection("deals").onSnapshot(function(snap){
       var all=[];
-      snap.docs.forEach(function(doc){ var o=Object.assign({}, doc.data()); o.id=doc.id; all.push(o) });
+      snap.docs.forEach(function(doc){
+        var o=Object.assign({}, doc.data()); o.id=doc.id; all.push(applyCorrections(o));
+      });
       deals = all.filter(function(d){return d.sheetSection!=="redeemed" && d.sheetSection!=="drawn"});
       completed = all.filter(function(d){return d.sheetSection==="redeemed" || d.sheetSection==="drawn"});
       if(!all.length){

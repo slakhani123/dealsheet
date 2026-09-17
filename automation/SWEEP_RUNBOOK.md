@@ -155,7 +155,8 @@ runs mid-sweep just reports no changes and the board sits a day behind.
   `months`, `irr`, `tsIssued`, `commitFee`, `source`, `sheetComments`, `sheetSection`
   and `derivedStage`.
 - **The team owns** `stage`, `owner`, `rag`, `nextAction`, `nextActionDue`, `teamNote`,
-  `reviewedWeek`, `updatedBy`, `updatedAt`, `createdBy` and `origin`. Never write these.
+  `reviewedWeek`, `updatedBy`, `updatedAt`, `createdBy`, `origin` and `corrections`.
+  Never write these.
   Overwriting them silently discards someone's Monday review. One field, one writer.
 - `ltvBasis` and `flags` are set when a deal is first created and left alone after:
   `ltvBasis` is an inference, and `flags` is written by the integrity check, so syncing it
@@ -163,6 +164,23 @@ runs mid-sweep just reports no changes and the board sits a day behind.
 - Pin every write to an existing document with `if_version`.
 - Nothing is ever deleted. A deal on the board but not in the sheet is reported, because
   a hand-added deal legitimately lives only on the board.
+
+### Amended figures, and the declined reference
+
+Two things the sync now does beyond the deal documents:
+
+- **`reference/declined`** is rebuilt whole from the `Declined Deals` sheet. It
+  carries `dateReceived`, `tsIssued`, `commitFee` and `source` as well as the
+  property, size and reason — those four are what make a conversion rate
+  possible, and the board's Numbers tab reads them. Nothing of the team's lives
+  in that document, so rewriting it wholesale is safe.
+- **`corrections`** holds figures a person amended on the board, as
+  `[{field, value, by, at}]`. The board shows the amended figure in place of the
+  sheet's, marked. The sync never writes an amendment and never invents one; it
+  reports every amendment the spreadsheet still contradicts, so **fix the sheet**
+  — the amendment then clears itself on the following run. If the board and the
+  sheet disagree and you are sure the sheet is right, say so to the team rather
+  than deleting the amendment quietly: somebody put it there on purpose.
 
 Deals carrying `origin: "manual"` were typed straight into the board — phone enquiries the
 mailbox never sees. They are NOT in the spreadsheet. When one turns up in the mailbox
