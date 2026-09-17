@@ -1,0 +1,1409 @@
+<title>REL Pipeline Desk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Outfit:wght@600;700&display=swap">
+<style>
+:root{
+  /* REL red, off the mark. Neutrals carry a faint red bias so the greys sit
+     with the brand instead of beside it. */
+  --paper:#F7F5F6; --surface:#FFFFFF; --surface-2:#FCFAFB; --sunk:#F0ECEE;
+  --ink:#191217; --ink-2:#433A40; --muted:#6B6067; --faint:#837A80;
+  --line:#E7E1E4; --line-2:#D3CACE;
+  --accent:#E4002B; --accent-ink:#FFFFFF; --accent-soft:#FDEAEE;
+  --good:#0E7A4F; --good-soft:#E4F3EC;
+  --watch:#8F5C00; --watch-soft:#FAEFDA;
+  --stall:#C1001F; --stall-soft:#FDEAEE;
+  --legals:#2F5FBF;
+  --shadow:0 1px 2px rgba(25,18,23,.05), 0 10px 28px -14px rgba(25,18,23,.20);
+  --r:10px; --r-lg:14px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#131015; --surface:#1C181E; --surface-2:#221D24; --sunk:#171319;
+    --ink:#F0EAEE; --ink-2:#CCC2C8; --muted:#A0959C; --faint:#867B83;
+    --line:#2E272F; --line-2:#413843;
+    --accent:#FF3B5C; --accent-ink:#1E0308; --accent-soft:#3B1019;
+    --good:#4ECB95; --good-soft:#0D2C21;
+    --watch:#E0A23E; --watch-soft:#32240F;
+    --stall:#FF5C74; --stall-soft:#3B1019;
+    --legals:#7B9BE8;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#131015; --surface:#1C181E; --surface-2:#221D24; --sunk:#171319;
+  --ink:#F0EAEE; --ink-2:#CCC2C8; --muted:#A0959C; --faint:#867B83;
+  --line:#2E272F; --line-2:#413843;
+  --accent:#FF3B5C; --accent-ink:#1E0308; --accent-soft:#3B1019;
+  --good:#4ECB95; --good-soft:#0D2C21;
+  --watch:#E0A23E; --watch-soft:#32240F;
+  --stall:#FF5C74; --stall-soft:#3B1019;
+  --legals:#7B9BE8;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.6);
+}
+*{box-sizing:border-box}
+body{
+  background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size:14px; line-height:1.5; margin:0;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1180px; margin:0 auto; padding-inline:16px; padding-block:0 64px}
+h1,h2,h3{margin:0; text-wrap:balance}
+.num{font-family:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace; font-variant-numeric:tabular-nums}
+
+/* ---------- header ---------- */
+.topbar{
+  position:sticky; top:env(safe-area-inset-top, 0px); z-index:40;
+  background:color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter:saturate(1.4) blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.topbar-in{max-width:1180px; margin:0 auto; padding:9px 16px; display:flex; align-items:center; gap:14px; flex-wrap:wrap}
+.mark{display:flex; align-items:center; gap:11px; margin-right:auto; min-width:0}
+/* The REL tile: the mark's red square with the wordmark reversed out of it. */
+.logo{
+  width:34px; height:34px; flex:none; border-radius:7px; background:var(--accent);
+  display:grid; place-items:center; box-shadow:0 1px 2px rgba(25,18,23,.18);
+}
+.logo span{
+  font-family:"Outfit", ui-sans-serif, system-ui, sans-serif;
+  font-weight:700; font-size:14px; letter-spacing:-.02em; color:#FFFFFF; line-height:1;
+}
+.mark-t{display:flex; flex-direction:column; gap:1px; min-width:0}
+.mark-t strong{font-family:"Newsreader", Georgia, serif; font-size:18px; font-weight:600; letter-spacing:-.01em; line-height:1.15}
+.mark-t span{color:var(--faint); font-size:10.5px; text-transform:uppercase; letter-spacing:.11em; font-weight:500}
+.chip{
+  display:inline-flex; align-items:center; gap:6px; border:1px solid var(--line-2);
+  background:var(--surface); color:var(--ink-2); border-radius:999px;
+  padding:5px 11px; font-size:12.5px; font-weight:500; cursor:pointer;
+}
+.chip:hover{border-color:var(--ink-2)}
+.chip .dot{width:7px; height:7px; border-radius:50%; background:var(--accent)}
+.whowrap{position:relative}
+.whopop{
+  position:absolute; top:calc(100% + 7px); right:0; z-index:60; min-width:190px;
+  background:var(--surface); border:1px solid var(--line-2); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:6px; display:flex; flex-direction:column; gap:2px;
+}
+.whopop b{
+  font-size:10.5px; text-transform:uppercase; letter-spacing:.09em; color:var(--faint);
+  font-weight:600; padding:5px 8px 3px;
+}
+.whopop button{
+  font:inherit; font-size:13.5px; text-align:left; padding:7px 9px; border-radius:7px;
+  border:0; background:transparent; color:var(--ink); cursor:pointer;
+}
+.whopop button:hover{background:var(--sunk)}
+.whopop button[aria-pressed="true"]{background:var(--accent-soft); color:var(--accent); font-weight:600}
+.whopop .clear{color:var(--muted); border-top:1px solid var(--line); border-radius:0; margin-top:3px; font-size:12.5px}
+.fresh{display:flex; align-items:center; gap:7px; font-size:12.5px; color:var(--muted)}
+.fresh b{color:var(--ink); font-weight:600}
+.pulse{width:8px;height:8px;border-radius:50%;background:var(--good);box-shadow:0 0 0 3px var(--good-soft)}
+.pulse.old{background:var(--watch); box-shadow:0 0 0 3px var(--watch-soft)}
+.pulse.bad{background:var(--stall); box-shadow:0 0 0 3px var(--stall-soft)}
+
+/* ---------- state line ---------- */
+.state{
+  margin-top:26px; display:flex; align-items:flex-end; gap:28px; flex-wrap:wrap;
+  padding-bottom:22px; border-bottom:1px solid var(--line);
+}
+.state-main{flex:1 1 320px; min-width:0}
+.state-main h2{
+  font-family:"Newsreader", Georgia, serif; font-size:30px; font-weight:600;
+  letter-spacing:-.018em; line-height:1.15;
+}
+.state-main p{margin:6px 0 0; color:var(--muted); font-size:13.5px; line-height:1.5}
+.state-figs{display:flex; gap:26px}
+.state-figs div{display:flex; flex-direction:column; gap:1px}
+.state-figs b{
+  font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums;
+  font-size:20px; font-weight:600; letter-spacing:-.02em;
+}
+.state-figs span{font-size:11px; text-transform:uppercase; letter-spacing:.09em; color:var(--faint); font-weight:500}
+@media (max-width:560px){
+  .state{gap:18px} .state-main h2{font-size:24px} .state-figs{gap:20px}
+  .state-figs b{font-size:17px}
+}
+
+/* ---------- needs-you cards ---------- */
+.why{
+  display:inline-flex; align-items:center; gap:5px; font-size:11.5px; font-weight:600;
+  color:var(--accent); background:var(--accent-soft); border-radius:999px; padding:3px 9px;
+}
+.why.calm{color:var(--watch); background:var(--watch-soft)}
+.prog{display:inline-block; width:90px; height:5px; border-radius:99px; background:var(--sunk); overflow:hidden}
+.prog i{display:block; height:100%; background:var(--good); border-radius:99px; transition:width .35s ease}
+.prog-t{font-size:12px; color:var(--muted)}
+.allclear{
+  padding:26px 20px; text-align:center; color:var(--muted); font-size:13.5px;
+  background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg);
+}
+.allclear b{display:block; font-family:"Newsreader",Georgia,serif; font-size:19px;
+  font-weight:600; color:var(--good); margin-bottom:3px}
+
+/* ---------- reference drawers ---------- */
+.refs{display:flex; flex-direction:column; gap:0}
+.refs details{border-top:1px solid var(--line)}
+.refs details:last-child{border-bottom:1px solid var(--line)}
+.refs summary{
+  cursor:pointer; padding:14px 2px; font-size:13.5px; font-weight:600; color:var(--ink-2);
+  list-style:none; display:flex; align-items:center; gap:9px;
+}
+.refs summary::-webkit-details-marker{display:none}
+.refs summary::before{
+  content:"›"; display:inline-block; color:var(--faint); font-size:17px;
+  transition:transform .15s ease; transform-origin:center;
+}
+.refs details[open] > summary::before{transform:rotate(90deg)}
+.refs summary:hover{color:var(--ink)}
+.refs summary .ct{color:var(--faint); font-weight:500; font-family:"IBM Plex Mono",monospace; font-size:12px}
+.refs details > :not(summary){padding-bottom:18px}
+
+/* ---------- how it works ---------- */
+.guide{
+  margin-top:20px; background:var(--surface); border:1px solid var(--line);
+  border-left:3px solid var(--accent); border-radius:var(--r-lg);
+  box-shadow:var(--shadow); padding:18px 20px;
+}
+.guide-h{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; margin-bottom:15px}
+.guide-h h2{font-family:"Newsreader", Georgia, serif; font-size:19px; font-weight:600}
+.guide-h .sub{order:2; flex:1 1 240px; color:var(--muted); font-size:12.5px}
+.guide-h .btn{order:3; margin-left:auto}
+/* Narrow: keep Hide on the title's line instead of stranding it on its own row. */
+@media (max-width:640px){
+  .guide-h .btn{order:1; padding:5px 11px; font-size:12px}
+  .guide-h .sub{flex-basis:100%}
+}
+/* Numbered because this genuinely is an order: you cannot mark a deal
+   reviewed before you have updated it. */
+.steps{display:grid; grid-template-columns:repeat(4,1fr); gap:16px}
+.step{display:flex; gap:10px; align-items:flex-start}
+.step .i{
+  flex:none; width:21px; height:21px; border-radius:50%;
+  background:var(--accent); color:var(--accent-ink);
+  font-family:"IBM Plex Mono", monospace; font-size:11px; font-weight:600;
+  display:grid; place-items:center; margin-top:1px;
+}
+.step h3{font-size:13px; font-weight:600; margin-bottom:3px; letter-spacing:-.005em}
+.step p{margin:0; font-size:12.5px; color:var(--muted); line-height:1.45}
+.step p b{color:var(--ink-2); font-weight:600}
+.guide-foot{
+  margin-top:15px; padding-top:13px; border-top:1px solid var(--line);
+  font-size:12.5px; color:var(--muted); line-height:1.5;
+}
+.guide-foot b{color:var(--ink-2); font-weight:600}
+@media (max-width:880px){ .steps{grid-template-columns:1fr 1fr} }
+@media (max-width:520px){ .steps{grid-template-columns:1fr} }
+
+/* ---------- ritual strip ---------- */
+.ritual{
+  margin-top:20px; background:var(--surface); border:1px solid var(--line);
+  border-radius:var(--r); box-shadow:var(--shadow); overflow:hidden;
+}
+.ritual-head{
+  display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  padding:14px 18px; border-bottom:1px solid var(--line); background:var(--surface-2);
+}
+.ritual-head h2{font-family:"Newsreader", Georgia, serif; font-size:17px; font-weight:600}
+.ritual-head .sub{color:var(--muted); font-size:12.5px}
+.progress{margin-left:auto; display:flex; align-items:center; gap:10px; font-size:12.5px; color:var(--muted)}
+.bar{width:120px; height:6px; border-radius:99px; background:var(--sunk); overflow:hidden}
+.bar i{display:block; height:100%; background:var(--good); border-radius:99px; transition:width .35s ease}
+.tiles{display:grid; grid-template-columns:repeat(4, 1fr); gap:1px; background:var(--line)}
+.tile{background:var(--surface); padding:14px 18px; text-align:left; border:0; cursor:pointer; font:inherit; color:inherit; display:block}
+.tile:hover{background:var(--surface-2)}
+.tile[aria-pressed="true"]{background:var(--accent-soft)}
+.tile .n{font-family:"IBM Plex Mono", monospace; font-variant-numeric:tabular-nums; font-size:26px; font-weight:600; line-height:1.1; letter-spacing:-.02em}
+.tile .l{font-size:12px; color:var(--muted); margin-top:3px}
+.tile.is-stall .n{color:var(--stall)} .tile.is-watch .n{color:var(--watch)} .tile.is-good .n{color:var(--good)}
+
+/* ---------- metrics ---------- */
+/* One instrument panel rather than four floating cards: these four figures
+   describe a single book and are read together. */
+.metrics{
+  display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+  margin-top:14px; background:var(--line); border:1px solid var(--line);
+  border-radius:var(--r-lg); box-shadow:var(--shadow); overflow:hidden;
+}
+.metric{background:var(--surface); padding:15px 18px}
+.metric .k{font-size:11px; text-transform:uppercase; letter-spacing:.09em; color:var(--faint); font-weight:500}
+.metric .v{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums; font-size:24px; font-weight:600; margin-top:7px; letter-spacing:-.025em}
+.metric:first-child .v{color:var(--accent)}
+.metric .c{font-size:11.5px; color:var(--muted); margin-top:4px}
+@media (max-width:760px){ .metrics{grid-template-columns:1fr 1fr} }
+
+/* ---------- funnel ---------- */
+.funnel{display:flex; gap:8px; margin-top:14px; flex-wrap:wrap}
+.fstep{
+  flex:1 1 128px; background:var(--surface); border:1px solid var(--line);
+  border-radius:var(--r); padding:12px 14px; position:relative; overflow:hidden; cursor:pointer;
+  text-align:left; font:inherit; color:inherit;
+}
+.fstep::before{content:""; position:absolute; inset:0 auto 0 0; width:3px; background:var(--line-2)}
+.fstep[data-s="Enquiry"]::before{background:var(--faint)}
+.fstep[data-s="Terms Issued"]::before{background:var(--watch)}
+.fstep[data-s="Commitment Fee"]::before{background:var(--accent)}
+.fstep[data-s="In Legals"]::before{background:var(--legals)}
+.fstep[data-s="Drawn"]::before{background:var(--legals)}
+.fstep[data-s="Redeemed"]::before{background:var(--good)}
+.fstep[aria-pressed="true"]{border-color:var(--ink-2)}
+.fstep .n{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums; font-size:21px; font-weight:600}
+.fstep .l{font-size:12px; color:var(--muted)}
+.fstep .m{font-size:11.5px; color:var(--faint); margin-top:2px}
+
+/* ---------- section ---------- */
+.sec{margin-top:34px}
+.sec-h{display:flex; align-items:baseline; gap:12px; margin-bottom:12px; flex-wrap:wrap}
+.sec-h h2{font-family:"Newsreader", Georgia, serif; font-size:21px; font-weight:600; letter-spacing:-.01em}
+.sec-h .hint{color:var(--muted); font-size:12.5px}
+.toolbar{display:flex; gap:8px; align-items:center; margin-left:auto; flex-wrap:wrap}
+input[type="search"], select, input[type="text"], input[type="date"], textarea{
+  font:inherit; color:var(--ink); background:var(--surface);
+  border:1px solid var(--line-2); border-radius:8px; padding:7px 10px;
+}
+input[type="search"]{min-width:180px}
+textarea{width:100%; resize:vertical; min-height:64px; line-height:1.5}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+/* ---------- deal rows ---------- */
+.group{margin-bottom:18px}
+.group-h{
+  position:sticky; top:calc(env(safe-area-inset-top, 0px) + 52px); z-index:5;
+  background:var(--paper); display:flex; align-items:center; gap:9px; padding:9px 2px 7px; margin-bottom:6px;
+  font-size:11.5px; text-transform:uppercase; letter-spacing:.09em; color:var(--muted);
+}
+.group-h .sw{width:9px;height:9px;border-radius:2px}
+.group-h .ct{color:var(--faint); font-family:"IBM Plex Mono",monospace}
+/* Column headings — without them the four right-hand columns are unlabelled
+   numbers. Same grid as the rows, so everything lines up. */
+.list-head{
+  display:grid; grid-template-columns:22px 1fr 96px 84px 140px 96px; gap:12px;
+  padding:0 14px 7px; font-size:10.5px; text-transform:uppercase;
+  letter-spacing:.09em; color:var(--faint); font-weight:600;
+}
+.list-head .r{text-align:right}
+
+.deal{
+  background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  margin-bottom:7px; position:relative; overflow:hidden;
+  transition:border-color .13s ease, box-shadow .13s ease, transform .13s ease;
+}
+/* A stage rail, coloured to match the funnel above, so the book can be
+   scanned by stage without reading a word. */
+.deal::before{content:""; position:absolute; inset:0 auto 0 0; width:3px; background:var(--line-2)}
+.deal[data-stage="Enquiry"]::before{background:var(--faint)}
+.deal[data-stage="Terms Issued"]::before{background:var(--watch)}
+.deal[data-stage="Commitment Fee"]::before{background:var(--accent)}
+.deal[data-stage="In Legals"]::before{background:var(--legals)}
+.deal[data-stage="Drawn"]::before{background:var(--legals)}
+.deal[data-stage="Redeemed"]::before{background:var(--good)}
+.deal.attn{border-color:color-mix(in srgb, var(--stall) 45%, var(--line))}
+.deal:hover{border-color:var(--line-2); box-shadow:var(--shadow)}
+.deal.is-open{
+  border-color:var(--accent); box-shadow:var(--shadow);
+}
+.deal-row{
+  display:grid; grid-template-columns:22px 1fr 96px 84px 140px 96px; gap:12px;
+  align-items:center; padding:11px 14px 11px 17px; cursor:pointer;
+}
+.deal-row:hover{background:var(--surface-2)}
+.deal-row:focus-visible{outline:2px solid var(--accent); outline-offset:-2px; border-radius:var(--r)}
+.deal.is-open .deal-row{background:var(--surface-2)}
+.rag{width:9px; height:9px; border-radius:50%; background:var(--line-2); justify-self:center}
+.rag.g{background:var(--good)} .rag.a{background:var(--watch)} .rag.r{background:var(--stall)}
+.d-name{min-width:0}
+.d-name b{display:block; font-weight:600; font-size:13.5px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.d-name .meta{color:var(--muted); font-size:11.5px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.d-fig{text-align:right; font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums; font-size:13px}
+.d-fig.dim{color:var(--faint); font-size:11.5px}
+.d-age{text-align:right; font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums; font-size:12.5px; color:var(--muted)}
+.d-age .hot{color:var(--stall); font-weight:600}
+.d-age .dim{color:var(--faint); font-size:11.5px; font-family:"IBM Plex Sans",sans-serif}
+.d-next{font-size:12px; color:var(--ink-2); overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.d-next .none{color:var(--faint); font-style:italic}
+.d-own{font-size:12px; color:var(--muted); text-align:right; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.badge{display:inline-block; font-size:10.5px; font-weight:600; padding:2px 7px; border-radius:999px; letter-spacing:.02em}
+.badge.rev{background:var(--good-soft); color:var(--good)}
+.badge.tbc{background:var(--sunk); color:var(--muted)}
+.badge.zombie{background:var(--stall-soft); color:var(--stall)}
+.badge.sheet{background:var(--sunk); color:var(--muted); font-weight:500}
+.badge.man{background:var(--accent-soft); color:var(--accent)}
+.badge.lapsed{background:var(--stall-soft); color:var(--stall); font-weight:600}
+.badge.terms{background:var(--watch-soft); color:var(--watch)}
+.from{margin-top:9px; padding-top:9px; border-top:1px solid var(--line); font-size:11.5px; color:var(--muted); line-height:1.45}
+.from b{color:var(--ink-2)}
+.from.dimmed{color:var(--faint)}
+
+/* ---------- drawn loan book ---------- */
+.loans{display:grid; grid-template-columns:repeat(auto-fill,minmax(232px,1fr)); gap:10px}
+.loan{
+  background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--legals);
+  border-radius:var(--r); padding:13px 15px;
+}
+.loan.bad{border-left-color:var(--stall)}
+.loan h4{margin:0 0 2px; font-size:13.5px; font-weight:600; letter-spacing:-.005em}
+.loan .sub{font-size:11.5px; color:var(--muted); margin-bottom:9px}
+.loan .fig{display:flex; align-items:baseline; gap:7px}
+.loan .fig b{
+  font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums;
+  font-size:20px; font-weight:600; letter-spacing:-.02em;
+}
+.loan .fig span{font-size:11.5px; color:var(--faint)}
+.loan .of{font-size:11.5px; color:var(--muted); margin-top:3px}
+.loan .st{margin-top:9px; font-size:11.5px; font-weight:600}
+.loan .st.ok{color:var(--good)} .loan .st.bad{color:var(--stall)}
+
+/* ---------- integrity ---------- */
+.integ{display:grid; gap:9px}
+.icard{background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--watch); border-radius:var(--r); padding:13px 16px}
+.icard.crit{border-left-color:var(--stall)}
+.icard h4{margin:0 0 4px; font-size:13.5px; font-weight:600}
+.icard p{margin:0; font-size:12.5px; color:var(--ink-2); line-height:1.5}
+.icard .who{margin-top:7px; font-size:12px; color:var(--muted)}
+.icard .who b{color:var(--ink); font-weight:600}
+.reasons{display:flex; flex-wrap:wrap; gap:6px; margin:10px 0 4px}
+.rpill{background:var(--sunk); border-radius:999px; padding:4px 10px; font-size:12px; color:var(--ink-2)}
+.rpill b{font-family:"IBM Plex Mono",monospace; color:var(--ink)}
+.prov{font-size:11px; color:var(--faint); margin-top:9px; padding-top:8px; border-top:1px solid var(--line)}
+
+/* ---------- add deal ---------- */
+.btn-add{background:var(--ink); color:var(--paper); border-color:var(--ink); font-size:13px; font-weight:600; border-radius:8px; padding:7px 13px; cursor:pointer; border:1px solid var(--ink)}
+.btn-add:hover{filter:brightness(1.25)}
+.addcard{background:var(--surface); border:1px solid var(--accent); border-radius:var(--r); padding:16px; margin-bottom:12px; box-shadow:var(--shadow)}
+.addcard h3{font-family:"Newsreader",Georgia,serif; font-size:17px; font-weight:600; margin-bottom:3px}
+.addcard .lede{font-size:12.5px; color:var(--muted); margin-bottom:13px}
+.grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:10px}
+.grid3 .f label{display:block; font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--faint); margin-bottom:4px}
+.grid3 .f input, .grid3 .f select{width:100%}
+.grid3 .wide{grid-column:1 / -1}
+.err{color:var(--stall); font-size:12.5px; font-weight:600}
+.sugg{
+  display:block; width:100%; margin-top:6px; text-align:left; cursor:pointer;
+  font:inherit; font-size:12.5px; color:var(--ink-2); line-height:1.35;
+  background:var(--sunk); border:1px dashed var(--line-2); border-radius:8px;
+  padding:7px 10px;
+}
+.sugg:hover{border-color:var(--accent); color:var(--ink); background:var(--accent-soft)}
+.sugg-k{
+  display:block; font-size:10px; text-transform:uppercase; letter-spacing:.09em;
+  color:var(--faint); font-weight:600; margin-bottom:2px;
+}
+.sugg:hover .sugg-k{color:var(--accent)}
+@media (max-width:720px){ .grid3{grid-template-columns:1fr 1fr} .grid3 .wide{grid-column:1 / -1} }
+@media (max-width:460px){ .grid3{grid-template-columns:1fr} }
+
+/* ---------- editor ---------- */
+.editor{border-top:1px solid var(--line); background:var(--sunk); padding:16px 14px; display:grid; grid-template-columns:1fr 300px; gap:18px}
+.ed-field{margin-bottom:11px}
+.ed-field label{display:block; font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--faint); margin-bottom:4px}
+.ed-row{display:flex; gap:8px; flex-wrap:wrap}
+.ed-row > *{flex:1 1 130px}
+.facts{background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:12px 14px}
+.facts h4{margin:0 0 9px; font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--faint); font-weight:600}
+.facts dl{display:grid; grid-template-columns:auto 1fr; gap:5px 12px; margin:0; font-size:12.5px}
+.facts dt{color:var(--muted)}
+.facts dd{margin:0; text-align:right; font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums}
+.facts .note{margin-top:10px; padding-top:9px; border-top:1px solid var(--line); font-size:12px; color:var(--ink-2); line-height:1.5; font-family:"IBM Plex Sans",sans-serif; text-align:left}
+.ed-actions{display:flex; gap:8px; align-items:center; margin-top:4px; flex-wrap:wrap}
+.btn{font:inherit; font-size:13px; font-weight:600; border-radius:8px; padding:8px 14px; cursor:pointer; border:1px solid transparent}
+.btn-p{background:var(--accent); color:var(--accent-ink); border-color:var(--accent)}
+.btn-p:hover{filter:brightness(1.08)}
+.btn-s{background:var(--surface); color:var(--ink); border-color:var(--line-2)}
+.btn-s:hover{border-color:var(--ink-2)}
+.saved{font-size:12px; color:var(--good); font-weight:600}
+.stamp{font-size:11.5px; color:var(--faint); margin-top:8px}
+
+/* ---------- misc ---------- */
+.notice{background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--watch); border-radius:var(--r); padding:14px 16px; margin-top:16px; font-size:13px; color:var(--ink-2)}
+.notice b{color:var(--ink)}
+.empty{padding:34px 16px; text-align:center; color:var(--muted); background:var(--surface); border:1px dashed var(--line-2); border-radius:var(--r)}
+.skel{height:52px; background:linear-gradient(90deg, var(--sunk), var(--surface-2), var(--sunk)); background-size:200% 100%; border-radius:var(--r); margin-bottom:7px; animation:sh 1.4s linear infinite}
+@keyframes sh{to{background-position:-200% 0}}
+.tblwrap{overflow-x:auto; border:1px solid var(--line); border-radius:var(--r); background:var(--surface)}
+table{border-collapse:collapse; width:100%; font-size:12.5px; min-width:520px}
+th,td{padding:9px 12px; text-align:left; border-bottom:1px solid var(--line); white-space:nowrap}
+th{font-size:11px; text-transform:uppercase; letter-spacing:.07em; color:var(--faint); font-weight:600; background:var(--surface-2)}
+td.n{text-align:right; font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums}
+tr:last-child td{border-bottom:0}
+details.more summary{cursor:pointer; color:var(--muted); font-size:12.5px; padding:8px 2px}
+details.more summary:hover{color:var(--ink)}
+.foot{margin-top:34px; padding-top:16px; border-top:1px solid var(--line); color:var(--faint); font-size:12px; display:flex; gap:14px; flex-wrap:wrap}
+
+@media (max-width:860px){
+  .metrics{grid-template-columns:repeat(2,1fr)}
+  .tiles{grid-template-columns:repeat(2,1fr)}
+  .editor{grid-template-columns:1fr}
+  .deal-row{grid-template-columns:18px 1fr auto; grid-template-areas:"r n f"; row-gap:6px}
+  .deal-row .rag{grid-area:r} .deal-row .d-name{grid-area:n} .deal-row .d-fig{grid-area:f}
+  .deal-row .d-age, .deal-row .d-next, .deal-row .d-own{display:none}
+  /* Let the meta wrap on a phone so the reason chip is never clipped. */
+  .deal-row .d-name .meta{white-space:normal; line-height:1.6}
+  .deal-row .d-name b{white-space:normal}
+  .list-head{display:none}
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.001ms !important; transition-duration:.001ms !important}
+}
+</style>
+
+<div class="topbar">
+  <div class="topbar-in">
+    <div class="mark">
+      <span class="logo" aria-hidden="true"><span>REL</span></span>
+      <span class="mark-t"><strong>Pipeline Desk</strong><span id="weekLabel">&nbsp;</span></span>
+    </div>
+    <div class="fresh" id="freshness"><span class="pulse"></span><span>Connecting…</span></div>
+    <button class="chip" id="helpBtn" type="button">How it works</button>
+    <div class="whowrap">
+      <button class="chip" id="whoChip" type="button" aria-haspopup="true" aria-expanded="false"><span class="dot"></span><span id="whoName">Set who you are</span></button>
+      <div class="whopop" id="whoPop" hidden></div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div id="dbNotice" hidden></div>
+
+  <!-- How the team uses this -->
+  <section class="guide" id="guide" aria-labelledby="guideH">
+    <div class="guide-h">
+      <h2 id="guideH">How to use this</h2>
+      <span class="sub">Four steps, every Monday morning. Takes about ten minutes between the three of you.</span>
+      <button class="btn btn-s" id="guideHide" type="button">Hide</button>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <span class="i">1</span>
+        <div>
+          <h3>Say who you are</h3>
+          <p>Top right of the page. Your name goes on everything you change, so the team can see who moved what.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="i">2</span>
+        <div>
+          <h3>Work the four piles</h3>
+          <p>The tiles below filter the book: gone quiet, no figure yet, action due, not yet reviewed. Click one to see only those.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="i">3</span>
+        <div>
+          <h3>Update your deals</h3>
+          <p>Click any deal to open it. Set the <b>owner</b>, <b>stage</b>, <b>status</b> and — the one that matters — the <b>next action</b> and when it is due.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="i">4</span>
+        <div>
+          <h3>Mark it reviewed</h3>
+          <p>Hit <b>Mark reviewed</b> and the bar at the top fills. <b>Nothing to do is a real answer</b> — mark it reviewed and move on.</p>
+        </div>
+      </div>
+    </div>
+    <div class="guide-foot">
+      <b>The figures are read-only.</b> Loan amounts, LTVs and dates come from the deal sheet and refresh from Shyam's inbox — if one is wrong, fix the deal sheet, and leave a note here so nobody acts on it meanwhile.
+      <b>Everything else is yours:</b> owner, stage, status, next action and notes are only ever changed by the three of you.
+      Took an enquiry on the phone? It will not be in the sheet — put it straight on the board with <b>+ Add deal</b>.
+    </div>
+  </section>
+
+  <!-- Monday review ritual -->
+  <!-- One calm statement of where things stand, instead of twelve numbers. -->
+  <section class="state">
+    <div class="state-main">
+      <h2 id="stateHead">—</h2>
+      <p id="stateSub">&nbsp;</p>
+    </div>
+    <div class="state-figs">
+      <div><b class="num" id="fLive">—</b><span>live deals</span></div>
+      <div><b class="num" id="fOut">—</b><span>REL lent</span></div>
+      <div><b class="num" id="fPipe">—</b><span>pipeline</span></div>
+    </div>
+  </section>
+
+  <!-- The whole point of the page: what needs a person this week. -->
+  <section class="sec" id="needsSec">
+    <div class="sec-h">
+      <h2>Needs you</h2>
+      <span class="hint" id="needsHint">&nbsp;</span>
+      <div class="toolbar">
+        <span class="prog" id="prog" hidden><i id="progBar"></i></span>
+        <span class="prog-t" id="progText"></span>
+      </div>
+    </div>
+    <div id="needs"><div class="skel"></div><div class="skel"></div></div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-h">
+      <h2>The book</h2>
+      <span class="hint" id="listHint">&nbsp;</span>
+      <div class="toolbar">
+        <button class="btn-add" id="addBtn" type="button">+ Add deal</button>
+        <input type="search" id="q" placeholder="Search property, borrower, broker…" aria-label="Search deals">
+        <select id="sortBy" aria-label="Sort deals">
+          <option value="stage">Group by stage</option>
+          <option value="age">Oldest first</option>
+          <option value="size">Largest first</option>
+          <option value="touched">Least recently touched</option>
+        </select>
+        <button class="chip" id="clearF" type="button" hidden>Clear filter ✕</button>
+      </div>
+    </div>
+    <div id="addForm" hidden></div>
+    <div id="list"><div class="skel"></div><div class="skel"></div><div class="skel"></div></div>
+  </section>
+
+  <!-- Everything below is reference. Closed until someone wants it. -->
+  <section class="sec refs">
+    <details id="bookSec" hidden>
+      <summary>Money out <span class="ct" id="loansCt"></span></summary>
+      <div class="loans" id="loans"></div>
+    </details>
+
+    <details id="completedSec">
+      <summary>Redeemed <span class="ct" id="redeemCt"></span></summary>
+      <div class="tblwrap"><table id="completedTbl"><thead><tr>
+        <th>Property</th><th>Borrower</th><th class="n">Whole loan</th><th class="n">REL share</th>
+        <th class="n">REL return</th><th class="n">Months</th><th class="n">IRR</th>
+      </tr></thead><tbody id="completedBody"></tbody></table></div>
+    </details>
+
+    <details>
+      <summary id="declSum">Declined</summary>
+      <div class="tblwrap"><table><thead><tr>
+        <th>Property</th><th>Asset class</th><th class="n">Gross £m</th><th>Reason</th>
+      </tr></thead><tbody id="declinedBody"></tbody></table></div>
+    </details>
+
+    <details id="integritySec" hidden>
+      <summary>Data checks <span class="ct" id="integCt"></span></summary>
+      <div class="integ" id="integrity"></div>
+    </details>
+
+    <details id="funnelWrap">
+      <summary>Pipeline by stage</summary>
+      <div class="funnel" id="funnel"></div>
+    </details>
+  </section>
+
+  <div class="foot">
+    <span>Deal terms flow in from the Outlook sweep → Excel → this board.</span>
+    <span>Owner, stage, RAG, next action and notes are yours — the sweep never overwrites them.</span>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var TEAM = ["Shyam","Tashin","Sumeer"];
+  /* "Completed" used to mean two different things — money out and money back —
+     which read Uxbridge and Stanmore as finished while both are still running.
+     Drawn = funded and live. Redeemed = repaid. */
+  var STAGES = ["Enquiry","Terms Issued","Commitment Fee","In Legals","Drawn","Redeemed"];
+  var TERMINAL = {Drawn:1, Redeemed:1};
+  var STAGE_SW = {"Enquiry":"var(--faint)","Terms Issued":"var(--watch)","Commitment Fee":"var(--accent)","In Legals":"var(--legals)","Drawn":"var(--legals)","Redeemed":"var(--good)"};
+
+  var db=null, deals=[], completed=[], declined=[], meta={}, integrity=null;
+  var who=null, filter=null, open=null, openScope=null, q="", sortBy="stage";
+
+  /* ---------- helpers ---------- */
+  function $(id){return document.getElementById(id)}
+  function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){
+    return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+  function money(v){return (v==null||isNaN(v))?null:"£"+(Math.round(v*10)/10).toFixed(1)+"m"}
+  function pct(v){return (v==null||isNaN(v))?null:Math.round(v*100)+"%"}
+  function today(){return new Date()}
+  function iso(d){return d.toISOString().slice(0,10)}
+  function daysBetween(a,b){return Math.round((b-a)/86400000)}
+  function weekKey(d){
+    var t=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));
+    var day=t.getUTCDay()||7; t.setUTCDate(t.getUTCDate()+4-day);
+    var y0=new Date(Date.UTC(t.getUTCFullYear(),0,1));
+    var wk=Math.ceil(((t-y0)/86400000+1)/7);
+    return t.getUTCFullYear()+"-W"+String(wk).padStart(2,"0");
+  }
+  function mondayOf(d){
+    var t=new Date(d); var day=t.getDay()||7; t.setDate(t.getDate()-(day-1)); t.setHours(0,0,0,0); return t;
+  }
+  function fmtDate(s){
+    if(!s) return null;
+    var d=new Date(s); if(isNaN(d)) return String(s);
+    return d.toLocaleDateString("en-GB",{day:"numeric",month:"short"});
+  }
+  function lsGet(k){try{return localStorage.getItem(k)}catch(e){return null}}
+  function lsSet(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+
+  /* ---------- derived state ---------- */
+  function ageDays(d){
+    if(!d.dateReceived) return null;
+    var t=new Date(d.dateReceived); if(isNaN(t)) return null;
+    return daysBetween(t, today());
+  }
+  /* The sweep writes dates into Comments as DD/MM (runbook §3), so the comment
+     carries the date of the last thing that actually happened on a deal. That
+     is a far better "has this gone quiet?" signal than the row's age, which
+     only says when it first arrived. Returns the LATEST valid date found, and
+     the fragment it came from so a bad parse is visible rather than silent. */
+  var DATE_RE=/(\b[0-3]?\d)\/([01]?\d)(?:\/(\d{2,4}))?\b/g;
+  function lastNoteEvent(d){
+    var c=d.sheetComments; if(!c) return null;
+    var now=today(), best=null, m;
+    DATE_RE.lastIndex=0;
+    while((m=DATE_RE.exec(c))!==null){
+      var day=+m[1], mon=+m[2];
+      if(day<1||day>31||mon<1||mon>12) continue;
+      var yr = m[3] ? (+m[3]<100 ? 2000+ +m[3] : +m[3]) : now.getFullYear();
+      var t=new Date(yr, mon-1, day);
+      if(isNaN(t)) continue;
+      // A bare DD/MM with no year that lands in the future means last year.
+      if(!m[3] && t>now) t=new Date(yr-1, mon-1, day);
+      if(t>now) continue;
+      if(!best || t>best.date){
+        var s=Math.max(0, m.index-42), e=Math.min(c.length, m.index+m[0].length+42);
+        best={date:t, text:(s?"…":"")+c.slice(s,e).trim()+(e<c.length?"…":"")};
+      }
+    }
+    return best;
+  }
+  function untouchedDays(d){
+    // A human touching the deal here always wins; otherwise the sheet's own
+    // note date; only then fall back to how long ago it arrived.
+    if(d.updatedAt){ var u=new Date(d.updatedAt); if(!isNaN(u)) return daysBetween(u, today()); }
+    var ev=lastNoteEvent(d);
+    if(ev) return daysBetween(ev.date, today());
+    return null;
+  }
+  /* Deliberately not the same as untouchedDays: a deal whose note carries no
+     date is unknown, not stale, and saying so is more useful than guessing. */
+  function isStalled(d){var u=untouchedDays(d); return !TERMINAL[d.stage] && u!=null && u>=30}
+  function undated(d){return !TERMINAL[d.stage] && untouchedDays(d)==null}
+
+  /* "Terms out 65d" — anchor to the term-sheet phrase and take the FIRST
+     match, because a comment can carry a later date for something else
+     (Houndswood: "TS 09/07 … Offer lapsed 30/07"). Never guess a date. */
+  var TS_RE=/(?:\bTS\b|term sheet|terms)[^.;]{0,40}?(\b[0-3]?\d)\/([01]?\d)\b/i;
+  function termsOutDays(d){
+    if(!d.tsIssued || !d.sheetComments || !!TERMINAL[d.stage]) return null;
+    var m=TS_RE.exec(d.sheetComments); if(!m) return null;
+    var day=+m[1], mon=+m[2];
+    if(day<1||day>31||mon<1||mon>12) return null;
+    var now=today(), t=new Date(now.getFullYear(), mon-1, day);
+    if(t>now) t=new Date(now.getFullYear()-1, mon-1, day);
+    return daysBetween(t, now);
+  }
+  /* "chase" is deliberately absent — it matches "purchase". */
+  function pastMaturity(d){
+    return d.stage==="Drawn" && /past maturity|in default|expired/i.test(d.sheetComments||"");
+  }
+  function inDefault(d){ return /in default/i.test(d.sheetComments||"") }
+  function offerLapsed(d){
+    return !TERMINAL[d.stage] && /\b(lapsed|expired)\b/i.test(d.sheetComments||"");
+  }
+  function noFigs(d){return !TERMINAL[d.stage] && (d.grossLoan==null)}
+  function dueNow(d){
+    if(!d.nextActionDue || !!TERMINAL[d.stage]) return false;
+    var t=new Date(d.nextActionDue); if(isNaN(t)) return false;
+    return t <= today();
+  }
+  function reviewedThisWeek(d){return d.reviewedWeek===weekKey(today())}
+  function stageDisagrees(d){
+    return !!(d.derivedStage && d.stage && d.stage!==d.derivedStage && !TERMINAL[d.stage]);
+  }
+
+  /* One list, ordered by how much it matters, each row saying WHY it is there.
+     This replaces four filter tiles the reader had to combine in their head. */
+  function attention(d){
+    if(inDefault(d))    return {p:1, why:"In default", hot:true};
+    if(pastMaturity(d)) return {p:2, why:"Past maturity", hot:true};
+    if(TERMINAL[d.stage]) return null;
+    if(offerLapsed(d))  return {p:3, why:"Offer lapsed", hot:true};
+    if(dueNow(d))       return {p:4, why:"Action due", hot:true};
+    var u=untouchedDays(d);
+    if(u!=null && u>=30) return {p:5, why:u+" days quiet", hot:u>=60};
+    if(d.tsIssued && d.grossLoan==null) return {p:6, why:"Terms out, no figure", hot:false};
+    return null;
+  }
+  function needsList(){
+    return deals.concat(completed)
+      .map(function(d){ var a=attention(d); return a? {d:d, a:a} : null })
+      .filter(Boolean)
+      .sort(function(x,y){
+        return x.a.p-y.a.p || (y.d.relShare||y.d.grossLoan||0)-(x.d.relShare||x.d.grossLoan||0);
+      });
+  }
+
+  /* ---------- render: header ---------- */
+  function renderHeader(){
+    var wk=mondayOf(today());
+    $("weekLabel").textContent = "w/c "+wk.toLocaleDateString("en-GB",{day:"numeric",month:"short"});
+    $("whoName").textContent = who ? who : "Set who you are";
+
+    var f=$("freshness"); var swept=meta.lastSweep;
+    var el, txt;
+    if(!swept){ el="pulse bad"; txt="Terms never swept"; }
+    else{
+      var t=new Date(swept); var age=isNaN(t)?999:daysBetween(t,today());
+      txt = "Terms as of "+(isNaN(t)?String(swept):t.toLocaleDateString("en-GB",{day:"numeric",month:"short"}));
+      el = age<=7 ? "pulse" : (age<=14 ? "pulse old" : "pulse bad");
+      if(age>7) txt += " · "+age+"d old";
+    }
+    f.innerHTML='<span class="'+el+'"></span><span>'+esc(txt)+'</span>';
+  }
+
+  /* ---------- render: summary ---------- */
+  function renderSummary(){
+    var fn=$("funnel"); fn.innerHTML="";
+    STAGES.forEach(function(st){
+      var done=!!TERMINAL[st];
+      var inS=(done? completed : deals).filter(function(d){return d.stage===st});
+      var g=inS.filter(function(d){return d.grossLoan!=null}).reduce(function(a,d){return a+d.grossLoan},0);
+      var b=document.createElement("button");
+      b.className="fstep"; b.type="button"; b.setAttribute("data-s",st);
+      b.setAttribute("aria-pressed", filter==="stage:"+st ? "true":"false");
+      b.innerHTML='<div class="n">'+inS.length+'</div><div class="l">'+esc(st)+'</div><div class="m">'+(g?money(g):"—")+'</div>';
+      b.addEventListener("click", done
+        ? function(){ $("completedSec").open=true; $("completedSec").scrollIntoView({block:"start",behavior:"smooth"}) }
+        : function(){ setFilter(filter==="stage:"+st?null:"stage:"+st) });
+      fn.appendChild(b);
+    });
+  }
+
+  function renderState(){
+    var live=deals.filter(function(d){return !TERMINAL[d.stage]});
+    var drawn=completed.filter(function(d){return d.stage==="Drawn"});
+    var out=drawn.reduce(function(a,d){return a+(d.relShare||0)},0);
+    var pipe=live.filter(function(d){return d.grossLoan!=null})
+                 .reduce(function(a,d){return a+d.grossLoan},0);
+    var n=needsList().length;
+    // A drawn loan is reviewable too — it can appear in Needs you. Counting
+    // only the live pipeline meant marking one reviewed moved nothing, which
+    // reads as a broken button.
+    var reviewable=live.concat(drawn);
+    var unrev=reviewable.filter(function(d){return !reviewedThisWeek(d)}).length;
+
+    $("stateHead").textContent = n===0
+      ? "Nothing needs you"
+      : n+(n===1? " deal needs you" : " deals need you");
+    var bits=[];
+    var od=drawn.filter(function(d){return inDefault(d)||pastMaturity(d)}).length;
+    if(od) bits.push(od+" drawn "+(od===1?"loan is past its date":"loans are past their date"));
+    bits.push(live.length+" in the pipeline");
+    if(unrev===0 && reviewable.length) bits.push("all reviewed this week");
+    $("stateSub").textContent = bits.join(" · ");
+
+    $("fLive").textContent=live.length;
+    $("fOut").textContent=out? money(out) : "—";
+    $("fPipe").textContent=pipe? money(pipe) : "—";
+
+    var done=reviewable.length-unrev;
+    $("progText").textContent = reviewable.length? done+" of "+reviewable.length+" reviewed" : "";
+    $("prog").hidden = !reviewable.length;
+    $("progBar").style.width=(reviewable.length? Math.round(done/reviewable.length*100):0)+"%";
+  }
+
+  function renderNeeds(){
+    var items=needsList(), box=$("needs");
+    $("needsHint").textContent = items.length? "Most pressing first. Open one, set the next action, mark it reviewed." : "";
+    if(!items.length){
+      box.innerHTML='<div class="allclear"><b>All clear</b>'+
+        'Nothing is overdue, lapsed or gone quiet. Have a look through the book below if you want.</div>';
+      return;
+    }
+    box.innerHTML = items.map(function(it){
+      return dealRow(it.d, it.a, 'n');
+    }).join("");
+  }
+
+  function renderLoanBook(){
+    var sec=$("bookSec"), box=$("loans");
+    var ct=$("loansCt"); var rc=$("redeemCt");
+    var nd=completed.filter(function(d){return d.stage==="Drawn"}).length;
+    var nr=completed.filter(function(d){return d.stage==="Redeemed"}).length;
+    var relOut=completed.filter(function(d){return d.stage==="Drawn"})
+      .reduce(function(a,d){return a+(d.relShare||0)},0);
+    if(ct) ct.textContent = nd? nd+" loans · "+money(relOut)+" REL" : "";
+    if(rc) rc.textContent = nr? nr+" loans" : "";
+    var drawn=completed.filter(function(d){return d.stage==="Drawn"});
+    if(!drawn.length){ sec.hidden=true; return }
+    sec.hidden=false;
+    drawn.sort(function(a,b){return (b.relShare||0)-(a.relShare||0)});
+    box.innerHTML = drawn.map(function(d){
+      var bad=pastMaturity(d)||inDefault(d);
+      var st = inDefault(d) ? "In default"
+             : pastMaturity(d) ? "Past maturity"
+             : "Running";
+      var whole = d.grossLoan!=null && d.relShare!=null && Math.abs(d.grossLoan-d.relShare)>0.001
+        ? '<div class="of">of '+money(d.grossLoan)+' whole loan · '+esc(d.tranche||"")+'</div>' : '';
+      return '<div class="loan'+(bad?' bad':'')+'">'+
+        '<h4>'+esc(d.property)+'</h4>'+
+        '<div class="sub">'+esc(d.borrower||"—")+'</div>'+
+        '<div class="fig"><b>'+(d.relShare!=null?money(d.relShare):"—")+'</b><span>REL share</span></div>'+
+        whole+
+        '<div class="st '+(bad?"bad":"ok")+'">'+st+'</div>'+
+      '</div>';
+    }).join("");
+  }
+
+  function renderIntegrity(){
+    var sec=$("integritySec"), box=$("integrity");
+    var ic=$("integCt");
+    if(ic) ic.textContent = (integrity && integrity.cards) ? integrity.cards.length+"" : "";
+    if(!integrity){ sec.hidden=true; return }
+    var cards=[];
+    var z=integrity.zombies||[];
+    if(z.length){
+      var zg=z.reduce(function(s,x){return s+(x.gross||0)},0);
+      cards.push('<div class="icard crit"><h4>'+z.length+' deal'+(z.length>1?'s':'')+
+        ' counted as live are also marked declined — '+money(zg)+' of the headline</h4>'+
+        '<p>'+z.map(function(x){return esc(x.property)+(x.gross?' ('+money(x.gross)+')':'')+
+          (x.reason?' — sheet says “'+esc(x.reason)+'”':'')}).join('<br>')+'</p>'+
+        '<div class="who">Decide which tab is right, then drop it from one. Until then the live total is overstated by <b>'+money(zg)+'</b>.</div></div>');
+    }
+    var a=integrity.declinedButLive||[];
+    if(a.length){
+      cards.push('<div class="icard"><h4>'+a.length+' deals sit in the declined tab but read as still alive</h4>'+
+        '<p>'+a.slice(0,6).map(function(x){return esc(x.property)+' — “'+esc(x.status)+'”'}).join('<br>')+
+        (a.length>6? '<br><span style="color:var(--faint)">…and '+(a.length-6)+' more</span>':'')+'</p>'+
+        '<div class="who">These never reach the Monday review because the board only walks the live book.</div></div>');
+    }
+    if(integrity.tsDeclinedCount){
+      cards.push('<div class="icard"><h4>A term sheet is not the milestone it looks like</h4>'+
+        '<p><b>'+integrity.tsDeclinedCount+' of '+(integrity.declinedTotal||90)+
+        '</b> declined deals had a term sheet issued. Treat “Terms Issued” as interest, not conversion.</p></div>');
+    }
+    var mb=integrity.ltvBasisMixed||[];
+    if(mb.length){
+      cards.push('<div class="icard"><h4>Two deals measure LTV against net loan, the rest against gross</h4>'+
+        '<p>'+mb.map(esc).join(' · ')+' — their LTV is not comparable with the others, so the weighted average mixes two definitions.</p></div>');
+    }
+    if(!cards.length){ sec.hidden=true; return }
+    sec.hidden=false; box.innerHTML=cards.join("");
+  }
+
+  function declineRollup(){
+    if(!declined.length) return "";
+    var c={};
+    declined.forEach(function(d){
+      var r=(d.reason||"").trim(); if(!r) return;
+      var k=r.toLowerCase();
+      var bucket = k.indexOf("pricing")>-1||k.indexOf("cheaper")>-1 ? "Lost on price"
+        : k.indexOf("went with")>-1||k.indexOf("did not win")>-1 ? "Lost to another lender"
+        : k.indexOf("review")>-1||k.indexOf("awaiting")>-1 ? "Still open (mis-filed)"
+        : k.indexOf("leverage")>-1||k.indexOf("ltv")>-1 ? "Leverage too high"
+        : k.indexOf("valuation")>-1||k.indexOf("valaution")>-1 ? "Valuation short"
+        : k.indexOf("declined by rel")>-1 ? "We declined"
+        : "Other / not progressed";
+      c[bucket]=(c[bucket]||0)+1;
+    });
+    var arr=Object.keys(c).map(function(k){return [k,c[k]]}).sort(function(a,b){return b[1]-a[1]});
+    return '<div class="reasons">'+arr.map(function(x){
+      return '<span class="rpill"><b>'+x[1]+'</b> '+esc(x[0])+'</span>'}).join("")+'</div>';
+  }
+
+  /* ---------- render: list ---------- */
+  function visible(){
+    var out=deals.filter(function(d){return !TERMINAL[d.stage]});
+    if(filter==="stalled") out=out.filter(isStalled);
+    else if(filter==="nofigs") out=out.filter(noFigs);
+    else if(filter==="due") out=out.filter(dueNow);
+    else if(filter==="unreviewed") out=out.filter(function(d){return !reviewedThisWeek(d)});
+    else if(filter && filter.indexOf("stage:")===0){
+      var s=filter.slice(6);
+      out = (s==="Redeemed"||s==="Drawn") ? deals.filter(function(d){return !!TERMINAL[d.stage]})
+                            : out.filter(function(d){return d.stage===s});
+    }
+    if(q){
+      var t=q.toLowerCase();
+      out=out.filter(function(d){
+        return [d.property,d.borrower,d.assetClass,d.owner,d.nextAction,d.sheetComments,d.teamNote]
+          .some(function(v){return v && String(v).toLowerCase().indexOf(t)>-1});
+      });
+    }
+    return out;
+  }
+  function sortDeals(a){
+    var c=a.slice();
+    if(sortBy==="age") c.sort(function(x,y){return (ageDays(y)||0)-(ageDays(x)||0)});
+    else if(sortBy==="size") c.sort(function(x,y){return (y.grossLoan||0)-(x.grossLoan||0)});
+    else if(sortBy==="touched") c.sort(function(x,y){return (untouchedDays(y)||0)-(untouchedDays(x)||0)});
+    else c.sort(function(x,y){
+      var dx=STAGES.indexOf(x.stage), dy=STAGES.indexOf(y.stage);
+      if(dx!==dy) return dy-dx;
+      return (y.grossLoan||0)-(x.grossLoan||0);
+    });
+    return c;
+  }
+  function dealRow(d, reason, scope){
+    scope=scope||'b';
+    var u=untouchedDays(d);
+    var attn = isStalled(d)||dueNow(d);
+    var rag = d.rag==="green"?"g":d.rag==="amber"?"a":d.rag==="red"?"r":"";
+    var fig = d.grossLoan!=null
+      ? '<div class="d-fig">'+money(d.grossLoan)+(d.ltv!=null?'<br><span style="color:var(--muted);font-size:11px">'+pct(d.ltv)+' LTV</span>':'')+'</div>'
+      : '<div class="d-fig dim">TBC</div>';
+    var next = d.nextAction
+      ? esc(d.nextAction)+(d.nextActionDue?' <span style="color:'+(dueNow(d)?'var(--stall)':'var(--faint)')+'">· '+esc(fmtDate(d.nextActionDue))+'</span>':'')
+      : '';
+    var tOut=termsOutDays(d);
+    // One quiet-time column, not two. It reads the sheet's own note dates, so
+    // it answers "when did something last happen" rather than "how old is this".
+    var quiet = u==null
+      ? '<span class="dim" title="no dated note in the deal sheet yet">no date</span>'
+      : '<span'+(u>=30?' class="hot"':'')+'>'+u+'d</span>';
+    return ''+
+      '<div class="deal'+(attn?' attn':'')+((open===d.id&&openScope===scope)?' is-open':'')+
+        '" data-id="'+esc(d.id)+'" data-stage="'+esc(d.stage||d.derivedStage||"")+'">'+
+        '<div class="deal-row" role="button" tabindex="0" aria-expanded="'+(open===d.id&&openScope===scope)+'">'+
+          '<span class="rag '+rag+'" title="'+esc(d.rag||"no status")+'"></span>'+
+          '<div class="d-name"><b>'+esc(d.property)+'</b><div class="meta">'+
+             // Reason first: on a phone the meta line truncates, and the reason
+             // is the one thing that must survive.
+             (reason
+               ? '<span class="why'+(reason.hot?'':' calm')+'">'+esc(reason.why)+'</span> '
+               : (inDefault(d)?'<span class="badge lapsed">in default</span> '
+                 : pastMaturity(d)?'<span class="badge lapsed">past maturity</span> '
+                 : offerLapsed(d)?'<span class="badge lapsed">offer lapsed</span> ':''))+
+             esc(d.assetClass||"—")+(d.borrower?' · '+esc(d.borrower):'')+
+             (tOut!=null && !(reason && /terms/i.test(reason.why))?' <span class="badge terms">terms out '+tOut+'d</span>':'')+
+             (d.origin==="manual"?' <span class="badge man">added here</span>':'')+
+             ((d.flags&&d.flags.indexOf("also-in-declined")>-1)?' <span class="badge zombie">also declined</span>':'')+
+             (stageDisagrees(d)?' <span class="badge sheet">sheet: '+esc(d.derivedStage)+'</span>':'')+
+             (reviewedThisWeek(d)?' <span class="badge rev">reviewed</span>':'')+
+          '</div></div>'+
+          fig+
+          '<div class="d-age" title="days since anything happened on this deal">'+quiet+'</div>'+
+          '<div class="d-next">'+next+'</div>'+
+          '<div class="d-own">'+(d.owner?esc(d.owner):'')+'</div>'+
+        '</div>'+
+        ((open===d.id&&openScope===scope)? editor(d) : '')+
+      '</div>';
+  }
+  /* The sweep has usually already written the next action into the comment —
+     it is just the last sentence of it. Offer that as one tap. Tapping FILLS
+     the box and focuses it; it never saves. So nextAction keeps exactly one
+     writer, and a bad suggestion costs a keystroke instead of a wrong record. */
+  /* Most comment sentences describe the deal rather than name something to do
+     ("GDV stated", "Regional office refinancing"). Offering those as actions
+     makes the feature look stupid and teaches people to ignore the chip. So
+     require a signal that something is actually outstanding, and show nothing
+     otherwise — on the real book this suggests about nine deals, which are the
+     nine worth suggesting. */
+  var ACTIONABLE=/\b(chase|chasing|catch up|confirm|await|awaiting|waiting|outstanding|to follow|follow up|revert|negotiat\w*|push\w*|wants?|competing|counter|lapsed|expired|decide|decision|respond|reply|sign\w*|countersign\w*|send|issue terms|call|meet|discuss|credit approval|due dilig\w*)\b/i;
+  function suggestedAction(d){
+    if(d.nextAction || !d.sheetComments || !!TERMINAL[d.stage]) return null;
+    var parts=d.sheetComments.split(/(?<=[.!?])\s+/).map(function(s){return s.trim()}).filter(Boolean);
+    var last=parts.length? parts[parts.length-1] : d.sheetComments.trim();
+    last=last.replace(/[.\s]+$/,"");
+    // Sentence-splitting can leave a bracket behind when the note ends inside
+    // a parenthetical. Trim an unmatched one rather than showing "…confirm.)".
+    if((last.match(/\)/g)||[]).length > (last.match(/\(/g)||[]).length) last=last.replace(/\s*\)+\s*$/,"");
+    if((last.match(/\(/g)||[]).length > (last.match(/\)/g)||[]).length) last=last.replace(/^\s*\(+\s*/,"");
+    last=last.replace(/[.\s]+$/,"");
+    if(last.length<6 || last.length>90) return null;
+    if(/\bTBC\b/i.test(last)) return null;
+    if(!ACTIONABLE.test(last)) return null;
+    // Reject pricing blobs — "Loan amount £15.0m at 58% LTV/LTPP" is a summary
+    // of terms, not something anyone can do.
+    var figures=(last.match(/[£\d][\d.,]*/g)||[]).length;
+    if(figures>=2 && /%|\bLTV\b|\bIRR\b|\bLTPP\b|\bLTC\b/i.test(last)) return null;
+    return last;
+  }
+  function suggestChip(d){
+    var s=suggestedAction(d); if(!s) return "";
+    return '<button type="button" class="sugg" data-act="usesugg" title="Put this in the box — it is not saved until you press Save">'+
+      '<span class="sugg-k">from the sheet</span>'+esc(s)+'</button>';
+  }
+
+  function editor(d){
+    var opts=function(list,sel){return list.map(function(v){
+      return '<option value="'+esc(v)+'"'+(sel===v?' selected':'')+'>'+esc(v)+'</option>'}).join("")};
+    var facts=[
+      ["Received", d.dateReceived?fmtDate(d.dateReceived):"—"],
+      ["Net loan", money(d.netLoan)||"—"],
+      ["Gross loan", money(d.grossLoan)||"—"],
+      ["Collateral", money(d.collateral)||"—"],
+      ["LTV", (pct(d.ltv)||"—")+(d.ltvBasis==="net"?" · net basis":"")],
+      ["REL return", money(d.relReturn)||"—"],
+      ["Term", d.months!=null? d.months+" mo":"—"],
+      ["IRR", pct(d.irr)||"—"],
+      ["Type", [d.tranche,d.dealType,d.acqRefi==="A"?"Acquisition":d.acqRefi==="R"?"Refinance":null].filter(Boolean).join(" · ")||"—"],
+      ["Source", d.source||"—"]
+    ];
+    return '<div class="editor">'+
+      '<div>'+
+        '<div class="ed-row">'+
+          '<div class="ed-field"><label for="st-'+esc(d.id)+'">Stage</label><select id="st-'+esc(d.id)+'" data-f="stage">'+opts(STAGES,d.stage)+'</select>'+
+            (stageDisagrees(d)? '<div style="font-size:11.5px;color:var(--watch);margin-top:4px">Sheet flags say <b>'+esc(d.derivedStage)+'</b> — yours wins here.</div>':'')+
+          '</div>'+
+          '<div class="ed-field"><label for="ow-'+esc(d.id)+'">Owner</label><select id="ow-'+esc(d.id)+'" data-f="owner"><option value="">Unassigned</option>'+opts(TEAM,d.owner)+'</select></div>'+
+          '<div class="ed-field"><label for="rg-'+esc(d.id)+'">Status</label><select id="rg-'+esc(d.id)+'" data-f="rag">'+
+            '<option value="">Not set</option>'+
+            '<option value="green"'+(d.rag==="green"?" selected":"")+'>On track</option>'+
+            '<option value="amber"'+(d.rag==="amber"?" selected":"")+'>Watch</option>'+
+            '<option value="red"'+(d.rag==="red"?" selected":"")+'>At risk</option></select></div>'+
+        '</div>'+
+        '<div class="ed-row">'+
+          '<div class="ed-field" style="flex:3 1 260px"><label for="na-'+esc(d.id)+'">Next action</label>'+
+            '<input type="text" id="na-'+esc(d.id)+'" data-f="nextAction" value="'+esc(d.nextAction||"")+'" placeholder="e.g. chase countersigned TS">'+
+            suggestChip(d)+'</div>'+
+          '<div class="ed-field"><label for="nd-'+esc(d.id)+'">Due</label>'+
+            '<input type="date" id="nd-'+esc(d.id)+'" data-f="nextActionDue" value="'+esc(d.nextActionDue||"")+'"></div>'+
+        '</div>'+
+        '<div class="ed-field"><label for="tn-'+esc(d.id)+'">Team notes</label>'+
+          '<textarea id="tn-'+esc(d.id)+'" data-f="teamNote" placeholder="What changed, what we decided, what we are waiting on…">'+esc(d.teamNote||"")+'</textarea></div>'+
+        '<div class="ed-actions">'+
+          '<button class="btn btn-p" data-act="save">Save</button>'+
+          '<button class="btn btn-s" data-act="review">'+(reviewedThisWeek(d)?"Reviewed ✓":"Mark reviewed")+'</button>'+
+          (d.origin==="manual"? '<button class="btn btn-s" data-act="remove" style="margin-left:auto;color:var(--stall)">Remove</button>':'')+
+          '<span class="saved" data-role="saved" hidden>Saved</span>'+
+        '</div>'+
+        '<div class="stamp">'+(d.updatedBy? "Last updated by "+esc(d.updatedBy)+(d.updatedAt?" · "+esc(fmtDate(d.updatedAt)):"") : "No team updates yet")+'</div>'+
+      '</div>'+
+      '<div class="facts"><h4>'+(d.origin==="manual"?"Entered by hand":"From the deal sheet")+'</h4><dl>'+
+        facts.map(function(f){return '<dt>'+esc(f[0])+'</dt><dd>'+esc(f[1])+'</dd>'}).join("")+
+      '</dl>'+(d.sheetComments? '<div class="note">'+esc(d.sheetComments)+'</div>':'')+
+      (function(){var ev=lastNoteEvent(d); return ev
+        ? '<div class="from">Last dated note <b>'+esc(fmtDate(ev.date.toISOString()))+'</b> — “'+esc(ev.text)+'”</div>'
+        : (d.origin==="manual" ? '' : '<div class="from dimmed">No dated note in the sheet yet, so this deal has no quiet-time. The next sweep that writes one will fill it in.</div>')})()+
+      '<div class="prov">'+
+        (d.origin==="manual"
+          ? 'Added here by '+esc(d.createdBy||"someone on the team")+
+            (d.dateReceived? ' on '+esc(fmtDate(d.dateReceived)):'')+
+            '. It is not in the deal sheet yet — put it in so the sweep starts tracking it.'
+          : 'Read-only — these come from the Outlook sweep'+
+            (meta.lastSweep? ', last run '+esc(fmtDate(meta.lastSweep)):'')+
+            '. To change a number, fix it in the deal sheet; a wrong figure here is worth a note above.')+
+      '</div></div>'+
+    '</div>';
+  }
+  function renderList(){
+    var el=$("list"); var v=sortDeals(visible());
+    $("clearF").hidden = !filter;
+    $("listHint").textContent = filter||q ? v.length+" shown of "+deals.filter(function(d){return !TERMINAL[d.stage]}).length
+                                          : "Click any deal to set owner, status and next action.";
+    if(!v.length){ el.innerHTML='<div class="empty">No deals match. <button class="chip" id="resetAll" type="button">Show everything</button></div>';
+      var r=$("resetAll"); if(r) r.addEventListener("click",function(){q="";$("q").value="";setFilter(null)});
+      return; }
+    if(sortBy==="stage" && !filter){
+      var html="";
+      STAGES.slice().reverse().forEach(function(s){
+        var inS=v.filter(function(d){return d.stage===s}); if(!inS.length) return;
+        var g=inS.filter(function(d){return d.grossLoan!=null}).reduce(function(a,d){return a+d.grossLoan},0);
+        html+='<div class="group"><div class="group-h"><span class="sw" style="background:'+STAGE_SW[s]+'"></span>'+
+              esc(s)+' <span class="ct">'+inS.length+(g?' · '+money(g):'')+'</span></div>'+
+              inS.map(function(d){return dealRow(d)}).join("")+'</div>';
+      });
+      el.innerHTML=html;
+    } else {
+      el.innerHTML=v.map(function(d){return dealRow(d)}).join("");
+    }
+  }
+  function renderTables(){
+    // Drawn first: that is money currently at risk, and it is the half people
+    // most need to see. Redeemed is the track record underneath it.
+    var order={Drawn:0, Redeemed:1};
+    var book=completed.slice().sort(function(a,b){
+      var d=(order[a.stage]||0)-(order[b.stage]||0);
+      return d || ((b.relShare||b.grossLoan||0)-(a.relShare||a.grossLoan||0));
+    });
+    $("completedBody").innerHTML = book.length? book.map(function(d){
+      var drawn=d.stage==="Drawn";
+      return '<tr><td><b>'+esc(d.property)+'</b>'+
+          ' <span class="badge '+(drawn?"terms":"rev")+'">'+esc(d.stage||"")+'</span></td>'+
+        '<td>'+esc(d.assetClass||"—")+'</td><td>'+esc(d.borrower||"—")+'</td>'+
+        '<td class="n">'+(money(d.grossLoan)||"—")+'</td>'+
+        '<td class="n">'+(d.relShare!=null? money(d.relShare) : '<span style="color:var(--faint)">—</span>')+'</td>'+
+        '<td class="n">'+(money(d.relReturn)||"—")+'</td>'+
+        '<td class="n">'+(d.months!=null?d.months:"—")+'</td><td class="n">'+(pct(d.irr)||"—")+'</td></tr>';
+    }).join("") : '<tr><td colspan="8" style="color:var(--muted)">No drawn or redeemed loans loaded.</td></tr>';
+
+    $("declSum").textContent = "Declined deals — why we passed ("+declined.length+")";
+    var host=$("declinedBody").closest(".tblwrap");
+    var roll=document.getElementById("declRoll");
+    if(!roll && host){ roll=document.createElement("div"); roll.id="declRoll"; host.parentNode.insertBefore(roll, host) }
+    if(roll) roll.innerHTML=declineRollup();
+    $("declinedBody").innerHTML = declined.map(function(d){
+      return '<tr><td>'+esc(d.property)+'</td><td>'+esc(d.assetClass||"—")+'</td>'+
+        '<td class="n">'+(money(d.grossLoan)||"—")+'</td><td style="white-space:normal">'+esc(d.reason||"—")+'</td></tr>';
+    }).join("");
+  }
+  function renderAll(){ renderHeader(); renderState(); renderNeeds(); renderLoanBook(); renderIntegrity(); renderList(); renderTables(); }
+
+  function setFilter(f){
+    filter=f;
+    document.querySelectorAll(".tile").forEach(function(t){
+      t.setAttribute("aria-pressed", t.getAttribute("data-filter")===f ? "true":"false")});
+    renderSummary(); renderList();
+  }
+
+  /* ---------- writes ---------- */
+  function collect(card){
+    var patch={};
+    card.querySelectorAll("[data-f]").forEach(function(el){
+      var v=el.value; patch[el.getAttribute("data-f")] = v===""? null : v;
+    });
+    return patch;
+  }
+  function findDeal(id){
+    return deals.find(function(x){return x.id===id}) ||
+           completed.find(function(x){return x.id===id}) || null;
+  }
+  async function save(id, patch, card){
+    var d=findDeal(id); if(!d) return;
+    Object.assign(d, patch);
+    d.updatedBy = who || "unattributed";
+    d.updatedAt = new Date().toISOString();
+    patch.updatedBy=d.updatedBy; patch.updatedAt=d.updatedAt;
+    // Re-render, or the row the reader just edited still shows the old values
+    // and the save reads as though nothing happened. The open editor survives
+    // because `open`/`openScope` are untouched.
+    renderState(); renderSummary(); renderNeeds(); renderList();
+    var host=document.querySelector((openScope==="n"?"#needs":"#list")+
+      ' .deal[data-id="'+CSS.escape(id)+'"] [data-role="saved"]');
+    if(host){ host.hidden=false; setTimeout(function(){ if(host.isConnected) host.hidden=true },1600) }
+    if(!db) return;
+    try{ await db.doc("deals/"+id).update(patch) }
+    catch(e){ console.error("save failed",e); flashNotice("Could not save that change — "+(e&&e.code||"unknown")+". Your edit is showing locally but is not shared yet."); }
+  }
+  function flashNotice(msg){
+    var n=$("dbNotice"); n.hidden=false;
+    n.innerHTML='<div class="notice"><b>Heads up.</b> '+esc(msg)+'</div>';
+  }
+
+  /* ---------- add a deal by hand ---------- */
+  function slugify(s){
+    return String(s||"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,52) || "deal";
+  }
+  function newId(name){
+    var base=slugify(name), n=0, id=base;
+    while(deals.concat(completed).some(function(d){return d.id===id})){ n++; id=base+"-"+n }
+    return id;
+  }
+  function addFormHtml(){
+    var opt=function(list){return list.map(function(v){return '<option>'+esc(v)+'</option>'}).join("")};
+    return '<div class="addcard">'+
+      '<h3>Add a deal</h3>'+
+      '<div class="lede">For deals that arrive by phone or in person — anything the Outlook sweep will never see. Only the property is required; fill in the rest as you learn it.</div>'+
+      '<div class="grid3">'+
+        '<div class="f wide"><label for="a-prop">Property *</label><input type="text" id="a-prop" placeholder="e.g. 12 Cadogan Square, SW1"></div>'+
+        '<div class="f"><label for="a-asset">Asset class</label><input type="text" id="a-asset" placeholder="Hotel, Resi, Office…"></div>'+
+        '<div class="f"><label for="a-borrower">Borrower</label><input type="text" id="a-borrower" placeholder="Borrower / JV partner"></div>'+
+        '<div class="f"><label for="a-source">Source</label><select id="a-source"><option>Broker</option><option>Direct</option></select></div>'+
+        '<div class="f"><label for="a-gross">Gross loan £m</label><input type="text" inputmode="decimal" id="a-gross" placeholder="6.5"></div>'+
+        '<div class="f"><label for="a-coll">Collateral £m</label><input type="text" inputmode="decimal" id="a-coll" placeholder="10.0"></div>'+
+        '<div class="f"><label for="a-months">Term (months)</label><input type="text" inputmode="numeric" id="a-months" placeholder="12"></div>'+
+        '<div class="f"><label for="a-type">Deal type</label><select id="a-type">'+opt(["Bridge","Term"])+'</select></div>'+
+        '<div class="f"><label for="a-ar">Purpose</label><select id="a-ar"><option value="A">Acquisition</option><option value="R">Refinance</option></select></div>'+
+        '<div class="f"><label for="a-stage">Stage</label><select id="a-stage">'+opt(STAGES.slice(0,4))+'</select></div>'+
+        '<div class="f"><label for="a-owner">Owner</label><select id="a-owner"><option value="">Unassigned</option>'+opt(TEAM)+'</select></div>'+
+        '<div class="f"><label for="a-rate">Rate / IRR %</label><input type="text" inputmode="decimal" id="a-rate" placeholder="10.5"></div>'+
+        '<div class="f wide"><label for="a-note">Note</label><input type="text" id="a-note" placeholder="Where it came from, what was agreed on the call…"></div>'+
+      '</div>'+
+      '<div class="ed-actions" style="margin-top:13px">'+
+        '<button class="btn btn-p" id="a-save" type="button">Add to the book</button>'+
+        '<button class="btn btn-s" id="a-cancel" type="button">Cancel</button>'+
+        '<span class="err" id="a-err" hidden>Give the deal a property name first.</span>'+
+      '</div></div>';
+  }
+  function toggleAddForm(on){
+    var box=$("addForm");
+    if(on===false || !box.hidden){ box.hidden=true; box.innerHTML=""; return }
+    box.innerHTML=addFormHtml(); box.hidden=false;
+    var p=$("a-prop"); if(p) p.focus();
+    box.scrollIntoView({block:"nearest", behavior:"smooth"});
+  }
+  async function submitAdd(){
+    var propEl=$("a-prop"); if(!propEl) return;
+    var prop=propEl.value.trim();
+    if(!prop){ $("a-err").hidden=false; propEl.focus(); return }
+    var numOf=function(id){ var el=$(id); var v=parseFloat(el?el.value:""); return isNaN(v)?null:v };
+    var gross=numOf("a-gross"), coll=numOf("a-coll"), rate=numOf("a-rate");
+    var stage=$("a-stage").value;
+    var id=newId(prop);
+    var doc={
+      sheetSection:"live", origin:"manual",
+      stage:stage, derivedStage:stage,
+      dateReceived: iso(today()),
+      property:prop,
+      assetClass:$("a-asset").value.trim()||null,
+      borrower:$("a-borrower").value.trim()||null,
+      tranche:"Senior", dealType:$("a-type").value, acqRefi:$("a-ar").value,
+      netLoan:null, relReturn:null, grossLoan:gross, collateral:coll,
+      ltv:(gross!=null && coll)? Math.round(gross/coll*10000)/10000 : null,
+      ltvBasis:"gross",
+      months:numOf("a-months"), irr:(rate!=null? Math.round(rate)/100 : null),
+      tsIssued:false, commitFee:false, source:$("a-source").value,
+      sheetComments:null, flags:[],
+      owner:$("a-owner").value||null, rag:null,
+      nextAction:null, nextActionDue:null,
+      teamNote:$("a-note").value.trim()||null,
+      reviewedWeek:weekKey(today()),
+      createdBy: who||"unattributed",
+      updatedBy: who||"unattributed", updatedAt:new Date().toISOString()
+    };
+    deals.push(Object.assign({id:id}, doc));
+    toggleAddForm(false);
+    open=id; renderAll();
+    if(!db) return;
+    try{ await db.collection("deals").doc(id).set(doc) }
+    catch(e){ flashNotice("“"+prop+"” was added on your screen but could not be saved to the shared board ("+((e&&e.code)||"error")+"). Nobody else can see it yet."); }
+  }
+  // confirm() is blocked in the sandboxed frame too, so removal is a
+  // deliberate two-tap instead: the button asks, then does.
+  var armedRemove=null;
+  async function removeDeal(id, btn){
+    var d=findDeal(id);
+    if(!d || d.origin!=="manual") return;
+    if(armedRemove!==id){
+      armedRemove=id;
+      if(btn){ btn.textContent="Tap again to remove"; btn.style.fontWeight="600" }
+      setTimeout(function(){ if(armedRemove===id){ armedRemove=null;
+        if(btn && btn.isConnected){ btn.textContent="Remove"; btn.style.fontWeight="" } } }, 4000);
+      return;
+    }
+    armedRemove=null;
+    deals=deals.filter(function(x){return x.id!==id}); open=null; renderAll();
+    if(db){ try{ await db.doc("deals/"+id).delete() }catch(e){ flashNotice("Could not remove that deal from the shared board.") } }
+  }
+
+  function toggleWho(on){
+    var pop=$("whoPop"), chip=$("whoChip");
+    if(on===false || !pop.hidden){ pop.hidden=true; chip.setAttribute("aria-expanded","false"); return }
+    pop.innerHTML='<b>Who are you?</b>'+
+      TEAM.map(function(n){
+        return '<button type="button" data-who="'+esc(n)+'" aria-pressed="'+(who===n)+'">'+esc(n)+'</button>';
+      }).join("")+
+      (who? '<button type="button" class="clear" data-who="">Not me — clear</button>' : '');
+    pop.hidden=false; chip.setAttribute("aria-expanded","true");
+  }
+
+  /* The guide shows on a first visit — the page should explain itself before
+     anyone has to ask. Dismissing it is a per-viewer convenience, so browser
+     storage is the right home for it and its absence must not matter. */
+  function guideHidden(){
+    try{ return localStorage.getItem("rel.guide.hidden")==="1" }catch(e){ return false }
+  }
+  function setGuide(hidden){
+    var g=$("guide"); if(g) g.hidden=hidden;
+    try{ localStorage.setItem("rel.guide.hidden", hidden?"1":"0") }catch(e){}
+  }
+
+  /* ---------- events ---------- */
+  document.addEventListener("click", function(e){
+    if(e.target.closest("#guideHide")){ setGuide(true); return }
+    if(e.target.closest("#helpBtn")){ var g=$("guide"); setGuide(!g.hidden ? true : false);
+      if(!g.hidden) g.scrollIntoView({block:"nearest", behavior:"smooth"}); return }
+    if(e.target.closest("#addBtn")){ toggleAddForm(); return }
+    if(e.target.closest("#a-save")){ submitAdd(); return }
+    if(e.target.closest("#a-cancel")){ toggleAddForm(false); return }
+
+    var tile=e.target.closest(".tile");
+    if(tile){ var f=tile.getAttribute("data-filter"); setFilter(filter===f?null:f); return }
+
+    var act=e.target.closest("[data-act]");
+    if(act){
+      var card=act.closest(".deal"); var id=card.getAttribute("data-id");
+      var a=act.getAttribute("data-act");
+      if(a==="save"){ save(id, collect(card), card); }
+      else if(a==="usesugg"){
+        var d=findDeal(id);
+        var box=card.querySelector('[data-f="nextAction"]');
+        if(d && box){ box.value=suggestedAction(d)||""; box.focus();
+          box.setSelectionRange(box.value.length, box.value.length);
+          var chip=card.querySelector(".sugg"); if(chip) chip.hidden=true; }
+      }
+      else if(a==="remove"){ removeDeal(id, act); }
+      else{
+        var d=findDeal(id); if(!d) return;
+        var on=!reviewedThisWeek(d);
+        save(id, {reviewedWeek: on? weekKey(today()) : null}, card).then(function(){ renderState(); renderNeeds(); renderList() });
+      }
+      return;
+    }
+    if(e.target.closest(".editor")) return;
+
+    var row=e.target.closest(".deal-row");
+    if(row){
+      var card2=row.closest(".deal"), id2=card2.getAttribute("data-id");
+      var sc = row.closest("#needs") ? "n" : "b";
+      var same = (open===id2 && openScope===sc);
+      open = same? null : id2; openScope = same? null : sc;
+      renderNeeds(); renderList();
+      if(open){
+        var host = sc==="n" ? document.querySelector('#needs .deal[data-id="'+CSS.escape(open)+'"]')
+                            : document.querySelector('#list .deal[data-id="'+CSS.escape(open)+'"]');
+        if(host) host.scrollIntoView({block:"nearest", behavior:"smooth"});
+      }
+      return; }
+
+    // prompt() is blocked in the published page's sandboxed frame, so the
+    // identity picker has to be real DOM. It silently did nothing before,
+    // which is why nobody has ever been able to put their name to a change.
+    if(e.target.closest("#whoChip")){ toggleWho(); return }
+    var pick=e.target.closest("#whoPop button");
+    if(pick){
+      var v=pick.getAttribute("data-who");
+      who = v || null;
+      try{ v? lsSet("rel.who",v) : localStorage.removeItem("rel.who") }catch(err){}
+      toggleWho(false); renderHeader(); renderNeeds(); renderList();
+      return;
+    }
+    if(!e.target.closest(".whowrap")) toggleWho(false);
+    if(e.target.closest("#clearF")){ setFilter(null) }
+  });
+  document.addEventListener("keydown", function(e){
+    if((e.key==="Enter"||e.key===" ") && e.target.classList && e.target.classList.contains("deal-row")){
+      e.preventDefault(); e.target.click();
+    }
+  });
+  $("q").addEventListener("input", function(e){ q=e.target.value.trim(); renderList() });
+  $("sortBy").addEventListener("change", function(e){ sortBy=e.target.value; renderList() });
+
+  /* ---------- boot ---------- */
+  who = lsGet("rel.who");
+  $("guide").hidden = guideHidden();
+  renderHeader();
+
+  (async function(){
+    db = await claude.use("db");
+    if(!db){
+      $("list").innerHTML='<div class="empty">This board keeps its data in the shared team workspace, which isn\'t available in this view.<br>Open it from your Claude artifacts to see and edit the pipeline.</div>';
+      $("freshness").innerHTML='<span class="pulse bad"></span><span>Shared workspace unavailable</span>';
+      return;
+    }
+    db.doc("meta/state").onSnapshot(function(s){
+      meta = s.exists? s.data() : {};
+      renderHeader();
+    }, function(err){ console.error("meta",err) });
+
+    db.doc("reference/declined").onSnapshot(function(s){
+      declined = (s.exists && Array.isArray(s.data().items))? s.data().items : [];
+      renderTables();
+    }, function(err){ console.error("declined",err) });
+
+    db.doc("reference/integrity").onSnapshot(function(s){
+      integrity = s.exists? s.data() : null;
+      renderIntegrity();
+    }, function(err){ console.error("integrity",err) });
+
+    db.collection("deals").onSnapshot(function(snap){
+      var all=[];
+      snap.docs.forEach(function(doc){ var o=Object.assign({}, doc.data()); o.id=doc.id; all.push(o) });
+      deals = all.filter(function(d){return d.sheetSection!=="redeemed" && d.sheetSection!=="drawn"});
+      completed = all.filter(function(d){return d.sheetSection==="redeemed" || d.sheetSection==="drawn"});
+      if(!all.length){
+        $("list").innerHTML='<div class="empty">No deals in the board yet. Ask Claude to load the pipeline from the deal sheet.</div>';
+        renderHeader(); renderSummary(); renderTables(); return;
+      }
+      renderAll();
+    }, function(err){
+      console.error("deals",err);
+      $("list").innerHTML='<div class="empty">Could not load the pipeline ('+esc(err&&err.code||"error")+').</div>';
+    });
+  })();
+})();
+</script>
