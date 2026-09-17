@@ -41,7 +41,18 @@ Destination:
 - Deal moved to legals → move row to the In Legals section (top table).
 - REL declined or deal died → `Declined Deals` (append after last data row; new deals that
   died go straight here).
-- Completed/drawn → `Completed Deals`.
+- Loan drew down → `Completed Deals`, **DRAWN — NOT YET REDEEMED** block (rows 14-15).
+- Loan repaid → `Completed Deals`, **Redeemed Loans** block (rows 5-8), and remove it
+  from the drawn block. Redeemed means the money came back, nothing weaker.
+
+> **Drawn is not completed.** The sheet used to call a drawn loan "completed", which read
+> Uxbridge and Stanmore as finished while both were still running — Uxbridge is past
+> maturity with a default/extension underway. Keep the two blocks distinct.
+>
+> **Record REL's share.** Column V on Completed Deals (S on Potential Deals) holds REL's
+> own participation where a loan is syndicated. Uxbridge is £8.2m whole but £2.05m REL;
+> Appold was £21.07m whole and £4.214m REL. Without it every total overstates REL money.
+> The figure comes from the lending forecast workbook's per-deal tab, not the deal sheet.
 
 ## 3. Sheet conventions (match exactly)
 

@@ -38,11 +38,12 @@ _SHARED = {
 COLS = {
     "Potential Deals": dict(
         _SHARED, dateReceived=1, property=2, assetClass=3, borrower=4,
-        tsIssued=15, commitFee=16, source=17, sheetComments=18),
+        tsIssued=15, commitFee=16, source=17, sheetComments=18, relShare=19),
     # Completed Deals leads with the property and has a No of Units column.
     "Completed Deals": dict(
         _SHARED, dateReceived=None, property=1, assetClass=2, borrower=4,
-        tsIssued=17, commitFee=18, source=19, sheetComments=20),
+        tsIssued=17, commitFee=18, source=19, sheetComments=20,
+        introducer=21, relShare=22),
 }
 # Some Completed Deals rows carry a date in column A instead, which pushes the
 # text columns one to the right and drops No of Units. Columns E onwards stay put.
@@ -61,7 +62,7 @@ FACT_FIELDS = [
     "dateReceived", "property", "assetClass", "borrower", "tranche", "dealType",
     "acqRefi", "netLoan", "relReturn", "grossLoan", "collateral", "ltv",
     "months", "irr", "tsIssued", "commitFee", "source",
-    "sheetComments", "sheetSection", "derivedStage",
+    "sheetComments", "sheetSection", "derivedStage", "relShare", "introducer",
 ]
 
 # Fields the team owns. Never written by a sync, at any version, for any reason.
@@ -70,12 +71,20 @@ TEAM_FIELDS = [
     "reviewedWeek", "updatedBy", "updatedAt", "createdBy", "origin",
 ]
 
+# Stage order, funnel order. "Completed" was replaced by the pair Drawn /
+# Redeemed once it became clear the sheet was calling drawn loans completed.
+STAGES = ["Enquiry", "Terms Issued", "Commitment Fee", "In Legals", "Drawn", "Redeemed"]
+
 # Row blocks. The In Legals block sits under its header at row 7; EARLY STAGE
 # under row 19. Both end before their Total row.
 BLOCKS = [
     ("Potential Deals", 8, 10, "live", "In Legals"),
     ("Potential Deals", 20, 49, "live", None),
-    ("Completed Deals", 5, 8, "completed", "Completed"),
+    # The Completed Deals sheet carries two blocks. "Redeemed" means the money
+    # came back; "Drawn" means it went out and has not. Conflating them read
+    # Uxbridge and Stanmore as finished when both are still running.
+    ("Completed Deals", 5, 8, "redeemed", "Redeemed"),
+    ("Completed Deals", 14, 15, "drawn", "Drawn"),
 ]
 
 
@@ -121,7 +130,7 @@ def read_sheet(path):
             cols = COLS[key]
 
             def cell(field):
-                c = cols[field]
+                c = cols.get(field)
                 return ws.cell(r, c).value if c else None
 
             prop = text(cell("property"))
@@ -162,6 +171,10 @@ def read_sheet(path):
                 "sheetComments": text(cell("sheetComments")),
                 "sheetSection": section,
                 "derivedStage": stage,
+                # REL's own share of a syndicated loan. Uxbridge is £8.2m whole
+                # but £2.05m REL; without this every total overstates REL money.
+                "relShare": num(cell("relShare")) if "relShare" in cols else None,
+                "introducer": text(cell("introducer")) if "introducer" in cols else None,
                 "flags": [],
             })
     return rows
