@@ -79,7 +79,7 @@ STAGES = ["Enquiry", "Terms Issued", "Commitment Fee", "In Legals", "Drawn", "Re
 # under row 19. Both end before their Total row.
 BLOCKS = [
     ("Potential Deals", 8, 10, "live", "In Legals"),
-    ("Potential Deals", 20, 49, "live", None),
+    ("Potential Deals", 20, 53, "live", None),
     # The Completed Deals sheet carries two blocks. "Redeemed" means the money
     # came back; "Drawn" means it went out and has not. Conflating them read
     # Uxbridge and Stanmore as finished when both are still running.
