@@ -118,6 +118,23 @@ def main():
     with open(env["UPLOAD_FILE"], "rb") as f:
         content = f.read()
 
+    # Graph's simple upload creates any missing parent folders, so a wrong
+    # SHAREPOINT_FOLDER does not fail — it invents the whole tree and leaves
+    # the file somewhere nobody looks, while the run reports success. Check the
+    # folder exists first and refuse loudly if it does not.
+    if inner:
+        folder = "/".join(urllib.parse.quote(p) for p in inner)
+        if call(f"{GRAPH}/drives/{drive['id']}/root:/{folder}",
+                headers=auth, allow_404=True) is None:
+            sys.exit(
+                f"Folder not found in the '{drive['name']}' library: {'/'.join(inner)}\n"
+                "Nothing was uploaded — Graph would have created this path and hidden the\n"
+                "file there. Check SHAREPOINT_FOLDER against the folder's real SharePoint\n"
+                "URL. Note a OneDrive-synced library shows locally as '<Site> - <Library>'\n"
+                "(e.g. 'REL Finance - Master'); that prefix is the sync folder's name, not\n"
+                "part of the SharePoint path, and must not appear in SHAREPOINT_FOLDER."
+            )
+
     # This upload overwrites the file in place, by design (the repo is the
     # source of truth). Say out loud what is being replaced, so a run that
     # clobbers someone's direct edit leaves a record of whose it was — the

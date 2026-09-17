@@ -55,7 +55,7 @@ Set these repository **variables**:
 |---|---|
 | `SHAREPOINT_HOSTNAME` | `netorg11487911.sharepoint.com` |
 | `SHAREPOINT_SITE_PATH` | `/sites/RELfinance` |
-| `SHAREPOINT_FOLDER` | `REL Finance - Master/2.0 Financial Data/2.7 Deal Sheet` |
+| `SHAREPOINT_FOLDER` | `Shared Documents/2.0 Financial Data/2.7 Deal Sheet` |
 | `SHAREPOINT_TARGET_NAME` | `Deals Sheet REL.xlsx` |
 | `ONEDRIVE_USER` | *(leave unset — this is a site, not personal OneDrive)* |
 
@@ -65,6 +65,17 @@ Set these repository **variables**:
 > in SharePoint, because the next morning's run will overwrite those edits. Any
 > manual change should be made via the automation (or by asking Claude to update
 > the sheet), so it goes through the repo first.
+
+> **Corrected 17/09/2026.** This was first set to
+> `REL Finance - Master/2.0 Financial Data/2.7 Deal Sheet`, taken from the local
+> OneDrive path. That was wrong. OneDrive names a synced library
+> `<Site> - <Library>`, so "REL Finance - Master" is the sync folder's own name,
+> not a SharePoint path segment. The real library is `Shared Documents` and the
+> folder sits directly under it. The first successful run used the wrong path and,
+> because Graph's simple upload creates missing parents, silently built
+> `Shared Documents/REL Finance - Master/2.0 Financial Data/2.7 Deal Sheet/` and
+> put the file there. The uploader now checks the folder exists and refuses
+> rather than inventing it.
 
 Verify `SHAREPOINT_FOLDER` against the actual library: the first segment
 (`REL Finance - Master`) may be either a document library or a folder inside the
