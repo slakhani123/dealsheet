@@ -84,7 +84,7 @@ BLOCKS = [
     # came back; "Drawn" means it went out and has not. Conflating them read
     # Uxbridge and Stanmore as finished when both are still running.
     ("Completed Deals", 5, 8, "redeemed", "Redeemed"),
-    ("Completed Deals", 14, 15, "drawn", "Drawn"),
+    ("Completed Deals", 14, 18, "drawn", "Drawn"),
 ]
 
 
