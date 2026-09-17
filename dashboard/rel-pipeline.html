@@ -141,6 +141,18 @@ h1,h2,h3{margin:0; text-wrap:balance}
 }
 .allclear b{display:block; font-family:"Newsreader",Georgia,serif; font-size:19px;
   font-weight:600; color:var(--good); margin-bottom:3px}
+.donebox{margin-top:12px}
+.donebox > summary{
+  cursor:pointer; list-style:none; padding:9px 2px; font-size:12.5px; font-weight:600;
+  color:var(--muted); display:flex; align-items:center; gap:8px;
+}
+.donebox > summary::-webkit-details-marker{display:none}
+.donebox > summary::before{content:"›"; color:var(--faint); font-size:16px; transition:transform .15s ease}
+.donebox[open] > summary::before{transform:rotate(90deg)}
+.donebox > summary:hover{color:var(--ink)}
+.donebox > summary .ct{font-family:"IBM Plex Mono",monospace; color:var(--faint); font-weight:500}
+.donebox .deal{opacity:.62}
+.donebox .deal:hover{opacity:1}
 
 /* ---------- reference drawers ---------- */
 .refs{display:flex; flex-direction:column; gap:0}
@@ -608,7 +620,7 @@ details.more summary:hover{color:var(--ink)}
   var STAGE_SW = {"Enquiry":"var(--faint)","Terms Issued":"var(--watch)","Commitment Fee":"var(--accent)","In Legals":"var(--legals)","Drawn":"var(--legals)","Redeemed":"var(--good)"};
 
   var db=null, deals=[], completed=[], declined=[], meta={}, integrity=null;
-  var who=null, filter=null, open=null, openScope=null, q="", sortBy="stage";
+  var who=null, filter=null, open=null, openScope=null, q="", sortBy="stage", doneOpen=false;
 
   /* ---------- helpers ---------- */
   function $(id){return document.getElementById(id)}
@@ -735,6 +747,16 @@ details.more summary:hover{color:var(--ink)}
         return x.a.p-y.a.p || (y.d.relShare||y.d.grossLoan||0)-(x.d.relShare||x.d.grossLoan||0);
       });
   }
+  /* Marking a deal reviewed has to take it off the list, or "mark it reviewed"
+     is an instruction that visibly does nothing and the list never empties.
+     It moves to a collapsed Done block rather than vanishing — the reason it
+     was flagged has not gone away, it has just been dealt with this week.
+     The week key rolls over on Monday and everything returns. */
+  function needsSplit(){
+    var all=needsList(), out=[], done=[];
+    all.forEach(function(it){ (reviewedThisWeek(it.d)? done : out).push(it) });
+    return {out:out, done:done};
+  }
 
   /* ---------- render: header ---------- */
   function renderHeader(){
@@ -778,7 +800,7 @@ details.more summary:hover{color:var(--ink)}
     var out=drawn.reduce(function(a,d){return a+(d.relShare||0)},0);
     var pipe=live.filter(function(d){return d.grossLoan!=null})
                  .reduce(function(a,d){return a+d.grossLoan},0);
-    var n=needsList().length;
+    var n=needsSplit().out.length;
     // A drawn loan is reviewable too — it can appear in Needs you. Counting
     // only the live pipeline meant marking one reviewed moved nothing, which
     // reads as a broken button.
@@ -806,16 +828,27 @@ details.more summary:hover{color:var(--ink)}
   }
 
   function renderNeeds(){
-    var items=needsList(), box=$("needs");
-    $("needsHint").textContent = items.length? "Most pressing first. Open one, set the next action, mark it reviewed." : "";
-    if(!items.length){
-      box.innerHTML='<div class="allclear"><b>All clear</b>'+
-        'Nothing is overdue, lapsed or gone quiet. Have a look through the book below if you want.</div>';
-      return;
+    var sp=needsSplit(), box=$("needs");
+    $("needsHint").textContent = sp.out.length
+      ? "Most pressing first. Open one, set the next action, mark it reviewed."
+      : "";
+    var html="";
+    if(!sp.out.length){
+      html = sp.done.length
+        ? '<div class="allclear"><b>All done for this week</b>'+
+          'You have worked through all '+sp.done.length+'. They come back on Monday.</div>'
+        : '<div class="allclear"><b>All clear</b>'+
+          'Nothing is overdue, lapsed or gone quiet. Have a look through the book below if you want.</div>';
+    } else {
+      html = sp.out.map(function(it){ return dealRow(it.d, it.a, 'n') }).join("");
     }
-    box.innerHTML = items.map(function(it){
-      return dealRow(it.d, it.a, 'n');
-    }).join("");
+    if(sp.done.length){
+      html += '<details class="donebox"'+(doneOpen?' open':'')+'><summary>'+
+        'Done this week <span class="ct">'+sp.done.length+'</span></summary>'+
+        sp.done.map(function(it){ return dealRow(it.d, it.a, 'n') }).join("")+
+        '</details>';
+    }
+    box.innerHTML = html;
   }
 
   function renderLoanBook(){
@@ -1343,6 +1376,8 @@ details.more summary:hover{color:var(--ink)}
     // prompt() is blocked in the published page's sandboxed frame, so the
     // identity picker has to be real DOM. It silently did nothing before,
     // which is why nobody has ever been able to put their name to a change.
+    var dsum=e.target.closest(".donebox > summary");
+    if(dsum){ doneOpen = !dsum.parentNode.open; return }
     if(e.target.closest("#whoChip")){ toggleWho(); return }
     var pick=e.target.closest("#whoPop button");
     if(pick){

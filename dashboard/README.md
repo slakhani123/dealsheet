@@ -35,3 +35,16 @@ dialog firing locally means a dead control in production.
   return dealRow(d) })`.
 - A drawn or redeemed loan is in `completed`, not `deals`. Look deals up with
   `findDeal(id)`, which searches both.
+
+## Needs you empties as it is worked
+
+"Mark it reviewed" has to take the row off the list, or the instruction visibly
+does nothing and the list looks identical at the end of a morning as it did at
+the start. `needsSplit()` divides the attention list into outstanding and
+reviewed-this-week; reviewed rows move into a collapsed **Done this week**
+block rather than disappearing, because the reason each was flagged has not
+gone away — it has been dealt with for this week. The week key rolls over on
+Monday and the whole list returns.
+
+The headline count, the progress bar and the "All done for this week" state all
+read from the outstanding half, so they agree with what is on screen.
