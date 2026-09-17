@@ -102,7 +102,7 @@ DECLINED_BLOCK = ("Declined Deals", 5, 94)
 
 BLOCKS = [
     ("Potential Deals", 8, 10, "live", "In Legals"),
-    ("Potential Deals", 20, 53, "live", None),
+    ("Potential Deals", 20, 55, "live", None),
     # The Completed Deals sheet carries two blocks. "Redeemed" means the money
     # came back; "Drawn" means it went out and has not. Conflating them read
     # Uxbridge and Stanmore as finished when both are still running.

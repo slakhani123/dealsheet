@@ -1,8 +1,16 @@
 # REL Deal Sheet — Daily Email Sweep Runbook
 
-Purpose: every weekday morning, scan Shyam's Outlook mailbox (shyam@relfinance.co.uk,
-Microsoft 365 connector) for new or updated lending deals and reflect them in
-`Deals_Sheet_REL.xlsx`. This file is the procedure of record for the automated sweep.
+Purpose: every weekday morning, scan the team's Outlook mailboxes for new or updated
+lending deals and reflect them in `Deals_Sheet_REL.xlsx`. This file is the procedure of
+record for the automated sweep.
+
+**Three mailboxes, not one.** shyam@relfinance.co.uk is the connector's own account;
+sumeer@relfinance.co.uk and tashin@relfinance.co.uk are read with
+`mailboxOwnerEmail`, using the Full Access that Shyam granted himself with
+`Add-MailboxPermission` on 17/09/2026. Sumeer is the one brokers write to directly, so
+sweeping his inbox alone turned up two deals — 7 Rigg Approach and Project Bloom — that
+the sheet had never seen, one of them running since August. Shyam's inbox is not a
+superset of the other two and never was.
 
 ## 0. Setup
 
@@ -19,6 +27,12 @@ Microsoft 365 connector) for new or updated lending deals and reflect them in
 - Search window: since `last_sweep_utc` minus 1 day of overlap (dedupe makes overlap safe).
 - Primary search: `mcp__Microsoft_365__outlook_email_search` with
   `query: "term sheet OR loan OR bridge OR LTV OR facility OR deal"`, `afterDateTime`, paginate.
+- Then repeat for the other two, passing `mailboxOwnerEmail: sumeer@relfinance.co.uk` and
+  `mailboxOwnerEmail: tashin@relfinance.co.uk`. **In a shared mailbox the tool refuses
+  `query` together with `afterDateTime`** — send `query` alone, which comes back
+  relevance-ranked rather than newest-first, and filter on `receivedDateTime` yourself.
+- Dedupe across the three: a thread copied to two of them arrives twice with different
+  message ids and the same `internetMessageId`.
 - Also sweep Sent Items (folderName: 'Sent Items') for outgoing term sheets/proposals.
 - Deal-relevant = a specific lending opportunity: new enquiry with terms, term sheet
   issued/revised, deal declined, deal moved to legals, commitment fee received, completed.
@@ -78,6 +92,11 @@ Destination:
 1. Run recalc: `python3 /root/.claude/skills/xlsx/scripts/recalc.py Deals_Sheet_REL.xlsx 120`
    — must return `status: success` with 0 errors. (If the skill path is missing, any
    LibreOffice headless recalculation that preserves formulas is acceptable.)
+   **If LibreOffice cannot load any workbook at all** — it failed on a two-cell test file
+   on 17/09/2026 — recalc is unavailable in that session. openpyxl writes a formula with
+   no cached value, so `data_only=True` reads it as blank and the board shows a gap. Write
+   the figure as a literal instead, which is what most of column L already is, say so in
+   the report, and do not pretend the sheet was recalculated.
 2. Spot-check the changed rows with `load_workbook(data_only=True)`.
 3. Update `automation/processed_deals.json` (bump `last_sweep_utc`, log each conversation
    handled with row ref + one-line outcome).
