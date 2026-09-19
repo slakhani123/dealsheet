@@ -1,5 +1,5 @@
 {
- "last_sweep_utc": "2026-09-18T08:30:00Z",
+ "last_sweep_utc": "2026-09-19T08:30:00Z",
  "conversations": {
   "AAQkADExOTQxZmVlLTI1YTUtNGFiZS05M2NkLWM5NmIwMzExYjM0MwAQAKGPVbnesE9GioM9CrVgKfk=": {
    "subject": "New Enquiry (Rutland Gate / Montpelier Walk)",
@@ -239,11 +239,11 @@
   },
   "project-lucia-unmatched": {
    "subject": "Project Lucia - REL / Teneo / OC",
-   "last_message_utc": "2026-09-17T18:27:10Z",
+   "last_message_utc": "2026-09-18T12:17:25Z",
    "action": "held",
    "sheet": null,
    "row_anchor": null,
-   "note": "Receivership/sale on an existing REL loan: Teneo appointed, Osborne Clarke for REL, MdR for the borrower, Wedlake Bell for the buyer, Crown Estate freeholder granting a licence to assign, Sotheby's holding a rent deposit, tenant counterclaim over a water supply failure. Sale proceeds repay REL's debt. NO message on the thread names the property or a figure, so it is not matched to a row - ask Shyam which loan it is rather than guessing. Sumeer and Tashin only."
+   "note": "Receivership/sale on an existing REL loan: Teneo appointed, Osborne Clarke for REL, MdR for the borrower, Wedlake Bell for the buyer, Crown Estate freeholder granting a licence to assign, Sotheby's holding a rent deposit, tenant counterclaim over a water supply failure. Sale proceeds repay REL's debt. NO message on the thread names the property or a figure, so it is not matched to a row - ask Shyam which loan it is rather than guessing. Sumeer and Tashin only. 18/09: the undertaking to pay the arrears on completion is agreed with the managing agent, so completion can proceed even if the tenant dispute is unresolved; Teneo are seeking REL's email approval to keep the 1-3 month ratchet on their fees, assuming the sale completes on the agreed terms by end September or the first week of October. STILL UNMATCHED to a loan."
   },
   "cragghall-not-deal": {
    "subject": "Cragghall - Residential Development & Co-Investment Platform",
@@ -252,6 +252,30 @@
    "sheet": null,
    "row_anchor": null,
    "note": "Speculative approach about REL's JV equity offering. No property, no figures, no specific lending opportunity, so not deal-relevant per runbook \u00a71."
+  },
+  "AAQkADg0Yjk4YTY2LWNmMTAtNDJkZS04NWZlLWE4MDNiZWIxNDQ0YwAQAL8ecxLtS69NiHVchJTVHQc=": {
+   "subject": "Project Meridian | Seeking \u00a316.5 Million UK Hotel Acquisition Facility",
+   "last_message_utc": "2026-09-18T13:08:48Z",
+   "action": "added",
+   "sheet": "Potential Deals",
+   "row_anchor": "Project Meridian - 4 UK hotels (London/Essex, Aberdeen, Sheffield)",
+   "note": "\u00a316.5m senior secured, LTPP 59.7%, debt yield 20.2%. Five-year amortising term debt, not a bridge - decide product fit first. Came to Tashin direct."
+  },
+  "AAQkADhkMDFiNzVhLWM5OWQtNGI2Ny05ZjljLTU0YjU1YTZkNWIyYgAQAELHHSlnrONKrkDF8UP3bk0=": {
+   "subject": "Rookery Manor",
+   "last_message_utc": "2026-09-18T11:07:05Z",
+   "action": "added",
+   "sheet": "Potential Deals",
+   "row_anchor": "Rookery Manor, Edingworth Rd, Weston-Super-Mare BS24 0JB",
+   "note": "\u00a33.5m against \u00a35.8m (KF and Eddisons), 60% LTV, 12-24m, refinance to consolidate facilities. Data room offered. Came to Sumeer after a 17/09 meeting."
+  },
+  "AAQkADhkMDFiNzVhLWM5OWQtNGI2Ny05ZjljLTU0YjU1YTZkNWIyYgAQABFW0E8iK05SiKJHR95oFcE=": {
+   "subject": "7 Rigg Approach, Lea Bridge E10",
+   "last_message_utc": "2026-09-18T12:43:07Z",
+   "action": "declined",
+   "sheet": "Declined Deals",
+   "row_anchor": "7 Rigg Approach, Lea Bridge, London E10 7QN",
+   "note": "REL passed 18/09: planning-led deals need 30-40% hard equity. Added 17/09, declined 18/09 - one day live."
   }
  }
 }

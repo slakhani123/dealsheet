@@ -98,11 +98,11 @@ STAGES = ["Enquiry", "Terms Issued", "Commitment Fee", "In Legals", "Drawn", "Re
 # in, whether terms were ever issued, whether a commitment fee was paid. That
 # is what makes a conversion rate possible at all, so the sync now rebuilds the
 # whole reference document rather than leaving it as a one-off hand-loaded blob.
-DECLINED_BLOCK = ("Declined Deals", 5, 94)
+DECLINED_BLOCK = ("Declined Deals", 5, 95)
 
 BLOCKS = [
     ("Potential Deals", 8, 10, "live", "In Legals"),
-    ("Potential Deals", 20, 56, "live", None),
+    ("Potential Deals", 20, 57, "live", None),
     # The Completed Deals sheet carries two blocks. "Redeemed" means the money
     # came back; "Drawn" means it went out and has not. Conflating them read
     # Uxbridge and Stanmore as finished when both are still running.
@@ -326,7 +326,7 @@ def main():
     by_property = {d.get("property"): doc_id for doc_id, d in db.items() if d.get("property")}
     used = set(db)
 
-    writes, added, changed, manual, unmatched = [], [], [], [], []
+    writes, added, changed, manual, unmatched, went_declined = [], [], [], [], [], []
 
     for row in sheet_rows:
         doc_id = by_property.get(row["property"])
@@ -360,10 +360,20 @@ def main():
     # a hand-added deal legitimately lives only on the board, and a swept deal
     # that vanished from the sheet is a question for a human, not a delete.
     sheet_props = {r["property"] for r in sheet_rows}
+    declined_props = {d["property"] for d in declined}
     for doc_id, d in db.items():
-        if d.get("property") in sheet_props:
+        prop = d.get("property")
+        if prop in sheet_props:
             continue
-        (manual if d.get("origin") == "manual" else unmatched).append((doc_id, d.get("property")))
+        if prop in declined_props:
+            # Not a mystery: the deal moved to the Declined sheet, which the
+            # board carries as a reference document rather than a live deal.
+            # Without this case it read as "vanished from the sheet", which is
+            # the one thing that genuinely needs a human, and burying a routine
+            # decline in that list is how a real disappearance gets missed.
+            went_declined.append((doc_id, prop))
+            continue
+        (manual if d.get("origin") == "manual" else unmatched).append((doc_id, prop))
 
     # The declined book is one document, rewritten whole: it is a summary of a
     # sheet nobody edits from the board, so there is nothing of the team's in
@@ -389,6 +399,12 @@ def main():
               "(put them in the sheet so the sweep tracks them):")
         for doc_id, prop in manual:
             print(f"  · {prop}  [{doc_id}]")
+    if went_declined:
+        print(f"\n{len(went_declined)} now on the Declined sheet — delete from the board's deals "
+              "collection (they stay in the declined reference document), but check each one for "
+              "team notes first:")
+        for doc_id, prop in went_declined:
+            print(f"  x {prop}  [{doc_id}]")
     if unmatched:
         print(f"\n{len(unmatched)} on the board but no longer in the sheet — "
               "check before doing anything; nothing is deleted automatically:")
